@@ -18,13 +18,13 @@ public class Location implements ILocation{
     }
 
     @Override
-    public double getLongitude() {
+    public float getLongitude() {
         return this.coordinates.getLongitude();
     }
 
 
     @Override
-    public double getLatitude() {
+    public float getLatitude() {
         return this.coordinates.getLatitude();
     }
 

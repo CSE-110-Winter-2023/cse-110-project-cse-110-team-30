@@ -11,42 +11,61 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SubmitActivity extends AppCompatActivity {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-    private TextView locationNameEditText;
-    private EditText locationLongitudeEditText;
-    private EditText locationLatitudeEditText;
+public class SubmitActivity extends AppCompatActivity {
+    private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
+    private Future<Void> future;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
-
-        Button submitButton = findViewById(R.id.submit_button);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences data = getPreferences(MODE_PRIVATE);
-                data.getString('parent_location')
-                String locationName = locationNameEditText.getText().toString();
-                String locationLongitude = locationLongitudeEditText.getText().toString();
-                String locationLatitude = locationLatitudeEditText.getText().toString();
-
-                if (isValidInformation(locationName, locationLongitude, locationLatitude)) {
-                    Intent intent = new Intent(SubmitActivity.this, CompassActivity.class);
-                    intent.putExtra("location_name", locationName);
-                    intent.putExtra("location_longitude", locationLongitude);
-                    intent.putExtra("location_latitude", locationLatitude);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(SubmitActivity.this, "Invalid information. Please enter valid information.", Toast.LENGTH_SHORT).show();
-                }
+        Bundle extras = getIntent().getExtras();
+        SharedPreferences data = getPreferences(MODE_PRIVATE);
+        this.future = backgroundThreadExecutor.submit(() -> {
+            if(extras.getBoolean("parent")){
+                final TextView name, longitude, latitude;
+                name = findViewById(R.id.parentName);
+                longitude = findViewById(R.id.parentLongitude);
+                latitude = findViewById(R.id.parentLatitude);
+                runOnUiThread(() -> {
+                    name.setText(data.getString("parentName", ""));
+                    longitude.setText(String.valueOf(data.getFloat("parentLongitude", 0)));
+                    latitude.setText(String.valueOf(data.getFloat("parentLatitude", 0)));
+                });
             }
+            if(extras.getBoolean("home")){
+                final TextView name, longitude, latitude;
+                name = findViewById(R.id.homeName);
+                longitude = findViewById(R.id.homeLongitude);
+                latitude = findViewById(R.id.homeLatitude);
+                runOnUiThread(() -> {
+                    name.setText(data.getString("homeName", ""));
+                    longitude.setText(String.valueOf(data.getFloat("homeLongitude", 0)));
+                    latitude.setText(String.valueOf(data.getFloat("homeLatitude", 0)));
+                });
+            }
+            if(extras.getBoolean("friend")){
+                final TextView name, longitude, latitude;
+                name = findViewById(R.id.friendName);
+                longitude = findViewById(R.id.friendLongitude);
+                latitude = findViewById(R.id.friendLatitude);
+                runOnUiThread(() -> {
+                    name.setText(data.getString("friendName", ""));
+                    longitude.setText(String.valueOf(data.getFloat("friendLongitude", 0)));
+                    latitude.setText(String.valueOf(data.getFloat("friendLatitude", 0)));
+                });
+            }
+            return null;
         });
     }
 
-    private boolean isValidInformation(String locationName, String locationLongitude, String locationLatitude) {
-        // Add validation logic here
-        return true;
+    public void onSubmit(View view) {
+        Intent intent = new Intent(this, CompassActivity.class);
+        finish();
+        startActivity(intent);
     }
 }
