@@ -3,32 +3,31 @@ package com.example.team30app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SubmitActivity extends AppCompatActivity {
 
-    private EditText locationNameEditText;
+    private TextView locationNameEditText;
     private EditText locationLongitudeEditText;
     private EditText locationLatitudeEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_submitinfo);
-
-        locationNameEditText = findViewById(R.id.location_name);
-        locationLongitudeEditText = findViewById(R.id.location_longitude);
-        locationLatitudeEditText = findViewById(R.id.location_latitude);
-
+        setContentView(R.layout.activity_submit);
 
         Button submitButton = findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences data = getPreferences(MODE_PRIVATE);
+                data.getString('parent_location')
                 String locationName = locationNameEditText.getText().toString();
                 String locationLongitude = locationLongitudeEditText.getText().toString();
                 String locationLatitude = locationLatitudeEditText.getText().toString();
