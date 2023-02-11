@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.873" />
 
     <TextView
-        android:id="@+id/Location_parent"
+        android:id="@+id/parentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.292" />
 
     <TextView
-        android:id="@+id/Location_friend"
+        android:id="@+id/friendName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -42,11 +42,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Location_parent"
+        app:layout_constraintTop_toBottomOf="@+id/parentName"
         app:layout_constraintVertical_bias="0.198" />
 
     <TextView
-        android:id="@+id/Location_home"
+        android:id="@+id/homeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -55,11 +55,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Location_friend"
+        app:layout_constraintTop_toBottomOf="@+id/friendName"
         app:layout_constraintVertical_bias="0.195" />
 
     <TextView
-        android:id="@+id/Longitude_parent"
+        android:id="@+id/parentLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="536dp"
@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Longitude_friend"
+        android:id="@+id/friendLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="428dp"
@@ -83,7 +83,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Longitude_home"
+        android:id="@+id/homeLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="312dp"
@@ -95,7 +95,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Latitude_parent"
+        android:id="@+id/parentLatitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="536dp"
@@ -107,7 +107,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Latitude_friend"
+        android:id="@+id/friendLatitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="428dp"
@@ -119,7 +119,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/Latitude_home"
+        android:id="@+id/homeLatitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="312dp"
@@ -137,7 +137,7 @@
         android:text="Verification"
         android:textColor="#CC3E3E"
         android:textSize="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/Longitude_parent"
+        app:layout_constraintBottom_toTopOf="@+id/parentLongitude"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
