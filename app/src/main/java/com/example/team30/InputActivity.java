@@ -38,7 +38,7 @@ public class InputActivity extends AppCompatActivity {
         Coordinates coordinates = new Coordinates(latitude, longitude);
         Location location = new Location(name, type, coordinates);
 
-        SharedPreferences data = getPreferences(MODE_PRIVATE);
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
         this.future = backgroundThreadExecutor.submit(() -> {
             editor.putString(type + "Name", name);
@@ -48,9 +48,15 @@ public class InputActivity extends AppCompatActivity {
         });
 
         //@TODO we need to increment the counter by one
-        //does not work for some reason
-        int currInt = data.getInt("counter", 0);
-        editor.putInt("counter", currInt+1);
+        Intent oldIntent = getIntent();
+        int currInt = oldIntent.getIntExtra("initial", 0);
+        if(currInt == -1) {
+            editor.putInt("counter", 1);
+        }
+        else {
+            currInt = data.getInt("counter", -1);
+            editor.putInt("counter", currInt+1);
+        }
         editor.apply();
 
         Intent intent = new Intent(this, MainActivity.class);

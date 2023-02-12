@@ -20,8 +20,7 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:hint="Location Name"
-            android:text="Name" />
+            android:hint="Location Name"/>
 
         <EditText
             android:id="@+id/longitude"
@@ -29,8 +28,7 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:hint="Longitude"
-            android:text="Longitude" />
+            android:hint="Longitude" />
 
         <EditText
             android:id="@+id/latitude"
@@ -38,8 +36,7 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:hint="Latitude"
-            android:text="Latitude" />
+            android:hint="Latitude" />
 
         <EditText
             android:id="@+id/spinner"
