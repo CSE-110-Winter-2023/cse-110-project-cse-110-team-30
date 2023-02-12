@@ -38,14 +38,11 @@
             android:ems="10"
             android:hint="Latitude" />
 
-        <EditText
-            android:id="@+id/spinner"
+        <Spinner
+            android:id="@+id/spinner_category"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-            android:ems="10"
-            android:hint="space holder for spinner"
-            android:text="space holder for spinner" />
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <Button

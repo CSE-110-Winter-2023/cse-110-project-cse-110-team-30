@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Team30</string>
+    <string-array name="category">
+        <item>Parent</item>
+        <item>Friend</item>
+        <item>Home</item>
+    </string-array>
 </resources>
