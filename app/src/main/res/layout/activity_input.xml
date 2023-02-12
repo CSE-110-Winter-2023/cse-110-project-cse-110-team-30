@@ -1,51 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".InputActivity">
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:hint="Location Name"
-        tools:layout_editor_absoluteX="86dp"
-        tools:layout_editor_absoluteY="127dp" />
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Longitude"
-        android:hint="Longitude"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="228dp" />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Location Name"
+            android:text="Name" />
 
-    <EditText
-        android:id="@+id/latitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Latitude"
-        android:hint="Latitude"
-        tools:layout_editor_absoluteX="85dp"
-        tools:layout_editor_absoluteY="338dp" />
+        <EditText
+            android:id="@+id/longitude"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Longitude"
+            android:text="Longitude" />
+
+        <EditText
+            android:id="@+id/latitude"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Latitude"
+            android:text="Latitude" />
+
+        <EditText
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="space holder for spinner"
+            android:text="space holder for spinner" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/submit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:onClick="onSubmit"
-        android:text="Submit"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="469dp" />
+        android:text="Submit" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

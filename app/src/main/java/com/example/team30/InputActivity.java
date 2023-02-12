@@ -46,6 +46,14 @@ public class InputActivity extends AppCompatActivity {
             editor.putFloat(type + "Longitude", longitude);
             return null;
         });
+
+        //@TODO we need to increment the counter by one
+        //does not work for some reason
+        int currInt = data.getInt("counter", 0);
+        editor.putInt("counter", currInt+1);
+        editor.apply();
+
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

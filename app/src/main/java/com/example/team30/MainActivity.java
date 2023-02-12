@@ -14,6 +14,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences data = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
+        //editor.putInt("counter", 0);
+        //put 1 for testing
+        editor.putInt("counter", 1);
+        editor.apply();
+
         if(data.getInt("counter", 0) == 0)
             initialInput();
     }
