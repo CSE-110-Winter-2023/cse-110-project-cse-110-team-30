@@ -13,19 +13,27 @@
         android:theme="@style/Theme.Team30App"
         tools:targetApi="31">
         <activity
-            android:name=".SubmitActivity"
+            android:name=".LocationAddressInputActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".submitinfo"
+            android:name=".CompassActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".SubmitActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
