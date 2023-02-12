@@ -20,13 +20,48 @@
 
         <ImageView
             android:id="@+id/compassFace"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="387dp"
+            android:layout_height="380dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.555"
             app:srcCompat="@drawable/circle" />
+
+        <ImageView
+            android:id="@+id/house"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintCircle="@+id/compassFace"
+            app:layout_constraintCircleAngle="210"
+            app:layout_constraintCircleRadius="155dp"
+            app:srcCompat="@drawable/house"
+            tools:layout_editor_absoluteX="86dp"
+            tools:layout_editor_absoluteY="331dp"/>
+
+        <ImageView
+            android:id="@+id/North"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintCircle="@+id/compassFace"
+            app:layout_constraintCircleAngle="0"
+            app:layout_constraintCircleRadius="155dp"
+            app:srcCompat="@drawable/north"
+            tools:layout_editor_absoluteX="86dp"
+            tools:layout_editor_absoluteY="331dp"/>
+
+        <ImageView
+            android:id="@+id/Dotme"
+            android:layout_width="46dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="160dp"
+            android:layout_marginBottom="156dp"
+            android:src="@drawable/dotme"
+            app:layout_constrainedHeight="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -34,16 +69,15 @@
         android:id="@+id/addLoc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="32dp"
         android:onClick="addLocation"
         android:text="Add Location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/compass"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.938" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
