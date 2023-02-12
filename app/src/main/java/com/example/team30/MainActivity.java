@@ -1,14 +1,14 @@
-package com.example.team30app;
+package com.example.team30;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class CompassActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compass);
+        setContentView(R.layout.activity_main);
     }
 }
