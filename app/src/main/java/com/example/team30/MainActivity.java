@@ -13,13 +13,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences data = getPreferences(MODE_PRIVATE);
-        if(data.getInt("counter", 0) == 0)
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
+        //data.edit().remove("counter").apply();
+
+        SharedPreferences.Editor editor = data.edit();
+        System.out.println(data.getInt("counter", -1));
+
+        if(data.getInt("counter", -1) == -1)
             initialInput();
     }
 
     public void initialInput(){
         Intent intent = new Intent(this, InputActivity.class);
+        intent.putExtra("initial", -1);
         startActivity(intent);
     }
 
