@@ -8,9 +8,9 @@ public class Location implements ILocation, Serializable {
     private String type;
     private double angle;
 
-    public Location(String name, String type, Coordinates coordinates){
-        this.name = name;
+    public Location(String type, String name, Coordinates coordinates){
         this.type = type;
+        this.name = name;
         this.coordinates = coordinates;
     }
 
