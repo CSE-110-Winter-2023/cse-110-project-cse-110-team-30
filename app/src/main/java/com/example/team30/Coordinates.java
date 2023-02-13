@@ -1,9 +1,12 @@
 package com.example.team30;
-public class Coordinates {
+
+import java.io.Serializable;
+
+public class Coordinates implements Serializable {
     private float longitude;
     private float latitude;
 
-    public Coordinates(float latitude, float longitude){
+    public Coordinates (float latitude, float longitude){
         this.longitude = longitude;
         this.latitude = latitude;
     }
