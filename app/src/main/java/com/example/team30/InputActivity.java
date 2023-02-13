@@ -23,8 +23,6 @@ public class InputActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
-
-        //@TODO add dropdown menu for types
         Spinner SpinnerCategory=findViewById(R.id.spinner_category);
         ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -37,16 +35,12 @@ public class InputActivity extends AppCompatActivity {
 
         EditText latitudeView = findViewById(R.id.latitude);
         Float latitude = Float.parseFloat(String.valueOf(latitudeView.getText()));
-        EditText longitudeView = findViewById(R.id.longitude);
 
+        EditText longitudeView = findViewById(R.id.longitude);
         Float longitude = Float.parseFloat(String.valueOf(longitudeView.getText()));
 
-        //@TODO add dropdown menu for types
         Spinner SpinnerCategory=findViewById(R.id.spinner_category);
         String type = SpinnerCategory.getSelectedItem().toString();
-        //System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxx"+type);
-//        String type = "parent";
-        //@end
 
         Coordinates coordinates = new Coordinates(latitude, longitude);
         Location location = new Location(name, type, coordinates);
@@ -60,20 +54,21 @@ public class InputActivity extends AppCompatActivity {
             return null;
         });
 
-        //@TODO we need to increment the counter by one
         Intent oldIntent = getIntent();
         int currInt = oldIntent.getIntExtra("initial", 0);
+        // First location being made
         if(currInt == -1) {
             editor.putInt("counter", 1);
         }
         else {
             currInt = data.getInt("counter", -1);
-            editor.putInt("counter", currInt+1);
+            editor.putInt("counter", currInt + 1);
         }
+        editor.putBoolean("newLocation", true);
         editor.apply();
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("newLocation", location);
         startActivity(intent);
     }
 }
-//add comment
