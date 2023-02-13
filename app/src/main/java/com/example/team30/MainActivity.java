@@ -47,10 +47,6 @@ public class MainActivity extends AppCompatActivity {
             ImageView pic = findViewById(R.id.house);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
             layout.circleAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
-            System.out.println(coords.getLatitude());
-            System.out.println(coords.getLongitude());
-            System.out.println("angle");
-            System.out.println(layout.circleAngle);
             pic.setLayoutParams(layout);
         });
     }

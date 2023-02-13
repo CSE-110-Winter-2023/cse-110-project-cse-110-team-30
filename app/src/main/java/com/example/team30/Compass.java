@@ -21,8 +21,10 @@ public class Compass {
     public double calculateAngleWithDistance(String type, Coordinates coords){
         Location l = locations.get(type);
         myCoords = coords;
-        double y = Math.abs(l.getLongitude() - myCoords.getLongitude());
-        double x = Math.abs(l.getLatitude() - myCoords.getLatitude());
+        double y = l.getLongitude() - myCoords.getLongitude();
+        System.out.println(y);
+        double x = l.getLatitude() - myCoords.getLatitude();
+        System.out.println(x);
         return Math.atan(y/x) * 180/Math.PI;
     }
 
