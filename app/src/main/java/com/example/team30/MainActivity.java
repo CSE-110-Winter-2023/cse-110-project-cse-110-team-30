@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private Compass compass = new Compass();
+    private Compass compass;
     private LocationService locationService;
 
     @Override
@@ -28,21 +28,13 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
         locationService = LocationService.singleton(this);
+        compass = Compass.singleton();
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
-        //data.edit().remove("counter").apply();
 
         if(data.getInt("counter", -1) == -1)
             initialInput();
-        boolean newLocation = data.getBoolean("newLocation", false);
-        if(newLocation){
-            Intent inputResultIntent = getIntent();
-            editor.putBoolean("newLocation", false);
-            editor.apply();
-            Location location = (Location) inputResultIntent.getSerializableExtra("newLocation");
-            newLocationUpdate(location);
-        }
-
+        populateCompass(data);
         locationService.getLocation().observe(this, coords ->{
             ImageView pic = findViewById(R.id.house);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
@@ -51,10 +43,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void newLocationUpdate(Location location){
-        ImageView pic = findViewById(R.id.house);
-        compass.addLocation(location);
-        pic.setVisibility(View.VISIBLE);
+    public void populateCompass(SharedPreferences data){
+        String[] types = {"Parent"};
+        for(String type : types){
+            if(data.getBoolean(type, false)){
+                if(!compass.hasLocation(type)){
+                    Coordinates c = new Coordinates(data.getFloat(type + "Latitude", 0), data.getFloat(type + "Longitude", 0));
+                    Location l = new Location(type, data.getString(type + "Name", ""), c);
+                    compass.addLocation(l);
+                }
+                setVisibility(type);
+            }
+        }
+    }
+
+    private void setVisibility(String type){
+        if(type.equals("Parent")){
+            ImageView pic = findViewById(R.id.house);
+            pic.setVisibility(View.VISIBLE);
+        }
     }
 
     public void initialInput(){

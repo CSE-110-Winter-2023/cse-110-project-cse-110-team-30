@@ -18,6 +18,7 @@ import java.util.concurrent.Future;
 public class InputActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
+    private Compass compass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class InputActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         SpinnerCategory.setAdapter(adapter);
+        compass = Compass.singleton();
     }
 
     public void onSubmit(View view) {
@@ -43,14 +45,16 @@ public class InputActivity extends AppCompatActivity {
         String type = SpinnerCategory.getSelectedItem().toString();
 
         Coordinates coordinates = new Coordinates(latitude, longitude);
-        Location location = new Location(name, type, coordinates);
-
+        Location location = new Location(type,name,coordinates);
+        compass.addLocation(location);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
         this.future = backgroundThreadExecutor.submit(() -> {
+            editor.putBoolean(type, true);
             editor.putString(type + "Name", name);
             editor.putFloat(type + "Latitude", latitude);
             editor.putFloat(type + "Longitude", longitude);
+            editor.apply();
             return null;
         });
 
@@ -64,11 +68,10 @@ public class InputActivity extends AppCompatActivity {
             currInt = data.getInt("counter", -1);
             editor.putInt("counter", currInt + 1);
         }
-        editor.putBoolean("newLocation", true);
         editor.apply();
 
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("newLocation", location);
+        //intent.putExtra("newLocation", location);
         startActivity(intent);
     }
 }
