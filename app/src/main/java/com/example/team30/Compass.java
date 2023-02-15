@@ -23,6 +23,9 @@ public class Compass {
     }
     public double calculateAngleWithDistance(String type, Coordinates coords){
         Location l = locations.get(type);
+        if (l == null) {
+            return 360;
+        }
         myCoords = coords;
         double y = l.getLongitude() - myCoords.getLongitude();
         double x = l.getLatitude() - myCoords.getLatitude();

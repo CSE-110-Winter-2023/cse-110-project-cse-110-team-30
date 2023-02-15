@@ -28,7 +28,7 @@ public class CompassTest {
         double answer = Math.atan((-122.4194-(-100))/(37.7749 - 40)) * 180/Math.PI;
         assertEquals(answer,compass_test.calculateAngleWithDistance("Parent", coordinates));
         //@Todo, How about if the "friend" not exist
-        assertEquals(null,compass_test.calculateAngleWithDistance("Friend", coordinates));
+        assertEquals(360,compass_test.calculateAngleWithDistance("Friend", coordinates));
     }
     @Test
     public void singletonTest(){
