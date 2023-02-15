@@ -51,11 +51,11 @@
 
 
         <TextView
-            android:id="@+id/parentlabel"
+            android:id="@+id/parentLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintTop_toTopOf="@+id/house"
             tools:layout_editor_absoluteX="29dp" />
 
@@ -111,18 +111,20 @@
             app:srcCompat="@drawable/friendhome" />
 
         <TextView
-            android:id="@+id/myhomelabel"
+            android:id="@+id/myLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text=""
+            app:layout_constraintTop_toTopOf="@+id/Myhome"
             tools:layout_editor_absoluteX="310dp"
             tools:layout_editor_absoluteY="203dp" />
 
         <TextView
-            android:id="@+id/friendlabel"
+            android:id="@+id/friendLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text=""
+            app:layout_constraintTop_toTopOf="@+id/Friendhome"
             tools:layout_editor_absoluteX="287dp"
             tools:layout_editor_absoluteY="279dp" />
 
