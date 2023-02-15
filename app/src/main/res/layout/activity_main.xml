@@ -48,23 +48,6 @@
             app:srcCompat="@drawable/house" />
 
         <ImageView
-            android:id="@+id/North"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="18dp"
-            android:layout_marginBottom="18dp"
-            app:layout_constraintBottom_toTopOf="@+id/compassFace"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="0"
-            app:layout_constraintCircleRadius="155dp"
-            app:layout_constraintEnd_toStartOf="@+id/compassFace"
-            app:layout_constraintStart_toEndOf="@+id/compassFace"
-            app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:srcCompat="@drawable/north" />
-
-        <ImageView
             android:id="@+id/Dotme"
             android:layout_width="46dp"
             android:layout_height="54dp"
@@ -74,6 +57,26 @@
             app:layout_constrainedHeight="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/starhome"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="41dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="41dp"
+            android:layout_marginBottom="41dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/compassFace"
+            app:layout_constraintCircle="@+id/compassFace"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircleRadius="155dp"
+            app:layout_constraintEnd_toStartOf="@+id/compassFace"
+            app:layout_constraintHorizontal_bias="0.672"
+            app:layout_constraintStart_toEndOf="@+id/compassFace"
+            app:layout_constraintTop_toBottomOf="@+id/compassFace"
+            app:layout_constraintVertical_bias="0.793"
+            app:srcCompat="@drawable/house" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
