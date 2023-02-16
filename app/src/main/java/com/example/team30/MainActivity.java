@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if(compass.hasLocation("Friend")){
-            float FriendAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+            float FriendAngle = (float) compass.calculateAngleWithDistance("Friend", coords);
 
             ImageView pic = findViewById(R.id.Friendhome);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             text.setLayoutParams(layoutText);
         }
         if(compass.hasLocation("Home")){
-            float MyAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+            float MyAngle = (float) compass.calculateAngleWithDistance("Home", coords);
 
             ImageView pic = findViewById(R.id.Myhome);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
