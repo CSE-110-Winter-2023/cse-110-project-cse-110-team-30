@@ -55,22 +55,44 @@ public class MainActivity extends AppCompatActivity {
 
     private void reposition(Coordinates coords){
         if(compass.hasLocation("Parent")){
+            float ParentAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+
             ImageView pic = findViewById(R.id.house);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+            layout.circleAngle = ParentAngle;
             pic.setLayoutParams(layout);
+
+            TextView text = findViewById(R.id.parentLabel);
+            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+            layoutText.circleAngle = ParentAngle;
+            text.setLayoutParams(layoutText);
+
         }
         if(compass.hasLocation("Friend")){
+            float FriendAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+
             ImageView pic = findViewById(R.id.Friendhome);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = (float) compass.calculateAngleWithDistance("Friend", coords);
+            layout.circleAngle = FriendAngle;
             pic.setLayoutParams(layout);
+
+            TextView text = findViewById(R.id.friendLabel);
+            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+            layoutText.circleAngle = FriendAngle;
+            text.setLayoutParams(layoutText);
         }
         if(compass.hasLocation("Home")){
+            float MyAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+
             ImageView pic = findViewById(R.id.Myhome);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = (float) compass.calculateAngleWithDistance("Home", coords);
+            layout.circleAngle = MyAngle;
             pic.setLayoutParams(layout);
+
+            TextView text = findViewById(R.id.myLabel);
+            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+            layoutText.circleAngle = MyAngle;
+            text.setLayoutParams(layoutText);
         }
     }
 
