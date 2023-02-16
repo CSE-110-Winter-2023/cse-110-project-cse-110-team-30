@@ -62,7 +62,7 @@
             app:layout_constraintBottom_toTopOf="@+id/compassFace"
             app:layout_constraintCircle="@+id/compassFace"
             app:layout_constraintCircleAngle="300"
-            app:layout_constraintCircleRadius="120dp"
+            app:layout_constraintCircleRadius="130dp"
             app:layout_constraintEnd_toStartOf="@+id/compassFace"
             app:layout_constraintHorizontal_bias="0.672"
             app:layout_constraintStart_toEndOf="@+id/compassFace"
@@ -84,7 +84,7 @@
             app:layout_constraintBottom_toTopOf="@+id/compassFace"
             app:layout_constraintCircle="@+id/compassFace"
             app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="130dp"
+            app:layout_constraintCircleRadius="155dp"
             app:layout_constraintEnd_toStartOf="@+id/compassFace"
             app:layout_constraintHorizontal_bias="0.672"
             app:layout_constraintStart_toEndOf="@+id/compassFace"
@@ -106,7 +106,7 @@
             app:layout_constraintBottom_toTopOf="@+id/compassFace"
             app:layout_constraintCircle="@+id/compassFace"
             app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="100dp"
+            app:layout_constraintCircleRadius="130dp"
             app:layout_constraintEnd_toStartOf="@+id/compassFace"
             app:layout_constraintHorizontal_bias="0.672"
             app:layout_constraintStart_toEndOf="@+id/compassFace"
@@ -133,6 +133,7 @@
             android:layout_marginEnd="41dp"
             android:layout_marginBottom="41dp"
             android:visibility="invisible"
+            android:src="@drawable/friendhome"
             app:layout_constraintBottom_toTopOf="@+id/compassFace"
             app:layout_constraintCircle="@+id/compassFace"
             app:layout_constraintCircleAngle="120"
@@ -141,7 +142,8 @@
             app:layout_constraintHorizontal_bias="0.672"
             app:layout_constraintStart_toEndOf="@+id/compassFace"
             app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:layout_constraintVertical_bias="0.793" />
+            app:layout_constraintVertical_bias="0.793"
+            />
 
 
 
@@ -158,7 +160,7 @@
             app:layout_constraintBottom_toTopOf="@+id/compassFace"
             app:layout_constraintCircle="@+id/compassFace"
             app:layout_constraintCircleAngle="120"
-            app:layout_constraintCircleRadius="100dp"
+            app:layout_constraintCircleRadius="130dp"
             app:layout_constraintEnd_toStartOf="@+id/compassFace"
             app:layout_constraintHorizontal_bias="0.672"
             app:layout_constraintStart_toEndOf="@+id/compassFace"
