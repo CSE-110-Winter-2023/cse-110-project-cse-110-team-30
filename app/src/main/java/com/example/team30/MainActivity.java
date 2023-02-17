@@ -30,21 +30,17 @@ public class MainActivity extends AppCompatActivity {
         locationService = LocationService.singleton(this);
         compass = Compass.singleton();
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
-        SharedPreferences.Editor editor = data.edit();
 
         if(data.getInt("counter", -1) == -1)
             initialInput();
         populateCompass(data);
         locationService.getLocation().observe(this, coords ->{
-            ImageView pic = findViewById(R.id.house);
-            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
-            pic.setLayoutParams(layout);
+           reposition(coords);
         });
     }
 
     public void populateCompass(SharedPreferences data){
-        String[] types = {"Parent"};
+        String[] types = {"Parent", "Friend", "Home"};
         for(String type : types){
             if(data.getBoolean(type, false)){
                 if(!compass.hasLocation(type)){
@@ -52,15 +48,75 @@ public class MainActivity extends AppCompatActivity {
                     Location l = new Location(type, data.getString(type + "Name", ""), c);
                     compass.addLocation(l);
                 }
-                setVisibility(type);
+                setVisibility(type, data.getString(type + "Name", ""));
             }
         }
     }
 
-    private void setVisibility(String type){
+    private void reposition(Coordinates coords){
+        if(compass.hasLocation("Parent")){
+            float ParentAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+
+            ImageView pic = findViewById(R.id.house);
+            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
+            layout.circleAngle = ParentAngle;
+            pic.setLayoutParams(layout);
+
+            TextView text = findViewById(R.id.parentLabel);
+            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+            layoutText.circleAngle = ParentAngle;
+            text.setLayoutParams(layoutText);
+
+        }
+        if(compass.hasLocation("Friend")){
+            float FriendAngle = (float) compass.calculateAngleWithDistance("Friend", coords);
+
+            ImageView pic = findViewById(R.id.Friendhome);
+            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
+            layout.circleAngle = FriendAngle;
+            pic.setLayoutParams(layout);
+
+            TextView text = findViewById(R.id.friendLabel);
+            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+            layoutText.circleAngle = FriendAngle;
+            text.setLayoutParams(layoutText);
+        }
+        if(compass.hasLocation("Home")){
+            float MyAngle = (float) compass.calculateAngleWithDistance("Home", coords);
+
+            ImageView pic = findViewById(R.id.Myhome);
+            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
+            layout.circleAngle = MyAngle;
+            pic.setLayoutParams(layout);
+
+            TextView text = findViewById(R.id.myLabel);
+            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+            layoutText.circleAngle = MyAngle;
+            text.setLayoutParams(layoutText);
+        }
+    }
+
+    private void setVisibility(String type, String name){
         if(type.equals("Parent")){
             ImageView pic = findViewById(R.id.house);
             pic.setVisibility(View.VISIBLE);
+            TextView text = findViewById(R.id.parentLabel);
+            text.setVisibility(View.VISIBLE);
+            text.setText(name);
+        }
+        else if(type.equals("Friend")){
+            ImageView pic = findViewById(R.id.Friendhome);
+            pic.setVisibility(View.VISIBLE);
+            TextView text = findViewById(R.id.friendLabel);
+            text.setVisibility(View.VISIBLE);
+            text.setText(name);
+        }
+        else{
+            ImageView pic = findViewById(R.id.Myhome);
+            pic.setVisibility(View.VISIBLE);
+            TextView text = findViewById(R.id.myLabel);
+            text.setVisibility(View.VISIBLE);
+            text.setText(name);
         }
     }
 

@@ -24,20 +24,20 @@
             android:hint="Location Name"/>
 
         <EditText
-            android:id="@+id/longitude"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-            android:ems="10"
-            android:hint="Longitude" />
-
-        <EditText
             android:id="@+id/latitude"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
             android:hint="Latitude" />
+
+        <EditText
+            android:id="@+id/longitude"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Longitude" />
 
         <Spinner
             android:id="@+id/spinner_category"
