@@ -1,10 +1,7 @@
 package com.example.team30;
 
 import org.junit.Test;
-
-
 import static org.junit.Assert.*;
-import org.junit.Test;
 
     public class CoordinateTest {
         @Test
