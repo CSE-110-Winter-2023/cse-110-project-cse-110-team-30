@@ -17,7 +17,6 @@ import org.junit.Test;
             assertEquals( true ,compass_test.hasLocation("Parent"));
             assertEquals( false ,compass_test.hasLocation("Friend"));
         }
-
         @Test
         public void calculateAngleWithDistanceTest(){
             Compass compass_test = new Compass();
