@@ -117,7 +117,7 @@ public class BDDTest {
         imageView2.check(matches(isDisplayed()));
 
         ViewInteraction imageView3 = onView(
-                allOf(withId(R.id.Dotme),
+                allOf(withId(R.id.triangle),
                         withParent(allOf(withId(R.id.compass),
                                 withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
