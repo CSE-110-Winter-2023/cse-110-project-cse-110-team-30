@@ -37,13 +37,25 @@ public class LocationTest {
         Location location = new Location("Golden Gate Bridge", "Bridge",
                 new Coordinates((float) 37.7749, (float) -122.4194));
         assertEquals(-122.4194, location.getLongitude(), 0.001);
+
+        Location location1 = new Location("Golden Gate Bridge", "Bridge",
+                new Coordinates((float) 37.7749, (float) 122.4194));
+        assertEquals(122.4194, location1.getLongitude(), 0.001);
+
+        Location location2 = new Location("Golden Gate Bridge", "Bridge",
+                new Coordinates((float) 37.7749, (float) 0));
+        assertEquals(0, location2.getLongitude(), 0.001);
     }
 
     @Test
     public void testSetCoordinates() {
-        Location location = new Location("Test location", "Type", new Coordinates(0, 0));
+        Location location = new Location("Test location", "Type",
+                new Coordinates(0, 0));
         location.setCoordinates(new Coordinates(1, 2));
         assertEquals(1, location.getLatitude(), 0);
         assertEquals(2, location.getLongitude(), 0);
+        location.setCoordinates(new Coordinates(1000, -20));
+        assertEquals(1000, location.getLatitude(), 0);
+        assertEquals(-20, location.getLongitude(), 0);
     }
 }
