@@ -30,6 +30,7 @@ import org.junit.Test;
             compass_test.addLocation(locationParent);
             compass_test.addLocation(locationFriend);
             compass_test.addLocation(locationHome);
+            
             Coordinates coordinates = new Coordinates((float) 37.7749, (float) -122.4194);
             assertEquals(Math.atan(((-100)-(-122.4194))/(40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
             assertEquals(Math.atan(((100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
