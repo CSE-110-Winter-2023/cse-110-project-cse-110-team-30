@@ -14,6 +14,7 @@ public class Compass {
     public Compass(){
         locations = new HashMap<>();
     }
+
     public static Compass singleton(){
         if(instance == null){
             instance = new Compass();
