@@ -25,15 +25,33 @@ import org.junit.Test;
             Location locationFriend = new Location("Friend", "Golden Gate Bridge",
                     new Coordinates((float) -40, (float) 100));
             Location locationHome = new Location("Home", "Golden Gate Bridge",
-                    new Coordinates((float) -40, (float) -100));
+                    new Coordinates((float) -40, (float) -200));
             compass_test.addLocation(locationParent);
             compass_test.addLocation(locationFriend);
             compass_test.addLocation(locationHome);
 
             Coordinates coordinates = new Coordinates((float) 37.7749, (float) -122.4194);
-            assertEquals(Math.atan(((-100)-(-122.4194))/(40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
-            assertEquals(Math.atan(((100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
-            assertEquals(Math.atan(((-100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Home", coordinates),0.01);
+            assertEquals(84.332020791674,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
+            assertEquals(109.27354652632,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
+            assertEquals(224.92834135802,compass_test.calculateAngleWithDistance("Home", coordinates),0.01);
+        }
+        @Test
+        public void calculateAngleWithDistanceEdgeTest(){
+            Compass compass_test = new Compass();
+            Location locationParent = new Location("Parent", "Golden Gate Bridge",
+                    new Coordinates((float) 40, (float) -200));
+            Location locationFriend = new Location("Friend", "Golden Gate Bridge",
+                    new Coordinates((float) 0, (float) 0));
+//            Location locationHome = new Location("Home", "Golden Gate Bridge",
+//                    new Coordinates((float) -40, (float) -200));
+            compass_test.addLocation(locationParent);
+            compass_test.addLocation(locationFriend);
+//            compass_test.addLocation(locationHome);
+
+            Coordinates coordinates = new Coordinates((float) 37.7749, (float) -122.4194);
+            assertEquals(271.64285785969,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
+            assertEquals(107.1486332690,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
+//            assertEquals(224.92834135802,compass_test.calculateAngleWithDistance("Home", coordinates),0.01);
         }
         @Test
         public void singletonTest(){

@@ -26,7 +26,15 @@ public class Compass {
         myCoords = coords;
         double y = l.getLongitude() - myCoords.getLongitude();
         double x = l.getLatitude() - myCoords.getLatitude();
-        return Math.atan(y/x) * 180/Math.PI;
+        double angle = Math.atan(y/x) * 180/Math.PI;
+        System.out.println(x + " " + y + " " + angle);
+        if(x < 0){
+            angle = angle + 180;
+        }
+        if(x > 0 && y < 0){
+            angle = angle + 360;
+        }
+        return angle;
     }
 
     public boolean hasLocation(String type){
