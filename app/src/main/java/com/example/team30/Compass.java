@@ -21,12 +21,13 @@ public class Compass {
         }
         return instance;
     }
-    public double calculateAngleWithDistance(String type, Coordinates coords){
+    public double calculateAngleWithDistance(String type, Coordinates coords,float orient){
         Location l = locations.get(type);
         myCoords = coords;
         double y = l.getLongitude() - myCoords.getLongitude();
         double x = l.getLatitude() - myCoords.getLatitude();
-        return Math.atan(y/x) * 180/Math.PI;
+        return  Math.atan(y/x) * 180/Math.PI - orient;
+
     }
 
     public boolean hasLocation(String type){

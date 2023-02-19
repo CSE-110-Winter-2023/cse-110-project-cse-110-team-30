@@ -31,9 +31,9 @@ import org.junit.Test;
             compass_test.addLocation(locationHome);
 
             Coordinates coordinates = new Coordinates((float) 37.7749, (float) -122.4194);
-            assertEquals(Math.atan(((-100)-(-122.4194))/(40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
-            assertEquals(Math.atan(((100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
-            assertEquals(Math.atan(((-100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Home", coordinates),0.01);
+            assertEquals(Math.atan(((-100)-(-122.4194))/(40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Parent", coordinates,-1),0.01);
+            assertEquals(Math.atan(((100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Friend", coordinates,5),0.01);
+            assertEquals(Math.atan(((-100)-(-122.4194))/(-40 - 37.7749)) * 180/Math.PI,compass_test.calculateAngleWithDistance("Home", coordinates,-8),0.01);
         }
         @Test
         public void singletonTest(){
