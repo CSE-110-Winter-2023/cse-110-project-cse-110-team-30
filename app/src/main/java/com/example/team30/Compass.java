@@ -35,7 +35,6 @@ public class Compass {
             angle = angle + 360;
         }
         return  (angle - orient);
-
     }
 
     public boolean hasLocation(String type){
