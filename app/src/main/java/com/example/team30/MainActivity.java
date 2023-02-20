@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         }
         locationService = LocationService.singleton(this);
 
-        orientationService = OrientationService.singleton(this);
-        this.reobserveOrientation();
+//        orientationService = OrientationService.singleton(this);
+//        this.reobserveOrientation();
 
         compass = Compass.singleton();
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         locationService.getLocation().observe(this, coords ->{
 //           reposition(coords, rotationAngle);
-            reposition(coords);
+            reposition(coords,0);
         });
 //        @Todo, add the rotaionAngle(UI mock or OrientationService one) in the reposition
 
