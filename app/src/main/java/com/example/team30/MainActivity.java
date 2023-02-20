@@ -44,9 +44,19 @@ public class MainActivity extends AppCompatActivity {
         locationService.getLocation().observe(this, coords ->{
             reposition(coords, 0);
         });
+
         orientationService.getOrientation().observe(this, orientation ->{
             //@TODO make orientation in degrees and then pass in
-            reposition(null, orientation);
+            float degrees = (float) (orientation * 180/Math.PI);
+            Bundle extras = getIntent().getExtras();
+            float mockAngle;
+
+            if (extras != null) {
+                mockAngle = extras.getFloat("UIAngle");
+                reposition(null, mockAngle);
+                degrees += mockAngle;
+            }
+            reposition(null, degrees);
         });
     }
 

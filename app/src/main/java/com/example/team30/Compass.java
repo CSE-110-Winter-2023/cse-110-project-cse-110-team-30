@@ -34,7 +34,6 @@ public class Compass {
         if(x > 0 && y < 0){
             angle = angle + 360;
         }
-        orientation *= 180/Math.PI;
         return angle - orientation;
     }
 

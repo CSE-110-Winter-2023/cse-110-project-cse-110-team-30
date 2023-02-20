@@ -70,16 +70,25 @@
             android:ems="10"
             android:hint=""
             android:inputType="numberDecimal|numberSigned"
-            tools:layout_editor_absoluteX="20dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.013" />
 
         <Button
             android:id="@+id/UIbutton"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:text="OK"
-            tools:layout_editor_absoluteX="180dp"
-            tools:layout_editor_absoluteY="0dp" />
+            android:onClick="UIMockClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.751"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.107" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

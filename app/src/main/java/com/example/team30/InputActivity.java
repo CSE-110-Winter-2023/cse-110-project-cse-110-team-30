@@ -75,7 +75,6 @@ public class InputActivity extends AppCompatActivity {
         editor.apply();
 
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.putExtra("newLocation", location);
         startActivity(intent);
     }
     public void UIMockClick(View view) {
