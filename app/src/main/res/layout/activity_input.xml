@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
+    app:layout_constraintBaseline_toBottomOf="parent"
     tools:context=".InputActivity">
 
     <LinearLayout
@@ -59,20 +60,22 @@
 
     <EditText
         android:id="@+id/UIangle"
-        android:layout_width="138dp"
+        android:layout_width="132dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:ems="10"
         android:hint=""
-        android:inputType="numberDecimal|numberSigned" />
+        android:inputType="numberDecimal|numberSigned"
+        tools:layout_editor_absoluteX="20dp" />
 
     <Button
         android:id="@+id/UIbutton"
         android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginBottom="0dp"
         android:onClick="UIMockClick"
-        android:text="OK" />
+        android:text="OK"
+        tools:layout_editor_absoluteX="180dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 </LinearLayout>
