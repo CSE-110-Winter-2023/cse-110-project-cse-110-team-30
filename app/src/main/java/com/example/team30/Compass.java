@@ -21,7 +21,7 @@ public class Compass {
         }
         return instance;
     }
-    public double calculateAngleWithDistance(String type, Coordinates coords){
+    public double calculateAngleWithDistance(String type, Coordinates coords, float rotate){
         Location l = locations.get(type);
         myCoords = coords;
         double y = l.getLongitude() - myCoords.getLongitude();
@@ -34,7 +34,7 @@ public class Compass {
         if(x > 0 && y < 0){
             angle = angle + 360;
         }
-        return angle;
+        return angle - rotate;
     }
 
     public boolean hasLocation(String type){

@@ -16,11 +16,17 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     private Compass compass;
     private LocationService locationService;
+    private OrientationService orientationService;
+    private float rotationAngle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get orientation angle by the UI mock
+//        Bundle extras = getIntent().getExtras();
+//        this.rotationAngle = extras.getInt("UIAngle");
 
         // Check for and get location permissions
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -28,16 +34,29 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
         locationService = LocationService.singleton(this);
+
+        orientationService = OrientationService.singleton(this);
+        this.reobserveOrientation();
+
         compass = Compass.singleton();
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
 
         if(data.getInt("counter", -1) == -1)
             initialInput();
         populateCompass(data);
+
         locationService.getLocation().observe(this, coords ->{
-           reposition(coords);
+//           reposition(coords, rotationAngle);
+            reposition(coords);
         });
+//        @Todo, add the rotaionAngle(UI mock or OrientationService one) in the reposition
+
     }
+
+//    public void reobserveOrientation() {
+//        var orientationData = orientationService.getOrientation();
+//        orientationData.observe(this, this::onOrientationChanged);
+//    }
 
     public void populateCompass(SharedPreferences data){
         String[] types = {"Parent", "Friend", "Home"};
@@ -53,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void reposition(Coordinates coords){
+    private void reposition(Coordinates coords, float rotate){
         if(compass.hasLocation("Parent")){
-            float ParentAngle = (float) compass.calculateAngleWithDistance("Parent", coords);
+            float ParentAngle = (float) compass.calculateAngleWithDistance("Parent", coords, rotate);
 
             ImageView pic = findViewById(R.id.house);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
@@ -69,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         if(compass.hasLocation("Friend")){
-            float FriendAngle = (float) compass.calculateAngleWithDistance("Friend", coords);
+            float FriendAngle = (float) compass.calculateAngleWithDistance("Friend", coords, rotate);
 
             ImageView pic = findViewById(R.id.Friendhome);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
@@ -82,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             text.setLayoutParams(layoutText);
         }
         if(compass.hasLocation("Home")){
-            float MyAngle = (float) compass.calculateAngleWithDistance("Home", coords);
+            float MyAngle = (float) compass.calculateAngleWithDistance("Home", coords, rotate);
 
             ImageView pic = findViewById(R.id.Myhome);
             ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
