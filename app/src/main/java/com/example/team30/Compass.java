@@ -1,7 +1,6 @@
 package com.example.team30;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.lang.Math;
 
@@ -13,6 +12,7 @@ public class Compass {
 
     public Compass(){
         locations = new HashMap<>();
+        myCoords = new Coordinates(0,0);
     }
 
     public static Compass singleton(){
@@ -21,20 +21,21 @@ public class Compass {
         }
         return instance;
     }
-    public double calculateAngleWithDistance(String type, Coordinates coords){
+    public double calculateAngle(String type, Coordinates coords, float orientation){
         Location l = locations.get(type);
-        myCoords = coords;
+        if(coords != null)
+            myCoords = coords;
         double y = l.getLongitude() - myCoords.getLongitude();
         double x = l.getLatitude() - myCoords.getLatitude();
         double angle = Math.atan(y/x) * 180/Math.PI;
-        System.out.println(x + " " + y + " " + angle);
         if(x < 0){
             angle = angle + 180;
         }
         if(x > 0 && y < 0){
             angle = angle + 360;
         }
-        return angle;
+        orientation *= 180/Math.PI;
+        return angle - orientation;
     }
 
     public boolean hasLocation(String type){
