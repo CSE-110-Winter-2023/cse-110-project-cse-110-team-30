@@ -35,7 +35,7 @@ import org.junit.Test;
             assertEquals(109.27354652632,compass_test.calculateAngle("Friend", coordinates, 0),0.01);
             assertEquals(224.92834135802,compass_test.calculateAngle("Home", coordinates, 0),0.01);
         }
-        @Test
+        @Test 
         public void calculateAngleWithDistanceEdgeTest(){
             Compass compass_test = new Compass();
             Location locationParent = new Location("Parent", "Golden Gate Bridge",
