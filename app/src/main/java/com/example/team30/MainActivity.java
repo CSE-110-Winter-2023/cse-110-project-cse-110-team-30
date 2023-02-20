@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private Compass compass;
     private OrientationService orientationService;
     private LocationService locationService;
-    private OrientationService orientationService;
-    private float rotationAngle;
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     @Override
@@ -30,20 +28,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get orientation angle by the UI mock
-//        Bundle extras = getIntent().getExtras();
-//        this.rotationAngle = extras.getInt("UIAngle");
-
         // Check for and get location permissions
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
         locationService = LocationService.singleton(this);
-
-//        orientationService = OrientationService.singleton(this);
-//        this.reobserveOrientation();
-
         compass = Compass.singleton();
         orientationService = OrientationService.singleton(this);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
@@ -51,18 +41,14 @@ public class MainActivity extends AppCompatActivity {
         if(data.getInt("counter", -1) == -1)
             initialInput();
         populateCompass(data);
-
         locationService.getLocation().observe(this, coords ->{
-          reposition(coords, 0);
+            reposition(coords, 0);
         });
-//        @Todo, add the rotaionAngle(UI mock or OrientationService one) in the reposition
-
+        orientationService.getOrientation().observe(this, orientation ->{
+            //@TODO make orientation in degrees and then pass in
+            reposition(null, orientation);
+        });
     }
-
-//    public void reobserveOrientation() {
-//        var orientationData = orientationService.getOrientation();
-//        orientationData.observe(this, this::onOrientationChanged);
-//    }
 
     public void populateCompass(SharedPreferences data){
         String[] types = {"Parent", "Friend", "Home"};
@@ -77,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void reposition(Coordinates coords, float orientation){
         if(compass.hasLocation("Parent")){
             this.future = backgroundThreadExecutor.submit(() -> {
