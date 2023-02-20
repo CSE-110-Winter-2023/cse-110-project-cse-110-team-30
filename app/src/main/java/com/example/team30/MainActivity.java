@@ -13,12 +13,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class MainActivity extends AppCompatActivity {
     private Compass compass;
+    private OrientationService orientationService;
     private LocationService locationService;
     private OrientationService orientationService;
     private float rotationAngle;
-
+    private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
+    private Future<Void> future;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //        this.reobserveOrientation();
 
         compass = Compass.singleton();
+        orientationService = OrientationService.singleton(this);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
 
         if(data.getInt("counter", -1) == -1)
@@ -46,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         populateCompass(data);
 
         locationService.getLocation().observe(this, coords ->{
-//           reposition(coords, rotationAngle);
-            reposition(coords,0);
+          reposition(coords, 0);
         });
 //        @Todo, add the rotaionAngle(UI mock or OrientationService one) in the reposition
 
@@ -71,47 +77,54 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    private void reposition(Coordinates coords, float rotate){
+    private void reposition(Coordinates coords, float orientation){
         if(compass.hasLocation("Parent")){
-            float ParentAngle = (float) compass.calculateAngleWithDistance("Parent", coords, rotate);
+            this.future = backgroundThreadExecutor.submit(() -> {
+                float angle = (float) compass.calculateAngle("Parent", coords, orientation);
 
-            ImageView pic = findViewById(R.id.house);
-            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = ParentAngle;
-            pic.setLayoutParams(layout);
+                ImageView pic = findViewById(R.id.house);
+                ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
+                layout.circleAngle = angle;
+                runOnUiThread(()->{pic.setLayoutParams(layout);});
 
-            TextView text = findViewById(R.id.parentLabel);
-            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
-            layoutText.circleAngle = ParentAngle;
-            text.setLayoutParams(layoutText);
-
+                TextView text = findViewById(R.id.parentLabel);
+                ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+                layoutText.circleAngle = angle;
+                runOnUiThread(()->{text.setLayoutParams(layoutText);});
+                return null;
+            });
         }
         if(compass.hasLocation("Friend")){
-            float FriendAngle = (float) compass.calculateAngleWithDistance("Friend", coords, rotate);
+            this.future = backgroundThreadExecutor.submit(() -> {
+                float angle = (float) compass.calculateAngle("Friend", coords, orientation);
 
-            ImageView pic = findViewById(R.id.Friendhome);
-            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = FriendAngle;
-            pic.setLayoutParams(layout);
+                ImageView pic = findViewById(R.id.house);
+                ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
+                layout.circleAngle = angle;
+                runOnUiThread(()->{pic.setLayoutParams(layout);});
 
-            TextView text = findViewById(R.id.friendLabel);
-            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
-            layoutText.circleAngle = FriendAngle;
-            text.setLayoutParams(layoutText);
+                TextView text = findViewById(R.id.parentLabel);
+                ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+                layoutText.circleAngle = angle;
+                runOnUiThread(()->{text.setLayoutParams(layoutText);});
+                return null;
+            });
         }
         if(compass.hasLocation("Home")){
-            float MyAngle = (float) compass.calculateAngleWithDistance("Home", coords, rotate);
+            this.future = backgroundThreadExecutor.submit(() -> {
+                float angle = (float) compass.calculateAngle("Home", coords, orientation);
 
-            ImageView pic = findViewById(R.id.Myhome);
-            ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
-            layout.circleAngle = MyAngle;
-            pic.setLayoutParams(layout);
+                ImageView pic = findViewById(R.id.house);
+                ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) pic.getLayoutParams();
+                layout.circleAngle = angle;
+                runOnUiThread(()->{pic.setLayoutParams(layout);});
 
-            TextView text = findViewById(R.id.myLabel);
-            ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
-            layoutText.circleAngle = MyAngle;
-            text.setLayoutParams(layoutText);
+                TextView text = findViewById(R.id.parentLabel);
+                ConstraintLayout.LayoutParams layoutText = (ConstraintLayout.LayoutParams) text.getLayoutParams();
+                layoutText.circleAngle = angle;
+                runOnUiThread(()->{text.setLayoutParams(layoutText);});
+                return null;
+            });
         }
     }
 

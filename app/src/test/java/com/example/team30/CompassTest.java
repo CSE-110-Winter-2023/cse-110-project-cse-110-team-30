@@ -31,9 +31,9 @@ import org.junit.Test;
             compass_test.addLocation(locationHome);
 
             Coordinates coordinates = new Coordinates((float) 37.7749, (float) -122.4194);
-            assertEquals(84.332020791674,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
-            assertEquals(109.27354652632,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
-            assertEquals(224.92834135802,compass_test.calculateAngleWithDistance("Home", coordinates),0.01);
+            assertEquals(84.332020791674,compass_test.calculateAngle("Parent", coordinates, 0),0.01);
+            assertEquals(109.27354652632,compass_test.calculateAngle("Friend", coordinates, 0),0.01);
+            assertEquals(224.92834135802,compass_test.calculateAngle("Home", coordinates, 0),0.01);
         }
         @Test
         public void calculateAngleWithDistanceEdgeTest(){
@@ -49,8 +49,8 @@ import org.junit.Test;
 //            compass_test.addLocation(locationHome);
 
             Coordinates coordinates = new Coordinates((float) 37.7749, (float) -122.4194);
-            assertEquals(271.64285785969,compass_test.calculateAngleWithDistance("Parent", coordinates),0.01);
-            assertEquals(107.1486332690,compass_test.calculateAngleWithDistance("Friend", coordinates),0.01);
+            assertEquals(271.64285785969,compass_test.calculateAngle("Parent", coordinates, 0),0.01);
+            assertEquals(107.1486332690,compass_test.calculateAngle("Friend", coordinates,0 ),0.01);
 //            assertEquals(224.92834135802,compass_test.calculateAngleWithDistance("Home", coordinates),0.01);
         }
         @Test
