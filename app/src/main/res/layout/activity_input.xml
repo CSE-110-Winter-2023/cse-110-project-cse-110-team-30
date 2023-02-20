@@ -14,14 +14,14 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
-        
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:hint="Location Name"/>
+            android:hint="Location Name" />
 
         <EditText
             android:id="@+id/latitude"
@@ -29,8 +29,8 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:inputType="numberDecimal|numberSigned"
-            android:hint="Latitude" />
+            android:hint="Latitude"
+            android:inputType="numberDecimal|numberSigned" />
 
         <EditText
             android:id="@+id/longitude"
@@ -38,8 +38,8 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:inputType="numberDecimal|numberSigned"
-            android:hint="Longitude" />
+            android:hint="Longitude"
+            android:inputType="numberDecimal|numberSigned" />
 
         <Spinner
             android:id="@+id/spinner_category"
@@ -56,5 +56,22 @@
         android:layout_margin="20dp"
         android:onClick="onSubmit"
         android:text="Submit" />
+
+    <EditText
+        android:id="@+id/UIangle"
+        android:layout_width="138dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:ems="10"
+        android:hint=""
+        android:inputType="numberDecimal|numberSigned" />
+
+    <Button
+        android:id="@+id/UIbutton"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="0dp"
+        android:text="OK" />
 
 </LinearLayout>
