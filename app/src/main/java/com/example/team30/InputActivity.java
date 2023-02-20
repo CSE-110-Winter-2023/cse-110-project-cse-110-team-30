@@ -10,7 +10,10 @@ import android.widget.EditText;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -19,6 +22,7 @@ public class InputActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     private Compass compass;
+    private int rotation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +77,23 @@ public class InputActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         //intent.putExtra("newLocation", location);
         startActivity(intent);
+    }
+    public void UIMockClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+
+        TextView Rotation = findViewById(R.id.UIangle);
+        String rotationAngleStr = Rotation.getText().toString();
+
+        Optional<Integer> rotationAngle = Utilities.parseCount((rotationAngleStr));
+
+        float rotationAngleInt = rotationAngle.get();
+
+        if(rotationAngleInt < 0 || rotationAngleInt > 360){
+            Utilities.showAlert(this, "Please enter a number in range of (0,360)!");
+            return;
+        }
+
+        intent.putExtra("UIAngle", rotationAngleInt);
+        startActivity((intent));
     }
 }

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:padding="10dp"
+    app:layout_constraintBaseline_toBottomOf="parent"
     tools:context=".InputActivity">
 
     <LinearLayout
@@ -14,14 +15,14 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
-        
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:hint="Location Name"/>
+            android:hint="Location Name" />
 
         <EditText
             android:id="@+id/latitude"
@@ -29,8 +30,8 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:inputType="numberDecimal|numberSigned"
-            android:hint="Latitude" />
+            android:hint="Latitude"
+            android:inputType="numberDecimal|numberSigned" />
 
         <EditText
             android:id="@+id/longitude"
@@ -38,8 +39,8 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:ems="10"
-            android:inputType="numberDecimal|numberSigned"
-            android:hint="Longitude" />
+            android:hint="Longitude"
+            android:inputType="numberDecimal|numberSigned" />
 
         <Spinner
             android:id="@+id/spinner_category"
@@ -56,5 +57,29 @@
         android:layout_margin="20dp"
         android:onClick="onSubmit"
         android:text="Submit" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/UIangle"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint=""
+            android:inputType="numberDecimal|numberSigned"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <Button
+            android:id="@+id/UIbutton"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="OK"
+            tools:layout_editor_absoluteX="180dp"
+            tools:layout_editor_absoluteY="0dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -37,6 +37,10 @@ public class Compass {
         orientation *= 180/Math.PI;
         return angle - orientation;
     }
+    public double calculateAngleWithDistance(String type, Coordinates coords, float rotate) {
+        return calculateAngleWithDistance(type, coords) - rotate;
+    }
+
 
     public boolean hasLocation(String type){
         return locations.containsKey(type);
