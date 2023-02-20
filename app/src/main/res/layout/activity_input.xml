@@ -58,24 +58,28 @@
         android:onClick="onSubmit"
         android:text="Submit" />
 
-    <EditText
-        android:id="@+id/UIangle"
-        android:layout_width="132dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:ems="10"
-        android:hint=""
-        android:inputType="numberDecimal|numberSigned"
-        tools:layout_editor_absoluteX="20dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/UIbutton"
-        android:layout_width="106dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:onClick="UIMockClick"
-        android:text="OK"
-        tools:layout_editor_absoluteX="180dp"
-        tools:layout_editor_absoluteY="0dp" />
+        <EditText
+            android:id="@+id/UIangle"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint=""
+            android:inputType="numberDecimal|numberSigned"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <Button
+            android:id="@+id/UIbutton"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="OK"
+            tools:layout_editor_absoluteX="180dp"
+            tools:layout_editor_absoluteY="0dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
