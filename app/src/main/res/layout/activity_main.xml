@@ -30,91 +30,6 @@
             app:srcCompat="@drawable/circle" />
 
 
-
-        <ImageView
-            android:id="@+id/house"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginBottom="41dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="300"
-            app:layout_constraintCircleRadius="155dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/house" />
-
-
-        <TextView
-            android:id="@+id/parentLabel"
-            android:layout_width="100dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginBottom="41dp"
-            android:visibility="invisible"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/compassFace"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="300"
-            app:layout_constraintCircleRadius="100dp"
-            app:layout_constraintEnd_toStartOf="@+id/compassFace"
-            app:layout_constraintHorizontal_bias="0.672"
-            app:layout_constraintStart_toEndOf="@+id/compassFace"
-            app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:layout_constraintVertical_bias="0.793"
-            app:srcCompat="@drawable/starhome" />
-
-
-
-        <ImageView
-            android:id="@+id/Myhome"
-            android:layout_width="39dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginBottom="41dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/compassFace"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="155dp"
-            app:layout_constraintEnd_toStartOf="@+id/compassFace"
-            app:layout_constraintHorizontal_bias="0.672"
-            app:layout_constraintStart_toEndOf="@+id/compassFace"
-            app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:layout_constraintVertical_bias="0.793"
-            app:srcCompat="@drawable/starhome" />
-
-
-        <TextView
-            android:id="@+id/myLabel"
-            android:text=""
-            android:layout_width="100dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginBottom="41dp"
-            android:visibility="invisible"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/compassFace"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="90"
-            app:layout_constraintCircleRadius="100dp"
-            app:layout_constraintEnd_toStartOf="@+id/compassFace"
-            app:layout_constraintHorizontal_bias="0.672"
-            app:layout_constraintStart_toEndOf="@+id/compassFace"
-            app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:layout_constraintVertical_bias="0.793" />
-
         <ImageView
             android:id="@+id/triangle"
             android:layout_width="46dp"
@@ -126,66 +41,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <ImageView
-            android:id="@+id/Friendhome"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginBottom="41dp"
-            android:visibility="invisible"
-            android:src="@drawable/friendhome"
-            app:layout_constraintBottom_toTopOf="@+id/compassFace"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="120"
-            app:layout_constraintCircleRadius="155dp"
-            app:layout_constraintEnd_toStartOf="@+id/compassFace"
-            app:layout_constraintHorizontal_bias="0.672"
-            app:layout_constraintStart_toEndOf="@+id/compassFace"
-            app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:layout_constraintVertical_bias="0.793"
-            />
-
-
-
-        <TextView
-            android:id="@+id/friendLabel"
-            android:text=""
-            android:layout_width="100dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="41dp"
-            android:layout_marginTop="41dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginBottom="41dp"
-            android:visibility="invisible"
-            android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/compassFace"
-            app:layout_constraintCircle="@+id/compassFace"
-            app:layout_constraintCircleAngle="120"
-            app:layout_constraintCircleRadius="100dp"
-            app:layout_constraintEnd_toStartOf="@+id/compassFace"
-            app:layout_constraintHorizontal_bias="0.672"
-            app:layout_constraintStart_toEndOf="@+id/compassFace"
-            app:layout_constraintTop_toBottomOf="@+id/compassFace"
-            app:layout_constraintVertical_bias="0.793" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/addLoc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:onClick="addLocation"
-        android:text="Add Location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.938" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
