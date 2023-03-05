@@ -7,11 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -42,7 +40,7 @@ public class InputActivity extends AppCompatActivity {
         EditText latitudeView = findViewById(R.id.latitude);
         Float latitude = Float.parseFloat(String.valueOf(latitudeView.getText()));
 
-        EditText longitudeView = findViewById(R.id.longitude);
+        EditText longitudeView = findViewById(R.id.friend_UID);
         Float longitude = Float.parseFloat(String.valueOf(longitudeView.getText()));
 
         Spinner SpinnerCategory=findViewById(R.id.spinner_category);
