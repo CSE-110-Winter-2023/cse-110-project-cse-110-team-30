@@ -30,8 +30,6 @@
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/circle" />
 
-
-
         <TextView
             android:id="@+id/myLabel"
             android:text=""
@@ -63,10 +61,6 @@
             app:layout_constrainedHeight="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-
 
         <TextView
             android:id="@+id/friendLabel"
@@ -111,7 +105,6 @@
             app:layout_constraintVertical_bias="0.555"
             app:srcCompat="@drawable/circle" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -119,8 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:onClick="addLocation"
-        android:text="Add Location"
+        android:text="Add Friend"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
