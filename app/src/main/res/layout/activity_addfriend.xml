@@ -6,71 +6,63 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    app:layout_constraintBaseline_toBottomOf="parent"
-    tools:context=".InputActivity">
+    android:gravity="center_horizontal"
+    tools:context=".AddFriendActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/AddFriendTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:text="Add friend"
+        android:textSize="60dp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/submitBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:onClick="onSubmit"
-            android:text="Submit"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="563dp" />
-
-        <TextView
-            android:id="@+id/AddFriendTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="96dp"
-            android:text="Add friend"
-            android:textSize="60sp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="43dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/YourUIDText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
             android:text="Your UID"
-            android:textSize="33sp"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="207dp" />
+            android:textSize="35dp"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/YourUIDDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="UID"
-            tools:layout_editor_absoluteX="91dp"
-            tools:layout_editor_absoluteY="251dp" />
+            android:text="U123456789"
+            android:textSize="35dp" />
 
         <TextView
             android:id="@+id/FriendsUIDText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text="Friend's UID"
-            android:textSize="34sp"
-            tools:layout_editor_absoluteX="107dp"
-            tools:layout_editor_absoluteY="362dp" />
+            android:textSize="35dp" />
 
         <EditText
             android:id="@+id/FriendsUIDEntry"
             android:layout_width="match_parent"
-            android:layout_height="82dp"
-            android:layout_margin="20dp"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:hint="Friend's UID"
-            android:inputType="numberDecimal|numberSigned"
-            tools:layout_editor_absoluteX="21dp"
-            tools:layout_editor_absoluteY="407dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:inputType="numberDecimal|numberSigned" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submitBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
+        android:onClick="onSubmit"
+        android:text="Submit"/>
 
 </LinearLayout>
