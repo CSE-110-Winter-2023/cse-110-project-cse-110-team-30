@@ -36,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        boolean register = false;
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
 
-        if(register == false){
-            register = true;
+
+        if(data.getBoolean("register", false) == false){
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
         }
