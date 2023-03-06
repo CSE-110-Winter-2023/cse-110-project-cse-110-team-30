@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center_horizontal"
+    tools:context=".RegistrationActivity">
 
     <TextView
-        android:id="@+id/registration"
+        android:id="@+id/RegTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="148dp"
         android:text="Registration"
-        android:textColor="#AF3C3C"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="60dp" />
 
     <TextView
         android:id="@+id/username"
@@ -28,7 +23,7 @@
         android:layout_marginTop="148dp"
         android:text="Name"
         android:textSize="34sp"
-        app:layout_constraintTop_toBottomOf="@+id/registration"
+        app:layout_constraintTop_toBottomOf="@+id/RegTitle"
         tools:layout_editor_absoluteX="160dp" />
 
     <EditText
@@ -57,4 +52,4 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Username_input" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
