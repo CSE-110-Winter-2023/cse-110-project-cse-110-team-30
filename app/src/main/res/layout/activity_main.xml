@@ -132,20 +132,32 @@
         android:id="@+id/zoom_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="60dp"
+        android:layout_marginBottom="13dp"
         android:text="+"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/addLoc"
         app:layout_constraintEnd_toStartOf="@+id/zoom_out"
-        tools:layout_editor_absoluteY="541dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compass" />
 
     <Button
         android:id="@+id/zoom_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="13dp"
         android:text="-"
         android:textSize="24dp"
-        tools:layout_editor_absoluteX="216dp"
-        tools:layout_editor_absoluteY="541dp" />
+        app:layout_constraintBottom_toTopOf="@+id/addLoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/zoom_in"
+        app:layout_constraintTop_toBottomOf="@+id/compass"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
