@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Friend's UID"
-            android:inputType="numberDecimal|numberSigned" />
+            android:inputType="text" />
 
     </LinearLayout>
 

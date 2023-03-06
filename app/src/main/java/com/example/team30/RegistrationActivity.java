@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.UUID;
+
 public class RegistrationActivity extends AppCompatActivity {
 
     @Override
@@ -15,18 +17,18 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-
         Button button = findViewById(R.id.UID_generator);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
-        // Set a click listener for the button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putBoolean("register", true);
                 editor.apply();
-                // Create an intent to launch the new activity
+
+                String uniqueID = UUID.randomUUID().toString();
                 Intent intent = new Intent(RegistrationActivity.this, UIDGeneration.class);
+                intent.putExtra("uniqueID", uniqueID); //pass UID to UIDGeneration
                 startActivity(intent);
             }
         });
