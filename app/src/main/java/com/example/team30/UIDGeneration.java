@@ -13,7 +13,7 @@ public class UIDGeneration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uidgeneration);
-        Button button = findViewById(R.id.button);
+        Button button = findViewById(R.id.GoToCompass);
 
         // Set a click listener for the button
         button.setOnClickListener(new View.OnClickListener() {
