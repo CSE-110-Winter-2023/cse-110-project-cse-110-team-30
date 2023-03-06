@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationService locationService;
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
-    private int imageResourceId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-
         ConstraintLayout container = findViewById(R.id.compass);
         // Check for image resource ID in intent extras
         int imageResourceId = getIntent().getIntExtra("imageResourceId", 0);
 
+        if(imageResourceId != 0){
             // Create a new ImageView object
             ImageView imageView = new ImageView(this);
             imageView.setLayoutParams(new ConstraintLayout.LayoutParams(
@@ -60,24 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
             // Add the ImageView to the container layout
             container.addView(imageView);
-
-
-
-        Button button = findViewById(R.id.addLoc);
-
-        //when "add friend" is clicked
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
-
-
+        }
     }
 
+    public void addFriend(View view) {
+        Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
+        startActivity(intent);
+    }
 }
