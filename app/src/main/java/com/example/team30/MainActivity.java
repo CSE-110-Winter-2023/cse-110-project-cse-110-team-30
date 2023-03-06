@@ -47,11 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.addLoc);
 
-        // Set a click listener for the button
+        //when "add friend" is clicked
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an intent to launch the new activity
                 Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
                 startActivity(intent);
             }
