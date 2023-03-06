@@ -13,19 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/friend_UID"
-            android:layout_width="match_parent"
-            android:layout_height="82dp"
-            android:layout_margin="20dp"
-            android:ems="10"
-            android:hint="UID"
-            android:inputType="numberDecimal|numberSigned"
-            tools:layout_editor_absoluteX="21dp"
-            tools:layout_editor_absoluteY="407dp" />
-
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/submitBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -35,16 +24,16 @@
             tools:layout_editor_absoluteY="563dp" />
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
+            android:id="@+id/AddFriendTitle"
+            android:layout_width="wrap_content"
             android:layout_height="96dp"
-            android:text="    Add friend"
+            android:text="Add friend"
             android:textSize="60sp"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="43dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/YourUIDText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
@@ -53,8 +42,8 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="207dp" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName"
+        <TextView
+            android:id="@+id/YourUIDDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -64,13 +53,24 @@
             tools:layout_editor_absoluteY="251dp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/FriendsUIDText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Friend's UID"
             android:textSize="34sp"
             tools:layout_editor_absoluteX="107dp"
             tools:layout_editor_absoluteY="362dp" />
+
+        <EditText
+            android:id="@+id/FriendsUIDEntry"
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Friend's UID"
+            android:inputType="numberDecimal|numberSigned"
+            tools:layout_editor_absoluteX="21dp"
+            tools:layout_editor_absoluteY="407dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
