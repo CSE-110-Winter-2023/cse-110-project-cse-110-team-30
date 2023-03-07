@@ -83,19 +83,9 @@ public class FriendRepository {
 
     public void upsertLocal(Friend friend) {
         friend.updatedAt = Instant.now().getEpochSecond();
-        dao.upsert(friend);
+        dao.insert(friend);
     }
 
-//    public void deleteLocal(Note note) {
-//        dao.delete(note);
-//    }
-//
-//    public boolean existsLocal(String title) {
-//        return dao.exists(title);
-//    }
-
-    // Remote Methods
-    // ==============
 
 
     //this fuction is to get location from the remote.
