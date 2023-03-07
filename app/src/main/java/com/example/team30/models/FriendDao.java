@@ -12,17 +12,22 @@ import java.util.List;
 @Dao
 public interface FriendDao {
     @Insert
-    long insert(Friend friend);
+    String insert(Friend friend);
 
     @Insert
-    List<Long> insertAll(List<Friend> friends);
+    List<String> insertAll(List<Friend> friends);
 
-    @Query("SELECT * FROM 'Friendlist' WHERE 'id'=:id")
-    Friend get(long id);
+    @Query("SELECT * FROM 'Friendlist' WHERE 'UID'=:UID")
+    Friend get(String UID);
+
+    @Query("SELECT *  FROM `Friendlist`")
+    List<Friend> getAll();
 
     @Update
     int update(Friend friend);
 
     @Delete
     int delete(Friend friend);
+
+
 }

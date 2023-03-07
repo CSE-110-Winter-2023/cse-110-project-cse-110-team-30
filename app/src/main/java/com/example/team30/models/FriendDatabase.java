@@ -33,11 +33,6 @@ public abstract class FriendDatabase extends RoomDatabase {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            List<Friend> friends = Friend
-                                    .loadJSON(context, "demo_todos.json");
-                            getSingleton(context).todoListItemDao().insertAll(friends);
-                        });
                     }
                 })
                 .build();
