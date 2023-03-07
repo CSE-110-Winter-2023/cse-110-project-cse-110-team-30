@@ -24,9 +24,11 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String uniqueID = UUID.randomUUID().toString();
+                String privateCode = UUID.randomUUID().toString();
 
                 editor.putBoolean("register", true);
                 editor.putString("YourUID", uniqueID);
+                editor.putString("privateCode", privateCode);
                 editor.apply();
 
                 Intent intent = new Intent(RegistrationActivity.this, UIDGeneration.class);
