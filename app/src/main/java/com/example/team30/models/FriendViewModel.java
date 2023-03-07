@@ -10,28 +10,35 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 public class FriendViewModel extends AndroidViewModel {
-    private LiveData<List<Friend>> friends;
+    private LiveData<Friend> friends;
     private final FriendDao dao;
+    private final FriendRepository repo;
 
     public FriendViewModel(@NonNull Application application){
         super(application);
         Context context = getApplication().getApplicationContext();
         FriendDatabase db = FriendDatabase.getSingleton(context);
         dao = db.todoListItemDao();
+
+        API api =  API.provide();
+        this.repo = new FriendRepository(api, dao);
     }
 
-    public LiveData<List<Friend>> getFriends() {
+    //this one here should the getSynced here and not sure if we should return the list of friends or just a friend, but I do not know how to fix getSynced. My bad
+    public LiveData<Friend> getFriends(Friend friend) {
         if(friends == null) {
-            loadFriends();
+            friends = repo.getSynced(friend);
         }
         return friends;
     }
 
     private void loadFriends(){
-        friends = dao.getAll();
+        //friends = dao.getAll();
     }
+
     public void createTodo(String UID) {
         Friend newFriend = new Friend(UID);
         dao.insert(newFriend);
     }
+
 }

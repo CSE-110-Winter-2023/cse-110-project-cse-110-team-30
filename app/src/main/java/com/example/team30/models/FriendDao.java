@@ -11,6 +11,12 @@ import java.util.List;
 
 @Dao
 public interface FriendDao {
+
+    //not sure if we need, since we are doing different things in lab7.
+//    @Upsert
+//    public abstract long upsert(Friend friend);
+
+
     @Insert
     String insert(Friend friend);
 
