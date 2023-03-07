@@ -15,4 +15,13 @@ public class Friend {
     Friend(@NonNull String UID){
         this.UID = UID;
     }
+
+    @NonNull
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(@NonNull String UID) {
+        this.UID = UID;
+    }
 }
