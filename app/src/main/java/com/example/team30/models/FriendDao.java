@@ -21,7 +21,7 @@ public interface FriendDao {
     Friend get(String UID);
 
     @Query("SELECT *  FROM `Friendlist`")
-    List<Friend> getAll();
+    LiveData<List<Friend>> getAll();
 
     @Update
     int update(Friend friend);
