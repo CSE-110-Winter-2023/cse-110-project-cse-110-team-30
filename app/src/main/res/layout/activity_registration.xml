@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:gravity="center_horizontal"
-    tools:context=".RegistrationActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="10dp">
+    <TextView
+        android:id="@+id/registration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="59dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="148dp"
+        android:text="Registration"
+        android:textColor="#AF3C3C"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/RegTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registration"
-            android:textSize="60dp" />
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="148dp"
+        android:text="Name"
+        android:textSize="34sp"
+        app:layout_constraintTop_toBottomOf="@+id/registration"
+        tools:layout_editor_absoluteX="160dp" />
 
-        <TextView
-            android:id="@+id/UsernameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="148dp"
-            android:text="Name"
-            android:textSize="35dp" />
-
-        <EditText
-            android:id="@+id/UsernameEntry"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:inputType="text" />
-
-    </LinearLayout>
+    <EditText
+        android:id="@+id/Username_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/UID_generator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <Button
         android:id="@+id/UID_generator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="20dp"
-        android:onClick="generateUID"
-        android:text="Generate UID" />
-</LinearLayout>
+        android:layout_width="252dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginTop="162dp"
+        android:layout_marginEnd="74dp"
+        android:layout_marginBottom="122dp"
+        android:text="Generate UID"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Username_input" />
+</androidx.constraintlayout.widget.ConstraintLayout>

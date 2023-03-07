@@ -6,7 +6,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -72,7 +71,7 @@ public class BDDTest {
         appCompatEditText2.perform(replaceText("2000"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.longitude),
+                allOf(withId(R.id.friend_UID),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -173,7 +172,7 @@ public class BDDTest {
         appCompatEditText5.perform(replaceText("0"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.longitude),
+                allOf(withId(R.id.friend_UID),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -268,7 +267,7 @@ public class BDDTest {
         appCompatEditText8.perform(replaceText("-64379"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText9 = onView(
-                allOf(withId(R.id.longitude),
+                allOf(withId(R.id.friend_UID),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
