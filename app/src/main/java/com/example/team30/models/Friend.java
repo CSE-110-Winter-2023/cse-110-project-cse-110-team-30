@@ -6,50 +6,49 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.List;
+import java.time.Instant;
 
+class TimestampAdapter extends TypeAdapter<Long> {
+    @Override
+    public void write(JsonWriter out, Long value) throws java.io.IOException {
+        var instant = Instant.ofEpochSecond(value);
+        out.value(instant.toString());
+    }
+
+    @Override
+    public Long read(JsonReader in) throws java.io.IOException {
+        var instant = Instant.parse(in.nextString());
+        return instant.getEpochSecond();
+    }
+}
 
 @Entity(tableName = "Friendlist")
 public class Friend {
-    @PrimaryKey(autoGenerate = true)
-    public long id;
+
+
+    @JsonAdapter(TimestampAdapter.class)
+    @SerializedName(value = "updated_at", alternate = "updatedAt")
+    public long updatedAt = 0;
 
     @NonNull
+    @PrimaryKey
     public String UID;
-
     Friend(@NonNull String UID){
         this.UID = UID;
     }
 
-
-    public static List<Friend> loadJSON(Context context, String path) {
-        try {
-            InputStream input = context.getAssets().open(path);
-            Reader reader = new InputStreamReader(input);
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<Friend>>(){}.getType();
-            return gson.fromJson(reader, type);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+    @NonNull
+    public String getUID() {
+        return UID;
     }
 
-    @Override
-    public String toString() {
-        return "Friend{" +
-                "id=" + id +
-                ", UID='" + UID + '\'' +
-                '}';
+    public void setUID(@NonNull String UID) {
+        this.UID = UID;
     }
-
 }

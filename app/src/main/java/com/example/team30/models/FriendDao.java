@@ -11,18 +11,29 @@ import java.util.List;
 
 @Dao
 public interface FriendDao {
-    @Insert
-    long insert(Friend friend);
+
+    //not sure if we need, since we are doing different things in lab7.
+//    @Upsert
+//    public abstract long upsert(Friend friend);
+
 
     @Insert
-    List<Long> insertAll(List<Friend> friends);
+    String insert(Friend friend);
 
-    @Query("SELECT * FROM 'Friendlist' WHERE 'id'=:id")
-    Friend get(long id);
+    @Insert
+    List<String> insertAll(List<Friend> friends);
+
+    @Query("SELECT * FROM 'Friendlist' WHERE 'UID'=:UID")
+    Friend get(String UID);
+
+    @Query("SELECT *  FROM `Friendlist`")
+    LiveData<List<Friend>> getAll();
 
     @Update
     int update(Friend friend);
 
     @Delete
     int delete(Friend friend);
+
+
 }

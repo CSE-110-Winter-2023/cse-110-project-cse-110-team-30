@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.util.UUID;
+
 
 public class AddFriendActivity extends AppCompatActivity {
 
