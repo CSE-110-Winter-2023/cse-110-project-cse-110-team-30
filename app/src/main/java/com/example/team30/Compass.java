@@ -14,7 +14,7 @@ public class Compass {
 
     private float myLat;
 
-    private Map<Integer, Pair<Float, Integer>> position;
+    private Map<String, Pair<Float, Integer>> position;
 
     private static Compass instance;
 
@@ -26,7 +26,6 @@ public class Compass {
     }
 
     public Compass(){
-        IDlist = new HashMap<>();
         position = new HashMap<>();
     }
 
@@ -46,7 +45,7 @@ public class Compass {
         this.myLat = newLat;
     }
 
-    public void addPosition(Integer objectId, Pair<Float,Integer> newPair){
+    public void addPosition(String objectId, Pair<Float,Integer> newPair){
         position.put(objectId, newPair);
     }
 
@@ -54,14 +53,44 @@ public class Compass {
         return position.get(objectId);
     }
 
-    public void setPosition(Integer objectId, Pair<Float, Integer> newPair){
+    public void setPosition(String objectId, Pair<Float, Integer> newPair){
         position.put(objectId, newPair);
     }
 
-    public void calculateAngles(List<Location> locationList){
+    public void calculateAngles(List<Location> locationList, float orientation){
         for(Location location : locationList){
             String UID = location.getPublic_code();
+            float longti = location.getLongitude();
+            float lati = location.getLatitude();
+            float y = longti - myLong;
+            float x = lati - myLat;
+            double angle = Math.atan(y/x) * 180/Math.PI;
+            if(x < 0){
+                angle = angle + 180;
+            }
+            if(x > 0 && y < 0){
+                angle = angle + 360;
+            }
+            float newangle = (float)(angle - orientation);
+            Pair<Float, Integer> newPair = new Pair<>(newangle, 100);
+
+            position.put(UID, newPair);
         }
     }
+
+    public float calculateAngle(float longti, float lati){
+        float y = longti - myLong;
+        float x = lati - myLat;
+        double angle = Math.atan(y/x) * 180/Math.PI;
+        if(x < 0){
+            angle = angle + 180;
+        }
+        if(x > 0 && y < 0){
+            angle = angle + 360;
+        }
+        float newangle = (float)(angle);
+        return newangle;
+    }
+
 
 }
