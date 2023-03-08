@@ -11,7 +11,7 @@ public class Friend {
     @NonNull
     @PrimaryKey
     public String UID;
-    Friend(@NonNull String UID){
+    public Friend(@NonNull String UID){
         this.UID = UID;
     }
 
