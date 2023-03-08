@@ -22,6 +22,7 @@ import java.util.UUID;
 
 public class RegistrationActivity extends AppCompatActivity {
     private LocationService locationService;
+    private Compass compass = Compass.singleton();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,8 @@ public class RegistrationActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = data.edit();
         locationService = LocationService.singleton(this);
         Pair<Double, Double> coordinates = locationService.getLocation().getValue();
+        compass.setMyLat(coordinates.first.floatValue());
+        compass.setMyLong(coordinates.second.floatValue());
         LocationViewModel viewModel = setupViewModel();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
