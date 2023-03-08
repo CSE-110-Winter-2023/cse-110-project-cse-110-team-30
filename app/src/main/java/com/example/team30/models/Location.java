@@ -25,6 +25,14 @@ public class Location implements Serializable {
         return new Gson().fromJson(json, Location.class);
     }
 
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
     public String toJSON() {
         return new Gson().toJson(this);
     }
