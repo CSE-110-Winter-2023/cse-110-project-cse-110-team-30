@@ -29,6 +29,8 @@ public class Location implements Serializable {
         return updated_at;
     }
 
+    public String getPublic_code(){return public_code;}
+
     public String getLabel() {
         return label;
     }

@@ -2,7 +2,10 @@ package com.example.team30;
 
 import android.util.Pair;
 
+import com.example.team30.models.Location;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.lang.Math;
 
@@ -11,9 +14,7 @@ public class Compass {
 
     private float myLat;
 
-    private Map<String, String> IDlist;
-
-    private Map<String, Pair<Float, Integer>> position;
+    private Map<Integer, Pair<Float, Integer>> position;
 
     private static Compass instance;
 
@@ -45,25 +46,22 @@ public class Compass {
         this.myLat = newLat;
     }
 
-    public void calculateAngles(){
-
-    }
-
-    public void addPosition(String objectId, Pair<Float,Integer> newPair){
+    public void addPosition(Integer objectId, Pair<Float,Integer> newPair){
         position.put(objectId, newPair);
     }
-
 
     public Pair<Float, Integer> getPosition(String objectId){
         return position.get(objectId);
     }
 
-    public void setPosition(String objectId, Pair<Float, Integer> newPair){
+    public void setPosition(Integer objectId, Pair<Float, Integer> newPair){
         position.put(objectId, newPair);
     }
 
-
-    public void addIDObject(String UID, String objectId){
-
+    public void calculateAngles(List<Location> locationList){
+        for(Location location : locationList){
+            String UID = location.getPublic_code();
+        }
     }
+
 }
