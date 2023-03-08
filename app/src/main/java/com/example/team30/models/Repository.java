@@ -36,23 +36,18 @@ public class Repository {
 
     public LiveData<List<Location>> getActiveLocations(){
         var locations = new MediatorLiveData<List<Location>>();
-        var activeLocations = new MediatorLiveData<List<Location>>();
-        Observer<List<Location>> updateFromRemote = newLocations -> {
-            for(Location l: newLocations){
-                if(l.getUpdated_at() != LocalDateTime.now().toString())
-                    activeLocations.getValue().add(l);
-            }
-        };
+        Observer<List<Location>> updateFromRemote = newLocations -> {};
         locations.addSource(getRemote(), updateFromRemote);
-        return activeLocations;
+        return locations;
     }
-    public LiveData<List<Location>> getRemote() {
+
+    private LiveData<List<Location>> getRemote() {
         var executor = Executors.newSingleThreadScheduledExecutor();
         friendFuture = executor.scheduleAtFixedRate(() -> {
             List<Friend> friends = dao.getAll().getValue();
             var locations = api.getMultipleLocations(friends);
             liveLocations.postValue(locations);
-        }, 0, 3000, TimeUnit.MILLISECONDS);
+        }, 0, 3, TimeUnit.SECONDS);
         return liveLocations;
     }
 
@@ -64,6 +59,7 @@ public class Repository {
         json.addProperty("longitude", longitude);
         api.putLocation(UID, json.toString());
     }
+
     public void updateUserLocation(String UID, String privateCode, float latitude, float longitude){
         JsonObject json = new JsonObject();
         json.addProperty("private_code", privateCode);

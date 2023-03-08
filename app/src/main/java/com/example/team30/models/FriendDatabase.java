@@ -10,14 +10,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.util.List;
-import java.util.concurrent.Executors;
-
 @Database(entities = {Friend.class}, version = 1)
 public abstract class FriendDatabase extends RoomDatabase {
     private static FriendDatabase singleton = null;
 
-    public abstract FriendDao todoListItemDao();
+    public abstract FriendDao friendDao();
 
     public synchronized static FriendDatabase getSingleton(Context context) {
         if (singleton == null) {
@@ -27,7 +24,7 @@ public abstract class FriendDatabase extends RoomDatabase {
     }
 
     private static FriendDatabase makeDatabase(Context context) {
-        return Room.databaseBuilder(context, FriendDatabase.class, "todo_app.db")
+        return Room.databaseBuilder(context, FriendDatabase.class, "friend.db")
                 .allowMainThreadQueries()
                 .addCallback(new Callback() {
                     @Override

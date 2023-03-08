@@ -16,7 +16,7 @@ public class FriendViewModel extends AndroidViewModel {
         super(application);
         Context context = getApplication().getApplicationContext();
         FriendDatabase db = FriendDatabase.getSingleton(context);
-        dao = db.todoListItemDao();
+        dao = db.friendDao();
 
         API api =  API.provide();
         this.repo = new Repository(api, dao);
