@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             // Add the ImageView to the container layout
             container.addView(imageView);
         }
-
     }
 
     public void addFriend(View view) {

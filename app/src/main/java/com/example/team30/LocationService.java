@@ -18,9 +18,6 @@ import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import java.util.Arrays;
 
 public class LocationService implements LocationListener {
@@ -47,14 +44,6 @@ public class LocationService implements LocationListener {
         return instance;
     }
 
-    private static final int GPS_CHECK_INTERVAL = 60000; // 1 minute in milliseconds
-
-    private Handler handler;
-
-    private Runnable checkGpsRunnable;
-
-    private boolean hasGpsSignal;
-
     /**
      * Constructor for LocationService
      *
@@ -66,15 +55,6 @@ public class LocationService implements LocationListener {
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         // Register sensor listeners
         withLocationPermissions(this::registerLocationListener);
-        handler = new Handler(Looper.getMainLooper());
-        checkGpsRunnable = new Runnable() {
-            @Override
-            public void run() {
-                hasGpsSignal = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
-            }
-        };
-        handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
     }
 
     /**  This will only be called when we for sure have permissions. */
@@ -128,21 +108,4 @@ public class LocationService implements LocationListener {
         unregisterLocationListener();
         this.locationValue = mockData;
     }
-
-//    public void GpsSignalChecker() {
-//        handler = new Handler(Looper.getMainLooper());
-//        checkGpsRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                hasGpsSignal = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//                handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
-//            }
-//        };
-//        handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
-//    }
-
-    public boolean hasGpsSignal() {
-        return hasGpsSignal;
-    }
-
 }
