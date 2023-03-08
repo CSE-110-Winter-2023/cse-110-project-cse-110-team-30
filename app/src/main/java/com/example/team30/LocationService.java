@@ -15,6 +15,8 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions;
 import androidx.annotation.NonNull;
@@ -51,29 +53,20 @@ public class LocationService implements LocationListener  {
 
     private final LocationManager locationManager;
 
+    private static final int GPS_CHECK_INTERVAL = 60000; // 1 minute in milliseconds
 
-    private boolean isSignallost = false;
-    private CountDownTimer timer = new CountDownTimer(60 * 1000, 1000) {
-        @Override
-        public void onTick(long millisUntilFinished) {
-            // do nothing
-        }
+    private Handler handler;
 
+    private Runnable checkGpsRunnable = new Runnable() {
         @Override
-        public void onFinish() {
-            // do nothing
+        public void run() {
+            hasGpsSignal = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
         }
     };
-    private Handler signalLostHandler = new Handler() ;
 
-    private Runnable signalLostRunnable = new Runnable(){
-        @Override
-        public void run(){
-            isSignallost = true;
-            timer.start();
+    private boolean hasGpsSignal;
 
-        }
-    };
 
 
 
@@ -95,6 +88,8 @@ public class LocationService implements LocationListener  {
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         // Register sensor listeners
         withLocationPermissions(this::registerLocationListener);
+        hasGpsSignal = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//        handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
     }
 
     /**  This will only be called when we for sure have permissions. */
@@ -131,16 +126,19 @@ public class LocationService implements LocationListener  {
         }
     }
 
+//    public boolean GPSConnect(){
+//        return hasGpsSignal;
+//    }
     @Override
     public void onLocationChanged(Location location) {
-        if (isSignallost) {
-            isSignallost = false;
-            // Stop the timer here
-            timer.cancel();
-        }
+//        if (isSignallost) {
+//            isSignallost = false;
+//            // Stop the timer here
+//            timer.cancel();
+//        }
 
-        signalLostHandler.removeCallbacks(signalLostRunnable);
-        signalLostHandler.postDelayed(signalLostRunnable, 60 * 1000);
+//        signalLostHandler.removeCallbacks(signalLostRunnable);
+//        signalLostHandler.postDelayed(signalLostRunnable, 60 * 1000);
         this.locationValue.postValue(new Pair<>(location.getLatitude(), location.getLongitude()));
     }
 

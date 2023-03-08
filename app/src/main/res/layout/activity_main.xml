@@ -71,6 +71,36 @@
             android:text="friendLabel"
             android:visibility="invisible" />
 
+        <TextView
+            android:id="@+id/GreenDot"
+            android:layout_width="71dp"
+            android:layout_height="98dp"
+            android:text="\u2022"
+            android:textColor="#008000"
+            android:textSize="80sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.047" />
+
+        <TextView
+            android:id="@+id/RecDot"
+            android:layout_width="69dp"
+            android:layout_height="86dp"
+            android:text="\u2022"
+            android:textColor="#FF0000"
+            android:textSize="80sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.046" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout

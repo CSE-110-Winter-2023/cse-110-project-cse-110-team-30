@@ -18,6 +18,8 @@ import android.widget.TextView;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private OrientationService orientationService;
@@ -35,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
-
-
+        locationService = LocationService.singleton(this);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
 
@@ -61,6 +62,26 @@ public class MainActivity extends AppCompatActivity {
             // Add the ImageView to the container layout
             container.addView(imageView);
         }
+
+//        locationService.getLocation().observe(this, coords ->{
+//            if (locationService.GPSConnect()){
+////                start = 0;
+//                //CAll reposition function
+//                TextView redDot = findViewById(R.id.RecDot);
+//                redDot.setVisibility(View.INVISIBLE);
+//            }else{
+//                //TODO:counter untill the locationService.GPSConnect() == false
+////                long startTime = System.currentTimeMillis();
+////                while (!locationService.GPSConnect()) {
+////                    long elapsedTime = System.currentTimeMillis() - startTime;
+////                    TextView redDot = findViewById(R.id.RecDot);
+////                    redDot.setVisibility(View.VISIBLE);
+////                    redDot.setText("\u2022 elapsedTime");
+////                }
+//            }
+//        });
+//        });
+//        locationService.getLocation().observe(this,location);
     }
 
     public void addFriend(View view) {
