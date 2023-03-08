@@ -18,10 +18,7 @@ public interface FriendDao {
 
 
     @Insert
-    String insert(Friend friend);
-
-    @Insert
-    List<String> insertAll(List<Friend> friends);
+    long insert(Friend friend);
 
     @Query("SELECT * FROM 'Friendlist' WHERE 'UID'=:UID")
     Friend get(String UID);
@@ -34,6 +31,4 @@ public interface FriendDao {
 
     @Delete
     int delete(Friend friend);
-
-
 }

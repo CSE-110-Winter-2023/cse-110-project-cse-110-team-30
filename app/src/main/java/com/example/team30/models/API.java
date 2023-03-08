@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -15,7 +16,7 @@ import okhttp3.RequestBody;
 public class API {
     private final String BASE_URL = "https://socialcompass.goto.ucsd.edu/";
     private volatile static API instance = null;
-
+    MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private OkHttpClient client;
 
     public API() {
@@ -63,38 +64,36 @@ public class API {
     }
 
     @WorkerThread
-    public void putLocation(Friend friend, RequestBody requestBody) {
-        String UID = friend.getUID();
+    public void putLocation(String UID, String json) {
         UID = UID.replace(" ", "%20");
-
+        RequestBody body = RequestBody.create(json, JSON);
         var request = new Request.Builder()
                 .url(BASE_URL + "location/" + UID)
-                .method("PUT", requestBody)
+                .method("PUT", body)
                 .build();
 
         try (var response = client.newCall(request).execute()) {
             assert response.body() != null;
-            var body = response.body().string();
-            Log.i("PUT Location", body);
+            var answer = response.body().string();
+            Log.i("PUT Location", answer);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @WorkerThread
-    public void patchLocation(Friend friend, RequestBody requestBody) {
-        String UID = friend.getUID();
+    public void patchLocation(String UID, String json) {
         UID = UID.replace(" ", "%20");
-
+        RequestBody body = RequestBody.create(json, JSON);
         var request = new Request.Builder()
                 .url(BASE_URL + "location/" + UID)
-                .method("PATCH", requestBody)
+                .method("PATCH", body)
                 .build();
 
         try (var response = client.newCall(request).execute()) {
             assert response.body() != null;
-            var body = response.body().string();
-            Log.i("PUT Location", body);
+            var answer = response.body().string();
+            Log.i("PUT Location", answer);
         } catch (Exception e) {
             e.printStackTrace();
         }
