@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import android.widget.TextView;
 
 import androidx.lifecycle.Lifecycle;
-//import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ActivityScenario;
-//import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import org.junit.Rule;
 import org.junit.Test;

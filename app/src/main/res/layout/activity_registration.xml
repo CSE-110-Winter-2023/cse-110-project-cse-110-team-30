@@ -47,5 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="20dp"
+<<<<<<< HEAD
+=======
+        android:onClick="generateUID"
+>>>>>>> parent of c036309 (first incomplete commit)
         android:text="Generate UID" />
 </LinearLayout>

@@ -14,6 +14,7 @@
         android:layout_gravity="center">
 
         <ImageView
+<<<<<<< HEAD
             android:id="@+id/outerCircle"
             android:layout_width="400dp"
             android:layout_height="400dp"
@@ -62,20 +63,99 @@
             android:text="myLabel"
             android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/triangle"/>
+=======
+            android:id="@+id/compassFace"
+            android:layout_width="382dp"
+            android:layout_height="387dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/myLabel"
+            android:text=""
+            android:layout_width="100dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="41dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="41dp"
+            android:layout_marginBottom="41dp"
+            android:visibility="visible"
+            android:gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/compassFace"
+            app:layout_constraintCircle="@+id/compassFace"
+            app:layout_constraintCircleAngle="90"
+            app:layout_constraintCircleRadius="100dp"
+            app:layout_constraintEnd_toStartOf="@+id/compassFace"
+            app:layout_constraintHorizontal_bias="0.672"
+            app:layout_constraintStart_toEndOf="@+id/compassFace"
+            app:layout_constraintTop_toBottomOf="@+id/compassFace"
+            app:layout_constraintVertical_bias="0.793" />
+
+        <ImageView
+            android:id="@+id/triangle"
+            android:layout_width="46dp"
+            android:layout_height="54dp"
+            android:layout_marginEnd="160dp"
+            android:layout_marginBottom="156dp"
+            android:src="@drawable/triangle"
+            app:layout_constrainedHeight="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+>>>>>>> parent of c036309 (first incomplete commit)
 
         <TextView
             android:id="@+id/friendLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+<<<<<<< HEAD
             android:text="friendLabel"
             android:visibility="invisible" />
+=======
+            app:layout_constraintBottom_toTopOf="@+id/compassFace"
+            app:layout_constraintCircle="@+id/compassFace"
+            app:layout_constraintCircleAngle="120"
+            app:layout_constraintCircleRadius="100dp"
+            app:layout_constraintEnd_toStartOf="@+id/compassFace"
+            app:layout_constraintHorizontal_bias="0.672"
+            app:layout_constraintStart_toEndOf="@+id/compassFace"
+            app:layout_constraintTop_toBottomOf="@+id/compassFace"
+            app:layout_constraintVertical_bias="0.793" />
+
+
+        <ImageView
+            android:id="@+id/compassFace1"
+            android:layout_width="285dp"
+            android:layout_height="291dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.555"
+            app:srcCompat="@drawable/circle" />
+
+        <ImageView
+            android:id="@+id/compassFace2"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.555"
+            app:srcCompat="@drawable/circle" />
+>>>>>>> parent of c036309 (first incomplete commit)
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:layout_marginBottom="100dp">
@@ -99,6 +179,48 @@
             android:layout_weight="1"
             android:layout_gravity="end|center_vertical"
             android:gravity="center"/>
+=======
+        android:layout_marginTop="32dp"
+        android:text="Add Friend"
+        android:onClick="addFriend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.938" />
+
+    <Button
+        android:id="@+id/zoom_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="13dp"
+        android:text="+"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/addLoc"
+        app:layout_constraintEnd_toStartOf="@+id/zoom_out"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/compass" />
+
+    <Button
+        android:id="@+id/zoom_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="13dp"
+        android:text="-"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/addLoc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/zoom_in"
+        app:layout_constraintTop_toBottomOf="@+id/compass"
+        app:layout_constraintVertical_bias="1.0" />
+>>>>>>> parent of c036309 (first incomplete commit)
 
     </LinearLayout>
 
