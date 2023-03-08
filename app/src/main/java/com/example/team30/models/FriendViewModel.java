@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 public class FriendViewModel extends AndroidViewModel {
-    private LiveData<Friend> friends;
     private final FriendDao dao;
     private final Repository repo;
 
@@ -25,6 +24,11 @@ public class FriendViewModel extends AndroidViewModel {
     public void save(String UID) {
         Friend newFriend = new Friend(UID);
         repo.addFriend(newFriend);
+    }
+
+    public Location getInitialLocation(String UID){
+        Friend newFriend = new Friend(UID);
+        return repo.getInitialLocation(newFriend);
     }
 
 }

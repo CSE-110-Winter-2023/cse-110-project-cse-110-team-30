@@ -40,27 +40,16 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
 
-
         if(data.getBoolean("register", false) == false){
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
         }
 
-        ConstraintLayout container = findViewById(R.id.compass);
-        // Check for image resource ID in intent extras
-        int imageResourceId = getIntent().getIntExtra("imageResourceId", 0);
-
-        if(imageResourceId != 0){
-            // Create a new ImageView object
-            ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(new ConstraintLayout.LayoutParams(
-                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                    ConstraintLayout.LayoutParams.WRAP_CONTENT));
-            imageView.setImageResource(imageResourceId);
-
-            // Add the ImageView to the container layout
-            container.addView(imageView);
+        if(data.getBoolean("newFriend", false)){
+            Location location = (Location) getIntent().getSerializableExtra("location");
         }
+        ConstraintLayout container = findViewById(R.id.compass);
+
     }
 
     public void addFriend(View view) {

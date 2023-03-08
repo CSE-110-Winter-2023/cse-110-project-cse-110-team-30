@@ -29,6 +29,18 @@ public class Location implements Serializable {
         return updated_at;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }

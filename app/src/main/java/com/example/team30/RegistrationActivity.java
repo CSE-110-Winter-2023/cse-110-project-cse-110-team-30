@@ -42,6 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.putBoolean("register", true);
                 editor.putString("YourUID", uniqueID);
                 editor.putString("privateCode", privateCode);
+                editor.putBoolean("newFriend", false);
                 editor.apply();
 
                 viewModel.register(uniqueID, privateCode, coordinates);

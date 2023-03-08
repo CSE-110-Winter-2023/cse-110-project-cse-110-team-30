@@ -37,11 +37,11 @@ public class Repository {
     public LiveData<List<Location>> getActiveLocations(){
         var locations = new MediatorLiveData<List<Location>>();
         Observer<List<Location>> updateFromRemote = newLocations -> {};
-        locations.addSource(getRemote(), updateFromRemote);
+        locations.addSource(getAllRemote(), updateFromRemote);
         return locations;
     }
 
-    private LiveData<List<Location>> getRemote() {
+    private LiveData<List<Location>> getAllRemote() {
         var executor = Executors.newSingleThreadScheduledExecutor();
         friendFuture = executor.scheduleAtFixedRate(() -> {
             List<Friend> friends = dao.getAll().getValue();
@@ -49,6 +49,10 @@ public class Repository {
             liveLocations.postValue(locations);
         }, 0, 3, TimeUnit.SECONDS);
         return liveLocations;
+    }
+
+    public Location getInitialLocation(Friend friend){
+        return api.getLocation(friend);
     }
 
     public void insertUserLocation(String UID, String privateCode, float latitude, float longitude){
