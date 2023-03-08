@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -63,23 +64,25 @@ public class MainActivity extends AppCompatActivity {
             container.addView(imageView);
         }
 
-//        locationService.getLocation().observe(this, coords ->{
-//            if (locationService.GPSConnect()){
-////                start = 0;
-//                //CAll reposition function
-//                TextView redDot = findViewById(R.id.RecDot);
-//                redDot.setVisibility(View.INVISIBLE);
-//            }else{
-//                //TODO:counter untill the locationService.GPSConnect() == false
-////                long startTime = System.currentTimeMillis();
-////                while (!locationService.GPSConnect()) {
-////                    long elapsedTime = System.currentTimeMillis() - startTime;
-////                    TextView redDot = findViewById(R.id.RecDot);
-////                    redDot.setVisibility(View.VISIBLE);
-////                    redDot.setText("\u2022 elapsedTime");
-////                }
-//            }
-//        });
+        locationService.getLocation().observe(this, coords ->{
+            if (locationService.GPSConnect()){
+//                start = 0;
+                //CAll reposition function
+                System.out.println("Keep!!!! connect");
+                TextView redDot = findViewById(R.id.RecDot);
+                redDot.setVisibility(View.INVISIBLE);
+            }else{
+                //TODO:counter untill the locationService.GPSConnect() == false
+                System.out.println("Lost connect");
+                long startTime = System.currentTimeMillis();
+                while (!locationService.GPSConnect()) {
+                    long elapsedTime = System.currentTimeMillis() - startTime;
+                    TextView redDot = findViewById(R.id.RecDot);
+                    redDot.setVisibility(View.VISIBLE);
+                    redDot.setText("\u2022 elapsedTime");
+                }
+            }
+        });
 //        });
 //        locationService.getLocation().observe(this,location);
     }
