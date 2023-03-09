@@ -6,6 +6,7 @@ import com.example.team30.models.Location;
 import org.junit.Test;
 
 public class LocationTest {
+
     @Test
     public void Test1(){
         Location location = new Location("UTest", "LTest", (float) 20.1, 100.5f,
