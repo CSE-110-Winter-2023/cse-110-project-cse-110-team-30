@@ -20,9 +20,9 @@ public class UIDGeneration extends AppCompatActivity {
         String uniqueID = intent.getStringExtra("uniqueID");
 
         TextView newUID = findViewById(R.id.NewUIDDisplay);
+        Button button = findViewById(R.id.GoToCompass);
         newUID.setText(uniqueID);
 
-        Button button = findViewById(R.id.GoToCompass);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
