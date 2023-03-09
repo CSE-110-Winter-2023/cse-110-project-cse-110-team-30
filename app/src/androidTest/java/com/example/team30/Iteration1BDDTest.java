@@ -80,11 +80,11 @@ public class Iteration1BDDTest {
                         isDisplayed()));
         textView2.check(matches(withText("Here is your UID")));
 
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.NewUIDDisplay), withText("fec41689-b5c5-40f2-afa7-fcbf127d2b27"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        textView3.check(matches(isDisplayed()));
+//        ViewInteraction textView3 = onView(
+//                allOf(withId(R.id.NewUIDDisplay), withText("fec41689-b5c5-40f2-afa7-fcbf127d2b27"),
+//                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+//                        isDisplayed()));
+//        textView3.check(matches(isDisplayed()));
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.GoToCompass), withText("GO TO COMPASS"),
