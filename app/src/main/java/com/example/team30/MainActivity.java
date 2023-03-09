@@ -54,14 +54,19 @@ public class MainActivity extends AppCompatActivity {
         flow = findViewById(R.id.outerCircleFlow);
         System.out.println(data.getBoolean("newFriend", false));
         if(data.getBoolean("newFriend", false)){
-            System.out.println("Make button successfully");
             editor.putBoolean("newFriend", false);
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
-            Button button = makeButton(location);
-            flow.addView(button);
-            flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
-            flow.updateRadius(button, 50);
+            if(location == null) {
+                Log.e("MainActivity", "location is null");
+            }
+            else {
+                Button button = makeButton(location);
+                System.out.println("Make button successfully");
+                flow.addView(button);
+                flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
+                flow.updateRadius(button, 50);
+            }
         }
     }
 

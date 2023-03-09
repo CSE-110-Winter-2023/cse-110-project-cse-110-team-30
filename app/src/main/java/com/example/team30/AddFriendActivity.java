@@ -50,6 +50,9 @@ public class AddFriendActivity extends AppCompatActivity {
             String uid = String.valueOf(uidView.getText());
             viewModel.save(uid);
             Location location = viewModel.getInitialLocation(uid);
+            if(location == null) {
+                Log.e("AddFriendActivity", "location is null");
+            }
             Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
             intent.putExtra("location", location);
             Log.i("Added friend", "Added friend with UID: " + uid);
