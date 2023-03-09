@@ -109,11 +109,6 @@ public class LocationService implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-//        if (isSignallost) {
-//            isSignallost = false;
-//            // Stop the timer here
-//            timer.cancel();
-//        }
 
 //        signalLostHandler.removeCallbacks(signalLostRunnable);
 //        signalLostHandler.postDelayed(signalLostRunnable, 60 * 1000);
