@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.example.team30.models.Location;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
     private OrientationService orientationService;
@@ -49,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
         }
-        flow = findViewById(R.id.circularFlow);
+        flow = findViewById(R.id.outerCircleFlow);
+        System.out.println(data.getBoolean("newFriend", false));
         if(data.getBoolean("newFriend", false)){
+            System.out.println("Make button successfully");
             editor.putBoolean("newFriend", false);
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
@@ -59,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
             flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
             flow.updateRadius(button, 50);
         }
-
-
     }
 
     public void addFriend(View view) {
@@ -69,22 +71,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Button makeButton(Location location){
-        int id = View.generateViewId();
         Button button = new Button(this);
         button.setText("Click me");
-        button.setId(id);
+        button.setId(View.generateViewId());
         button.setBackgroundColor(Color.BLUE);
-        button.setPadding(16, 8, 16, 8);
+        //button.setPadding(16, 8, 16, 8);
 
         // Set the size of the button
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
-        LinearLayout layout = findViewById(R.id.compass);
-        layout.addView(button);
-        params.width = 200;
+        params.width = 100;
         params.height = 100;
+        params.dimensionRatio = "1:1";
+
+        //params.circleAngle = compass.calculateAngle(location.getLatitude(), location.getLongitude());
+        //params.circleRadius = 200;
+
         button.setLayoutParams(params);
         button.setTag(location.getPublic_code());
         return button;

@@ -23,7 +23,9 @@ public class FriendViewModel extends AndroidViewModel {
 
     public void save(String UID) {
         Friend newFriend = new Friend(UID);
-        repo.addFriend(newFriend);
+        if(dao.get(UID) == null) {
+            repo.addFriend(newFriend);
+        }
     }
 
     public Location getInitialLocation(String UID){

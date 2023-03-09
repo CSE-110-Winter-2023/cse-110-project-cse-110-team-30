@@ -45,6 +45,7 @@ public class AddFriendActivity extends AppCompatActivity {
         FriendViewModel viewModel = setupViewModel();
         Button button = findViewById(R.id.submitBtn);
         button.setOnClickListener(v -> {
+            editor.apply();
             EditText uidView = findViewById(R.id.FriendsUIDEntry);
             String uid = String.valueOf(uidView.getText());
             viewModel.save(uid);

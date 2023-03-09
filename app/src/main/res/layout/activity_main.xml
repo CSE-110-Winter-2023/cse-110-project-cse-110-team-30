@@ -13,6 +13,19 @@
         android:layout_height="match_parent"
         android:layout_gravity="center">
 
+        <androidx.constraintlayout.helper.widget.CircularFlow
+            android:id="@+id/outerCircleFlow"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            app:circularflow_angles="0,360"
+            app:circularflow_radiusInDP="200"
+            app:circularflow_viewCenter="@id/outerCircle"
+            app:constraint_referenced_ids=""
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <ImageView
             android:id="@+id/outerCircle"
             android:layout_width="400dp"
@@ -32,14 +45,6 @@
             app:layout_constraintStart_toStartOf="@id/outerCircle"
             app:layout_constraintEnd_toEndOf="@id/outerCircle"
             app:layout_constraintBottom_toBottomOf="@id/outerCircle"/>
-        <androidx.constraintlayout.helper.widget.CircularFlow
-            android:id="@+id/circularFlow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:circularflow_angles=""
-            app:circularflow_radiusInDP=""
-            app:circularflow_viewCenter="@id/outerCircle"
-            app:constraint_referenced_ids="" />
 
         <ImageView
             android:id="@+id/innerCircle2"
