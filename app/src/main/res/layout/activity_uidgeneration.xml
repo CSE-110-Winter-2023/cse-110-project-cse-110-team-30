@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center_horizontal"
+    tools:context=".UIDGeneration">
+
+    <TextView
+        android:id="@+id/UIDGenTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Here is your UID"
+        android:textSize="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/NewUIDText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your UID:"
+            android:textSize="35dp" />
+
+        <TextView
+            android:id="@+id/NewUIDDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="U123456789"
+            android:textSize="35dp"/>
+
+        <TextView
+            android:id="@+id/PromptToShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share it with your friends and family!"
+            android:textAlignment="center"
+            android:textColor="#4CAF50"
+            android:layout_marginTop="20dp"
+            android:textSize="35dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/GoToCompass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
+        android:text="Go to Compass" />
+
+</LinearLayout>

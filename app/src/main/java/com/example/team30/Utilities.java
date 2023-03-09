@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public class Utilities{
     public static void showAlert(Activity activity, String message){
-        AlertDialog.Builder alerBuilder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(activity);
 
-        alerBuilder
+        alertBuilder
                 .setTitle("Alert!")
                 .setMessage(message)
                 .setPositiveButton("Ok", (dialog,id) -> {
@@ -18,7 +18,7 @@ public class Utilities{
                 })
                 .setCancelable(true);
 
-        AlertDialog alertDialog = alerBuilder.create();
+        AlertDialog alertDialog = alertBuilder.create();
         alertDialog.show();
     }
     public static Optional<Integer> parseCount(String str){
