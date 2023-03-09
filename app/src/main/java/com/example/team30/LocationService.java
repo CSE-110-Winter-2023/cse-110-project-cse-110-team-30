@@ -23,20 +23,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-//import com.example.team30.models.LocationObserver;
-
 import java.security.Provider;
 import java.util.Arrays;
 
-//import java.util.Timer;
-//import java.util.TimerTask;
-//import java.util.logging.LogRecord;
 
-public class LocationService implements LocationListener  {
+public class LocationService implements LocationListener {
     private static final long SIGNAL_LOST_TIME_MS = 60 * 1000;
     final String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -53,21 +49,7 @@ public class LocationService implements LocationListener  {
 
     private final LocationManager locationManager;
 
-//    private static final int GPS_CHECK_INTERVAL = 60000; // 1 minute in milliseconds
-//
-//    private Handler handler;
-//
-//    private Runnable checkGpsRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            hasGpsSignal = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//            handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
-//        }
-//    };
-//
-//    private boolean hasGpsSignal;
-
-
+    private MutableLiveData<Boolean> hasGpsSignal = new MutableLiveData<>();
 
 
     public static LocationService singleton(AppCompatActivity activity) {
@@ -88,8 +70,6 @@ public class LocationService implements LocationListener  {
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         // Register sensor listeners
         withLocationPermissions(this::registerLocationListener);
-//        hasGpsSignal = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//        handler.postDelayed(checkGpsRunnable, GPS_CHECK_INTERVAL);
     }
 
     /**  This will only be called when we for sure have permissions. */
@@ -126,9 +106,7 @@ public class LocationService implements LocationListener  {
         }
     }
 
-    public boolean GPSConnect(){
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
+
     @Override
     public void onLocationChanged(Location location) {
 //        if (isSignallost) {
