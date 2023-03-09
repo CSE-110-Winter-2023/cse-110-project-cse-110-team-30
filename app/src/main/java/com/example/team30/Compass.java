@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.lang.Math;
 
+
 public class Compass {
     private float myLong;
 
@@ -57,6 +58,8 @@ public class Compass {
         position.put(objectId, newPair);
     }
 
+
+
     public void calculateAngles(List<Location> locationList, float orientation){
         for(Location location : locationList){
             String UID = location.getPublic_code();
@@ -77,6 +80,8 @@ public class Compass {
             position.put(UID, newPair);
         }
     }
+
+
 
     public float calculateAngle(float longti, float lati){
         float y = longti - myLong;
