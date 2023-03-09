@@ -43,7 +43,7 @@ public class API {
         try (var response = client.newCall(request).execute()) {
             assert response.body() != null;
             var body = response.body().string();
-            System.out.println("got location");
+            Log.i("GET Location", body);
             Location location = Location.fromJSON(body);
             return location;//added
         } catch (Exception e) {

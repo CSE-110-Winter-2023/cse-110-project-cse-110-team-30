@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 public class FriendViewModel extends AndroidViewModel {
     private final FriendDao dao;
     private final Repository repo;

@@ -83,6 +83,52 @@
             android:gravity="center"
             android:text="friendLabel"
             android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/GreenDot"
+            android:layout_width="71dp"
+            android:layout_height="98dp"
+            android:text="\u2022"
+            android:textColor="#008000"
+            android:textSize="80sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.047" />
+
+        <TextView
+            android:id="@+id/RecDot"
+            android:layout_width="69dp"
+            android:layout_height="86dp"
+            android:text="\u2022"
+            android:textColor="#FF0000"
+            android:textSize="80sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.046" />
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="118dp"
+            android:layout_height="40dp"
+            android:text=" "
+            android:textColor="#FF0000"
+            android:textSize="20sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.242"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.098" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -114,12 +160,12 @@
 
     </LinearLayout>
 
-        <Button
-            android:id="@+id/addLoc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="Add Friend"
-            android:onClick="addFriend" />
+    <Button
+        android:id="@+id/addLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Add Friend"
+        android:onClick="addFriend" />
 
 </FrameLayout>

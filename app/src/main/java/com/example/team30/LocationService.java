@@ -4,24 +4,36 @@ import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import android.Manifest;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.CountDownTimer;
+import android.os.IBinder;
+import android.os.Looper;
+import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.security.Provider;
 import java.util.Arrays;
 
-public class LocationService implements LocationListener {
 
+public class LocationService implements LocationListener {
+    private static final long SIGNAL_LOST_TIME_MS = 60 * 1000;
     final String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -36,6 +48,9 @@ public class LocationService implements LocationListener {
     private MutableLiveData<Pair<Double, Double>> locationValue;
 
     private final LocationManager locationManager;
+
+    private MutableLiveData<Boolean> hasGpsSignal = new MutableLiveData<>();
+
 
     public static LocationService singleton(AppCompatActivity activity) {
         if (instance == null) {
@@ -91,8 +106,12 @@ public class LocationService implements LocationListener {
         }
     }
 
+
     @Override
-    public void onLocationChanged(@NonNull Location location) {
+    public void onLocationChanged(Location location) {
+
+//        signalLostHandler.removeCallbacks(signalLostRunnable);
+//        signalLostHandler.postDelayed(signalLostRunnable, 60 * 1000);
         this.locationValue.postValue(new Pair<>(location.getLatitude(), location.getLongitude()));
     }
 
