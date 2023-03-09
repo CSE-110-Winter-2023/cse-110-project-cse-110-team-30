@@ -32,5 +32,4 @@ public class FriendViewModel extends AndroidViewModel {
         Friend newFriend = new Friend(UID);
         return repo.getInitialLocation(newFriend);
     }
-
 }

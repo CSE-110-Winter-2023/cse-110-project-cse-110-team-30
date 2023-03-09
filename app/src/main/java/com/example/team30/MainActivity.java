@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         flow = findViewById(R.id.outerCircleFlow);
-        System.out.println(data.getBoolean("newFriend", false));
+        Log.i("MainActivity","newFriend: " + data.getBoolean("newFriend", false));
         if(data.getBoolean("newFriend", false)){
             editor.putBoolean("newFriend", false);
             editor.apply();

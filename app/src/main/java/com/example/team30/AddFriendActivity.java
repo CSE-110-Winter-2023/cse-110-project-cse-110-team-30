@@ -43,11 +43,13 @@ public class AddFriendActivity extends AppCompatActivity {
         TextView yourUIDDisplay = findViewById(R.id.YourUIDDisplay);
         yourUIDDisplay.setText(yourUID);
         FriendViewModel viewModel = setupViewModel();
+
         Button button = findViewById(R.id.submitBtn);
         button.setOnClickListener(v -> {
             editor.apply();
             EditText uidView = findViewById(R.id.FriendsUIDEntry);
             String uid = String.valueOf(uidView.getText());
+            Log.i("AddFriendActivity", "uid: " + uid);
             viewModel.save(uid);
             Location location = viewModel.getInitialLocation(uid);
             if(location == null) {
@@ -55,7 +57,7 @@ public class AddFriendActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
             intent.putExtra("location", location);
-            Log.i("Added friend", "Added friend with UID: " + uid);
+            Log.i("AddFriendActivity", "Added friend with UID: " + uid);
             startActivity(intent);
         });
     }
