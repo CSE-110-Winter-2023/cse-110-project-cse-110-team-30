@@ -2,20 +2,6 @@ package com.example.team30;
 
 import static org.junit.Assert.assertEquals;
 
-import android.widget.TextView;
-
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.MutableLiveData;
-import androidx.test.core.app.ActivityScenario;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-
-import com.example.team30.OrientationService;
-
 //@RunWith(RobolectricTestRunner.class)
 //public class OrientationTest {
 //    @Rule
@@ -58,7 +44,7 @@ import com.example.team30.OrientationService;
 //import org.junit.runner.RunWith;
 //import org.robolectric.RobolectricTestRunner;
 //
-//import com.example.team30.OrientationService;
+//import com.example.team30.DataCalculators.OrientationService;
 //
 //@RunWith(RobolectricTestRunner.class)
 //public class OrientationTest {

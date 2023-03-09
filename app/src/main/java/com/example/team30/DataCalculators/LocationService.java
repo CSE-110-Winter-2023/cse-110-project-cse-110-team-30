@@ -1,4 +1,4 @@
-package com.example.team30;
+package com.example.team30.DataCalculators;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;

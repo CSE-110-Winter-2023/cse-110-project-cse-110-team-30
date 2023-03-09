@@ -10,13 +10,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.team30.models.API;
-import com.example.team30.models.FriendDao;
-import com.example.team30.models.FriendDatabase;
-import com.example.team30.models.FriendViewModel;
-import com.example.team30.models.Location;
+import com.example.team30.DataCalculators.Compass;
+import com.example.team30.DataCalculators.LocationService;
 import com.example.team30.models.LocationViewModel;
-import com.example.team30.models.Repository;
 
 import java.util.UUID;
 
@@ -31,7 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
         locationService = LocationService.singleton(this);
-        Pair<Double, Double> coordinates = new Pair<Double, Double>(0.0,0.0);
+        Pair<Double, Double> coordinates = new Pair<>(0.0,0.0);
         //Pair<Double, Double> coordinates = locationService.getLocation().getValue();
         if(coordinates != null) {
             compass.setMyLat(coordinates.first.floatValue());

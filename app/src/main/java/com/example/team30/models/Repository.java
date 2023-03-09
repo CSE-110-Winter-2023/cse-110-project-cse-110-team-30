@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer;
 
 import com.google.gson.JsonObject;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
@@ -21,8 +20,6 @@ public class Repository {
     private final API api;
     private ScheduledFuture<?> friendFuture;
     private final MutableLiveData<List<Location>> liveLocations;
-    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
-
 
     public Repository(API api, FriendDao dao) {
         this.api = api;
@@ -51,7 +48,7 @@ public class Repository {
         return liveLocations;
     }
 
-    public Location getInitialLocation(Friend friend){
+    public Location getSingleLocation(Friend friend){
         return api.getLocation(friend);
     }
 

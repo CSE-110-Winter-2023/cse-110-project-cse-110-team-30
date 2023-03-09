@@ -50,4 +50,16 @@ public class Location implements Serializable {
     public String toJSON() {
         return new Gson().toJson(this);
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "public_code='" + public_code + '\'' +
+                ", label='" + label + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                '}';
+    }
 }

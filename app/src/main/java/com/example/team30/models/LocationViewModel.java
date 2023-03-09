@@ -25,14 +25,30 @@ public class LocationViewModel extends AndroidViewModel {
         this.repo = new Repository(api, dao);
     }
 
+    /**
+     * Register's a user by uploading their UID and initial location to server
+     * @param UID user's UID
+     * @param privateCode device's private code
+     * @param coords initial coordinates
+     */
     public void register(String UID, String privateCode, Pair<Double, Double> coords) {
         repo.insertUserLocation(UID, privateCode, coords.first.floatValue(), coords.second.floatValue());
     }
 
+    /**
+     * Gets all active locations of current friends
+     * @return
+     */
     public LiveData<List<Location>> getLocations(){
         return repo.getActiveLocations();
     }
 
+    /**
+     * Updates the user's location
+     * @param UID user's UID
+     * @param privateCode device's private code
+     * @param coords initial coordinates
+     */
     public void updateUserLocation(String UID, String privateCode, Pair<Double, Double> coords){
         repo.updateUserLocation(UID, privateCode, coords.first.floatValue(), coords.second.floatValue());
     }

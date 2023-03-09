@@ -5,7 +5,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 public class FriendViewModel extends AndroidViewModel {
     private final FriendDao dao;
@@ -21,6 +20,10 @@ public class FriendViewModel extends AndroidViewModel {
         this.repo = new Repository(api, dao);
     }
 
+    /**
+     * Save a friend to the database
+     * @param UID friend's UID
+     */
     public void save(String UID) {
         Friend newFriend = new Friend(UID);
         if(dao.get(UID) == null) {
@@ -28,9 +31,13 @@ public class FriendViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Get friend's location when they are first added
+     * @param UID
+     * @return location object of friend
+     */
     public Location getInitialLocation(String UID){
         Friend newFriend = new Friend(UID);
-        return repo.getInitialLocation(newFriend);
+        return repo.getSingleLocation(newFriend);
     }
-
 }

@@ -11,19 +11,17 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.example.team30.DataCalculators.Compass;
+import com.example.team30.DataCalculators.LocationService;
+import com.example.team30.DataCalculators.OrientationService;
 import com.example.team30.models.Location;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.function.Consumer;
 
 public class MainActivity extends AppCompatActivity {
     private OrientationService orientationService;
@@ -52,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         flow = findViewById(R.id.outerCircleFlow);
-        System.out.println(data.getBoolean("newFriend", false));
         if(data.getBoolean("newFriend", false)){
-            System.out.println("Make button successfully");
             editor.putBoolean("newFriend", false);
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
@@ -75,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         button.setText("Click me");
         button.setId(View.generateViewId());
         button.setBackgroundColor(Color.BLUE);
+        button.setTag(location.getPublic_code());
         //button.setPadding(16, 8, 16, 8);
 
         // Set the size of the button
@@ -85,12 +82,8 @@ public class MainActivity extends AppCompatActivity {
         params.width = 100;
         params.height = 100;
         params.dimensionRatio = "1:1";
-
-        //params.circleAngle = compass.calculateAngle(location.getLatitude(), location.getLongitude());
-        //params.circleRadius = 200;
-
         button.setLayoutParams(params);
-        button.setTag(location.getPublic_code());
+
         return button;
     }
 }
