@@ -31,12 +31,16 @@ public class RegistrationActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
         locationService = LocationService.singleton(this);
-        Pair<Double, Double> coordinates = new Pair<Double, Double>(0.0,0.0);
+        
         //Pair<Double, Double> coordinates = locationService.getLocation().getValue();
+        Pair<Double, Double> coordinates = new Pair<Double, Double>(0.0,0.0);
+
+
         if(coordinates != null) {
             compass.setMyLat(coordinates.first.floatValue());
             compass.setMyLong(coordinates.second.floatValue());
         }
+
         else {
             compass.setMyLat(0);
             compass.setMyLong(0);
