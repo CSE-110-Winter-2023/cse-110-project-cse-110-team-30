@@ -41,7 +41,6 @@ public class API {
     public Location getLocation(Friend friend) {
         String UID = friend.getUID();
         UID = UID.replace(" ", "%20");
-
         var request = new Request.Builder()
                 .url(BASE_URL + "location/" + UID)
                 .method("GET", null)
@@ -51,6 +50,7 @@ public class API {
             assert response.body() != null;
             var body = response.body().string();
             Location location = Location.fromJSON(body);
+            System.out.println("location");
             logger.info("Got location: " + location);
             return location;
         } catch (Exception e) {

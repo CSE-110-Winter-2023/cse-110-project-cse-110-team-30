@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -49,23 +50,47 @@ public class Repository {
     }
 
     public Location getSingleLocation(Friend friend){
-        return api.getLocation(friend);
+        CompletableFuture<Location> l = CompletableFuture.supplyAsync(() ->
+                api.getLocation(friend));
+        try{
+            return l.get();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public void insertUserLocation(String UID, String privateCode, float latitude, float longitude){
+    public boolean insertUserLocation(String UID, String privateCode, float latitude, float longitude){
         JsonObject json = new JsonObject();
         json.addProperty("private_code", privateCode);
         json.addProperty("label", "Team 30");
         json.addProperty("latitude", latitude);
         json.addProperty("longitude", longitude);
-        api.putLocation(UID, json.toString());
+        CompletableFuture<Boolean> success = CompletableFuture.supplyAsync(() ->
+                api.putLocation(UID, json.toString()));
+        try{
+            return success.get();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void updateUserLocation(String UID, String privateCode, float latitude, float longitude){
+    public boolean updateUserLocation(String UID, String privateCode, float latitude, float longitude){
         JsonObject json = new JsonObject();
         json.addProperty("private_code", privateCode);
         json.addProperty("latitude", latitude);
         json.addProperty("longitude", longitude);
-        api.patchLocation(UID, json.toString());
+        CompletableFuture<Boolean> success = CompletableFuture.supplyAsync(() ->
+                api.patchLocation(UID, json.toString()));
+        try{
+            return success.get();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

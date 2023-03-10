@@ -10,13 +10,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.team30.DataCalculators.Compass;
 import com.example.team30.DataCalculators.LocationService;
 import com.example.team30.DataCalculators.OrientationService;
+import com.example.team30.models.API;
+import com.example.team30.models.Friend;
 import com.example.team30.models.Location;
 
 import java.util.concurrent.ExecutorService;
@@ -44,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         compass = Compass.singleton();
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
-
         if(data.getBoolean("register", false) == false){
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
@@ -55,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
             Button button = makeButton(location);
-            flow.addView(button);
-            flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
-            flow.updateRadius(button, 50);
+            ConstraintLayout constraint = findViewById(R.id.compass);
+            constraint.addView(button);
+//            flow.addView(button);
+//            flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
+//            flow.updateRadius(button, 50);
         }
     }
 
@@ -67,21 +72,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Button makeButton(Location location){
-        Button button = new Button(this);
-        button.setText("Click me");
-        button.setId(View.generateViewId());
-        button.setBackgroundColor(Color.BLUE);
-        button.setTag(location.getPublic_code());
-        //button.setPadding(16, 8, 16, 8);
+        ImageView dot = new ImageView(this);
 
+        button.setId(View.generateViewId());
+        button.setTag(location.getPublic_code());
+        button.setBackground(myDrawable);
         // Set the size of the button
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
-        params.width = 100;
-        params.height = 100;
         params.dimensionRatio = "1:1";
+        params.height = 10;
+        params.width = 10;
         button.setLayoutParams(params);
 
         return button;

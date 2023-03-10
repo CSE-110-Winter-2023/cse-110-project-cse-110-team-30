@@ -35,7 +35,6 @@ public class APITest {
 
     @Test
     public void testGetPutFromServer(){
-
         Location location = api.getLocation(new Friend("pratham-20"));
         assertEquals("pratham-20", location.getPublic_code());
         assertEquals("Point Nemo", location.getLabel());
