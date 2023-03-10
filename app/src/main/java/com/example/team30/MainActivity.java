@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("newFriend", false);
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
-            Button button = makeButton(location);
+            ImageView dot = makeButton(location);
             ConstraintLayout constraint = findViewById(R.id.compass);
-            constraint.addView(button);
+            constraint.addView(dot);
 //            flow.addView(button);
 //            flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
 //            flow.updateRadius(button, 50);
@@ -71,12 +72,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private Button makeButton(Location location){
+    private ImageView makeButton(Location location){
         ImageView dot = new ImageView(this);
+        dot.setImageResource(R.drawable.dot);
+        dot.setId(View.generateViewId());
+        dot.setTag(location.getPublic_code());
 
-        button.setId(View.generateViewId());
-        button.setTag(location.getPublic_code());
-        button.setBackground(myDrawable);
+//        button.setId(View.generateViewId());
+//        button.setTag(location.getPublic_code());
+//        button.setBackground(myDrawable);
         // Set the size of the button
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -85,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         params.dimensionRatio = "1:1";
         params.height = 10;
         params.width = 10;
-        button.setLayoutParams(params);
+        dot.setLayoutParams(params);
 
-        return button;
+        return dot;
     }
 }
