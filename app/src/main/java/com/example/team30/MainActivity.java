@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     private Compass compass;
-    private CircularFlow flow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,17 +53,6 @@ public class MainActivity extends AppCompatActivity {
         if(data.getBoolean("register", false) == false){
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
-        }
-        flow = findViewById(R.id.outerCircleFlow);
-        if(data.getBoolean("newFriend", false)){
-            editor.putBoolean("newFriend", false);
-            editor.apply();
-            Location location = (Location) getIntent().getSerializableExtra("location");
-            System.out.println(location.getLatitude()+location.getLongitude()+location.getPublic_code());
-            ImageView dot = makeDot(location);
-            ConstraintLayout constraint = findViewById(R.id.compass);
-            constraint.addView(dot);
-            addDotToView(dot, location);
         }
 
     }
