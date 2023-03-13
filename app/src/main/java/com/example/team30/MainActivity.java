@@ -64,27 +64,30 @@ public class MainActivity extends AppCompatActivity {
             ImageView dot = makeDot(location);
             ConstraintLayout constraint = findViewById(R.id.compass);
             constraint.addView(dot);
-            int radius = 50;
-            float angle = 100;
-            if (flow != null) {
-                if (flow.isLayoutRequested()) {
-                    flow.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                        @Override
-                        public void onGlobalLayout() {
-                            flow.addViewToCircularFlow(dot, radius, angle);
-                            flow.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
-                    });
-                } else {
-                    flow.addViewToCircularFlow(dot, radius, angle);
-                }
-            } else {
-                Log.e("TAG", "CircularFlow view is null!");
-            }
+            addDotToView(dot, location);
         }
 
     }
 
+    public void addDotToView(ImageView dot, Location l){
+        int radius = 50;
+        float angle = 100;
+        if (flow != null) {
+            if (flow.isLayoutRequested()) {
+                flow.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        flow.addViewToCircularFlow(dot, radius, compass.calculateAngle(l.getLatitude(), l.getLongitude()));
+                        flow.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+            } else {
+                flow.addViewToCircularFlow(dot, radius, angle);
+            }
+        } else {
+            Log.e("TAG", "CircularFlow view is null!");
+        }
+    }
     public void addFriend(View view) {
         Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
         startActivity(intent);
