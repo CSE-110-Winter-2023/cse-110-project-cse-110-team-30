@@ -3,6 +3,7 @@ package com.example.team30;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.helper.widget.CircularFlow;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -25,6 +26,7 @@ import com.example.team30.DataCalculators.OrientationService;
 import com.example.team30.models.API;
 import com.example.team30.models.Friend;
 import com.example.team30.models.Location;
+import com.example.team30.models.Repository;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     private Compass compass;
+    private API api;
+    private Repository repo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        ConstraintLayout layout = findViewById(R.id.compass);
+        String uid = getIntent().getStringExtra("uid");
+        Friend friend = new Friend(uid);
+        Location location = getIntent().getParcelableExtra("location");
+        if(location == null){
+            System.out.println("location is null");
+        }
+        addDotToLayout(location, layout);
     }
 
 
@@ -63,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private ImageView makeDot(Location location){
+    private void addDotToLayout(Location location, ConstraintLayout layout) {
         ImageView dot = new ImageView(this);
         dot.setImageResource(R.drawable.dot);
         dot.setId(View.generateViewId());
@@ -76,6 +89,16 @@ public class MainActivity extends AppCompatActivity {
         params.height = 25;
         params.width = 25;
         dot.setLayoutParams(params);
-        return dot;
+
+        // Add the dot ImageView to the ConstraintLayout
+        layout.addView(dot);
+
+        // Create a ConstraintSet to set the constraints for the dot ImageView
+//        ConstraintSet constraintSet = new ConstraintSet();
+//        constraintSet.clone(layout);
+//        constraintSet.connect(dot.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP);
+//        constraintSet.connect(dot.getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
+//        constraintSet.applyTo(layout);
     }
+
 }

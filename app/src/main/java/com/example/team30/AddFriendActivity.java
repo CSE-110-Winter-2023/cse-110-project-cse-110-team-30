@@ -56,6 +56,7 @@ public class AddFriendActivity extends AppCompatActivity {
             Location location = viewModel.getInitialLocation(uid);
             Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
             intent.putExtra("location", location);
+            intent.putExtra("uid", uid);
             startActivity(intent);
         });
     }
