@@ -13,7 +13,9 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -58,11 +60,29 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("newFriend", false);
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
+            System.out.println(location.getLatitude()+location.getLongitude()+location.getPublic_code());
             ImageView dot = makeDot(location);
             ConstraintLayout constraint = findViewById(R.id.compass);
             constraint.addView(dot);
-            flow.addViewToCircularFlow(dot, 50, 100);
+            int radius = 50;
+            float angle = 100;
+            if (flow != null) {
+                if (flow.isLayoutRequested()) {
+                    flow.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            flow.addViewToCircularFlow(dot, radius, angle);
+                            flow.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                    });
+                } else {
+                    flow.addViewToCircularFlow(dot, radius, angle);
+                }
+            } else {
+                Log.e("TAG", "CircularFlow view is null!");
+            }
         }
+
     }
 
     public void addFriend(View view) {
