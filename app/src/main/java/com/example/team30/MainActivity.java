@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout layout = findViewById(R.id.compass);
         String uid = getIntent().getStringExtra("uid");
         Friend friend = new Friend(uid);
-        Location location = getIntent().getParcelableExtra("location");
+        Location location = (Location)(getIntent().getSerializableExtra("location"));
         if(location == null){
             System.out.println("location is null");
         }
