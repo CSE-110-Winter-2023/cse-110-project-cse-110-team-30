@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
             ImageView dot = makeDot(location);
             ConstraintLayout constraint = findViewById(R.id.compass);
             constraint.addView(dot);
-            flow.addView(dot);
-            flow.updateAngle(dot, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
-            flow.updateRadius(dot, 50);
+            flow.addViewToCircularFlow(dot, 50, 100);
         }
     }
 

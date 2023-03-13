@@ -21,6 +21,8 @@
             app:circularflow_radiusInDP=""
             app:circularflow_viewCenter="@id/outerCircle"
             app:constraint_referenced_ids=""
+            app:circularflow_defaultAngle="90"
+            app:circularflow_defaultRadius="50dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
