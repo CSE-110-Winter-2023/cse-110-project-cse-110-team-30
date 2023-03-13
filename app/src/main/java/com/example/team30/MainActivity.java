@@ -58,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
             editor.putBoolean("newFriend", false);
             editor.apply();
             Location location = (Location) getIntent().getSerializableExtra("location");
-            ImageView dot = makeButton(location);
+            ImageView dot = makeDot(location);
             ConstraintLayout constraint = findViewById(R.id.compass);
             constraint.addView(dot);
-//            flow.addView(button);
-//            flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
-//            flow.updateRadius(button, 50);
+            flow.addView(dot);
+            flow.updateAngle(dot, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
+            flow.updateRadius(dot, 50);
         }
     }
 
@@ -72,25 +72,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private ImageView makeButton(Location location){
+    private ImageView makeDot(Location location){
         ImageView dot = new ImageView(this);
         dot.setImageResource(R.drawable.dot);
         dot.setId(View.generateViewId());
         dot.setTag(location.getPublic_code());
-
-//        button.setId(View.generateViewId());
-//        button.setTag(location.getPublic_code());
-//        button.setBackground(myDrawable);
-        // Set the size of the button
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
         params.dimensionRatio = "1:1";
-        params.height = 10;
-        params.width = 10;
+        params.height = 25;
+        params.width = 25;
         dot.setLayoutParams(params);
-
         return dot;
     }
 }
