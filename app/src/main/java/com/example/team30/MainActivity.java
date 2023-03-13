@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Compass compass;
     private API api;
     private Repository repo;
+    private ConstraintLayout circular_constraint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +60,15 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
         }
-
-        ConstraintLayout layout = findViewById(R.id.compass);
-        String uid = getIntent().getStringExtra("uid");
-        Friend friend = new Friend(uid);
-        Location location = (Location)(getIntent().getSerializableExtra("location"));
-        if(location == null){
-            System.out.println("location is null");
+        circular_constraint = findViewById(R.id.compass);
+        if(data.getBoolean("newFriend", false)){
+            editor.putBoolean("newFriend", false);
+            editor.apply();
+            Location location = (Location) getIntent().getSerializableExtra("location");
+            System.out.println(location.getLatitude()+location.getLongitude()+location.getPublic_code());
+            addDotToLayout(location, circular_constraint);
         }
-        addDotToLayout(location, layout);
+
     }
 
 
@@ -86,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
         params.dimensionRatio = "1:1";
-        params.height = 25;
-        params.width = 25;
+        params.height = 50;
+        params.width = 50;
         dot.setLayoutParams(params);
 
         // Add the dot ImageView to the ConstraintLayout
