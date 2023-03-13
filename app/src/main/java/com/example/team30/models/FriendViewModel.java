@@ -1,37 +1,49 @@
 package com.example.team30.models;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import java.util.List;
+import com.example.team30.models.Friend;
+import com.example.team30.models.FriendDatabase;
+import com.example.team30.models.Repository;
 
 public class FriendViewModel extends AndroidViewModel {
-    private final FriendDao dao;
+    private LiveData<Friend> friend;
     private final Repository repo;
 
-    public FriendViewModel(@NonNull Application application){
+    public FriendViewModel(@NonNull Application application) {
         super(application);
-        Context context = getApplication().getApplicationContext();
-        FriendDatabase db = FriendDatabase.getSingleton(context);
-        dao = db.friendDao();
-
-        API api =  API.provide();
-        this.repo = new Repository(api, dao);
+        var context = application.getApplicationContext();
+        var db = FriendDatabase.getSingleton(context);
+        var dao = db.friendDao();
+        this.repo = new Repository(dao);
     }
 
-    public void save(String UID) {
-        Friend newFriend = new Friend(UID);
-        if(dao.get(UID) == null) {
-            repo.addFriend(newFriend);
+    public LiveData<Friend> getfriend(String UID) {
+        // TODO: use getSynced here instead?
+        // The returned live data should update whenever there is a change in
+        // the database, or when the server returns a newer version of the note.
+        // Polling interval: 3s.
+        if (friend == null) {
+            friend = repo.getSynced(UID);
         }
+        return friend;
     }
 
-    public Location getInitialLocation(String UID){
-        Friend newFriend = new Friend(UID);
-        return repo.getInitialLocation(newFriend);
+//    public void save(Friend friend) {
+//        // TODO: try to upload the note to the server.
+//        repo.upsertSynced(friend);
+//        repo.upsertRemote(friend);
+//    }
+
+    public void register(String UID, String privateCode, float longitude, float latitude) {
+        repo.insertUserLocationRemote(UID, privateCode, longitude, latitude);
+    }
+
+    public void updateUserLocation(String UID, String privateCode, float longitude, float latitude){
+        repo.updateUserLocationRemote(UID, privateCode, longitude, latitude);
     }
 }

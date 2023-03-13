@@ -13,11 +13,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Friend.class}, version = 1)
+@Database(entities = {Friend.class}, version = 1, exportSchema = false)
 public abstract class FriendDatabase extends RoomDatabase {
-    private static FriendDatabase singleton = null;
+    private volatile static FriendDatabase singleton = null;
+//    private volatile static FriendDatabase instance = null;
 
     public abstract FriendDao friendDao();
+
 
     public synchronized static FriendDatabase getSingleton(Context context) {
         if (singleton == null) {

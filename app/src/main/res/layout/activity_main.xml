@@ -7,121 +7,93 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/compass"
+    <LinearLayout
+        android:id="@+id/GPSSignal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center">
-
-        <androidx.constraintlayout.helper.widget.CircularFlow
-            android:id="@+id/outerCircleFlow"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            app:circularflow_angles="0,360"
-            app:circularflow_radiusInDP="200"
-            app:circularflow_viewCenter="@id/outerCircle"
-            app:constraint_referenced_ids=""
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageView
-            android:id="@+id/outerCircle"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            app:srcCompat="@drawable/circle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <ImageView
-            android:id="@+id/innerCircle1"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            app:srcCompat="@drawable/circle"
-            app:layout_constraintTop_toTopOf="@id/outerCircle"
-            app:layout_constraintStart_toStartOf="@id/outerCircle"
-            app:layout_constraintEnd_toEndOf="@id/outerCircle"
-            app:layout_constraintBottom_toBottomOf="@id/outerCircle"/>
-
-        <ImageView
-            android:id="@+id/innerCircle2"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/circle"
-            app:layout_constraintTop_toTopOf="@id/innerCircle1"
-            app:layout_constraintStart_toStartOf="@id/innerCircle1"
-            app:layout_constraintEnd_toEndOf="@id/innerCircle1"
-            app:layout_constraintBottom_toBottomOf="@id/innerCircle1"/>
-
-        <ImageView
-            android:id="@+id/triangle"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:scaleX="0.5"
-            app:srcCompat="@drawable/triangle"
-            app:layout_constraintTop_toTopOf="@id/innerCircle2"
-            app:layout_constraintStart_toStartOf="@id/innerCircle2"
-            app:layout_constraintEnd_toEndOf="@id/innerCircle2"
-            app:layout_constraintBottom_toBottomOf="@id/innerCircle2" />
+        android:layout_height="76dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/myLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="myLabel"
-            android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@id/triangle"/>
-
-        <TextView
-            android:id="@+id/friendLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="friendLabel"
-            android:visibility="invisible" />
-
-        <TextView
-            android:id="@+id/GreenDot"
-            android:layout_width="71dp"
+            android:id="@+id/empty"
+            android:layout_width="48dp"
             android:layout_height="98dp"
-            android:text="\u2022"
+            android:text="cdhjshvbcfjdxb"
             android:textColor="#008000"
             android:textSize="80sp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.047" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/GreenDot"
+            android:layout_width="40dp"
+            android:layout_height="69dp"
+            android:text="\u2022"
+            android:textColor="#008000"
+            android:textSize="80sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/RecDot"
-            android:layout_width="69dp"
-            android:layout_height="86dp"
+            android:layout_width="42dp"
+            android:layout_height="80dp"
+            android:gravity="center_vertical"
             android:text="\u2022"
             android:textColor="#FF0000"
             android:textSize="80sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.046" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/timer"
             android:layout_width="118dp"
             android:layout_height="40dp"
-            android:text=" "
+            android:text=" m"
             android:textColor="#FF0000"
             android:textSize="20sp"
             android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_main"
+        android:layout_width="match_parent"
+        android:layout_height="524dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GPSSignal" />
+
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/zoom_in"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.242"
@@ -129,34 +101,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.098" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:layout_marginBottom="100dp">
-
-        <Button
-            android:id="@+id/zoom_in"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="+"
-            android:textSize="25sp"
-            android:layout_weight="1"
-            android:layout_gravity="start|center_vertical"
-            android:gravity="center"/>
-
         <Button
             android:id="@+id/zoom_out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="-"
             android:textSize="25sp"
-            android:layout_weight="1"
-            android:layout_gravity="end|center_vertical"
-            android:gravity="center"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.242"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.098" />
 
     </LinearLayout>
 

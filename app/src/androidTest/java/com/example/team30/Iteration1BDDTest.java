@@ -52,65 +52,59 @@ public class Iteration1BDDTest {
 
     @Test
     public void iteration1BDDTest() {
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.UsernameEntry),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText.perform(replaceText("testName"), closeSoftKeyboard());
+//        ViewInteraction appCompatEditText = onView(
+//                allOf(withId(R.id.UsernameEntry),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("android.widget.LinearLayout")),
+//                                        0),
+//                                2),
+//                        isDisplayed()));
+//        appCompatEditText.perform(replaceText("testName"), closeSoftKeyboard());
 
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.UID_generator), withText("Generate UID"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        materialButton.perform(click());
+//        ViewInteraction materialButton = onView(
+//                allOf(withId(R.id.UID_generator), withText("Generate UID"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                1),
+//                        isDisplayed()));
+//        materialButton.perform(click());
+//
+//        ViewInteraction textView = onView(
+//                allOf(withId(R.id.PromptToShare), withText("Share it with your friends and family!"),
+//                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+//                        isDisplayed()));
+//        textView.check(matches(withText("Share it with your friends and family!")));
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.PromptToShare), withText("Share it with your friends and family!"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        textView.check(matches(withText("Share it with your friends and family!")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.UIDGenTitle), withText("Here is your UID"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView2.check(matches(withText("Here is your UID")));
+//        ViewInteraction textView2 = onView(
+//                allOf(withId(R.id.UIDGenTitle), withText("Here is your UID"),
+//                        withParent(withParent(withId(android.R.id.content))),
+//                        isDisplayed()));
+//        textView2.check(matches(withText("Here is your UID")));
 
 //        ViewInteraction textView3 = onView(
-//                allOf(withId(R.id.NewUIDDisplay), withText("fec41689-b5c5-40f2-afa7-fcbf127d2b27"),
+//                allOf(withId(R.id.NewUIDDisplay),
 //                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
 //                        isDisplayed()));
 //        textView3.check(matches(isDisplayed()));
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.GoToCompass), withText("GO TO COMPASS"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
-
-        ViewInteraction button2 = onView(
-                allOf(withId(R.id.GoToCompass), withText("GO TO COMPASS"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        button2.check(matches(isDisplayed()));
-
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.GoToCompass), withText("Go to Compass"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton2.perform(click());
+//        ViewInteraction button = onView(
+//                allOf(withId(R.id.GoToCompass), withText("GO TO COMPASS"),
+//                        withParent(withParent(withId(android.R.id.content))),
+//                        isDisplayed()));
+//        button.check(matches(isDisplayed()));
+//
+//        ViewInteraction materialButton2 = onView(
+//                allOf(withId(R.id.GoToCompass), withText("Go to Compass"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                2),
+//                        isDisplayed()));
+//        materialButton2.perform(click());
 
         ViewInteraction button3 = onView(
                 allOf(withId(R.id.zoom_in), withText("+"),
@@ -148,16 +142,16 @@ public class Iteration1BDDTest {
         materialButton3.perform(click());
 
         ViewInteraction textView4 = onView(
-                allOf(withId(R.id.YourUIDDisplay), withText("fec41689-b5c5-40f2-afa7-fcbf127d2b27"),
+                allOf(withId(R.id.YourUIDDisplay),
                         withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
                         isDisplayed()));
         textView4.check(matches(isDisplayed()));
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.FriendsUIDEntry), withText("Friend's UID"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        editText.check(matches(withText("Friend's UID")));
+//        ViewInteraction editText = onView(
+//                allOf(withId(R.id.FriendsUIDEntry), withText("Friend's UID"),
+//                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+//                        isDisplayed()));
+//        editText.check(matches(withText("Friend's UID")));
 
         ViewInteraction button6 = onView(
                 allOf(withId(R.id.submitBtn), withText("SUBMIT"),

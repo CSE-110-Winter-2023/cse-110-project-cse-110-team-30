@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,7 +33,7 @@ public class RegistrationActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = data.edit();
         locationService = LocationService.singleton(this);
 
-        //Pair<Double, Double> coordinates = locationService.getLocation().getValue();
+//        Pair<Double, Double> coordinates = locationService.getLocation().getValue();
         Pair<Double, Double> coordinates = new Pair<Double, Double>(0.0,0.0);
 
 
@@ -51,8 +52,12 @@ public class RegistrationActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uniqueID = UUID.randomUUID().toString();
-                String privateCode = UUID.randomUUID().toString();
+//                Log.e("Start generation", "uniqueID generation");
+//                String uniqueID = UUID.randomUUID().toString();
+//                String privateCode = UUID.randomUUID().toString();
+                String uniqueID = "A17188813";
+                String privateCode = "A17188813";
+                System.out.println("UserID"+ uniqueID);
 
                 editor.putBoolean("register", true);
                 editor.putString("YourUID", uniqueID);
@@ -60,9 +65,11 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.putBoolean("newFriend", false);
                 editor.apply();
 
-                viewModel.register(uniqueID, privateCode, coordinates);
+                viewModel.register(uniqueID, privateCode, coordinates.first.floatValue(),
+                        coordinates.second.floatValue());
                 Intent intent = new Intent(RegistrationActivity.this, UIDGeneration.class);
                 intent.putExtra("uniqueID", uniqueID); //pass UID to UIDGeneration
+                intent.putExtra("privateCode", privateCode); //pass UID to UIDGeneration
                 startActivity(intent);
             }
         });
