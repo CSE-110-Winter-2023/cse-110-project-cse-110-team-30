@@ -47,6 +47,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String privateCode = UUID.randomUUID().toString();
 
                 editor.putBoolean("register", true);
+                editor.putInt("zoom level", 2);
                 editor.putString("YourUID", uniqueID);
                 editor.putString("privateCode", privateCode);
                 editor.putBoolean("newFriend", false);

@@ -72,7 +72,7 @@
             android:textSize="25sp"
             android:layout_weight="1"
             android:layout_gravity="start|center_vertical"
-            android:gravity="center"/>
+            android:gravity="center" />
 
         <Button
             android:id="@+id/zoom_out"
@@ -82,7 +82,7 @@
             android:textSize="25sp"
             android:layout_weight="1"
             android:layout_gravity="end|center_vertical"
-            android:gravity="center"/>
+            android:gravity="center" />
 
     </LinearLayout>
 
