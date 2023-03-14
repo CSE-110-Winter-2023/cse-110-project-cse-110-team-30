@@ -41,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
 
-        //zoom level 1 is the most un-zoomed
-        //zoom level 3 is the most zoomed
+        //zoom level 1 is the most zoomed-out
+        //zoom level 3 is the most zoomed-in
         if(data.getInt("zoom level", -1) == 1) {
             setContentView(R.layout.activity_level1);
             Button zoomOut = findViewById(R.id.zoom_out);
             zoomOut.setClickable(false);
+            zoomOut.setAlpha(0.5f);
         }
         else if (data.getInt("zoom level", -1) == 2) {
             setContentView(R.layout.activity_main);
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_level3);
             Button zoomIn = findViewById(R.id.zoom_in);
             zoomIn.setClickable(false);
+            zoomIn.setAlpha(0.5f);
         }
 
         // Check for and get location permissions
@@ -77,23 +79,27 @@ public class MainActivity extends AppCompatActivity {
             addDotToLayout(location, circular_constraint);
         }
 
-        Button zoomIn = findViewById(R.id.zoom_in);
-        zoomIn.setOnClickListener(v -> {
-            Log.d("MainActivity", "zoom in clicked");
-            int currZoom = data.getInt("zoom level", -1);
-            editor.putInt("zoom level", currZoom + 1);
-            editor.apply();
-            recreate();
-        });
+        if(data.getInt("zoom level", -1) < 3) {
+            Button zoomIn = findViewById(R.id.zoom_in);
+            zoomIn.setOnClickListener(v -> {
+                Log.d("MainActivity", "zoom in clicked");
+                int currZoom = data.getInt("zoom level", -1);
+                editor.putInt("zoom level", currZoom + 1);
+                editor.apply();
+                recreate();
+            });
+        }
 
-        Button zoomOut = findViewById(R.id.zoom_out);
-        zoomOut.setOnClickListener(v -> {
-            Log.d("MainActivity", "zoom out clicked");
-            int currZoom = data.getInt("zoom level", -1);
-            editor.putInt("zoom level", currZoom - 1);
-            editor.apply();
-            recreate();
-        });
+        if(data.getInt("zoom level", -1) > 1) {
+            Button zoomOut = findViewById(R.id.zoom_out);
+            zoomOut.setOnClickListener(v -> {
+                Log.d("MainActivity", "zoom out clicked");
+                int currZoom = data.getInt("zoom level", -1);
+                editor.putInt("zoom level", currZoom - 1);
+                editor.apply();
+                recreate();
+            });
+        }
     }
 
     public void addFriend(View view) {
