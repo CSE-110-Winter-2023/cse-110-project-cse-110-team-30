@@ -1,6 +1,6 @@
 package com.example.team30.DataCalculators;
 
-import android.util.Pair;
+import androidx.core.util.Pair;
 
 import com.example.team30.models.Location;
 
@@ -13,6 +13,7 @@ public class Compass {
     private float myLong;
 
     private float myLat;
+    private float myAngle;
     public static final double EARTH_RADIUS = 6371; // in km
     public static final double MILES_PER_KM = 0.621371; // conversion factor from km to miles
 
@@ -47,6 +48,19 @@ public class Compass {
         this.myLat = newLat;
     }
 
+    public float getMyAngle() {
+        return myAngle;
+    }
+
+    public void setMyAngle(float myAngle) {
+        this.myAngle = myAngle;
+    }
+
+    public void setCoords(Pair<Double, Double>coords){
+        this.myLat = coords.first.floatValue();
+        this.myLong = coords.second.floatValue();
+    }
+
     public void addPosition(String objectId, Pair<Float,Integer> newPair){
         position.put(objectId, newPair);
     }
@@ -59,7 +73,7 @@ public class Compass {
         position.put(objectId, newPair);
     }
 
-    public void calculateAngles(List<Location> locationList, float orientation){
+    public void calculateAngles(List<Location> locationList){
         for(Location location : locationList){
             String UID = location.getPublic_code();
             float longti = location.getLongitude();
@@ -73,7 +87,7 @@ public class Compass {
             if(x > 0 && y < 0){
                 angle = angle + 360;
             }
-            float newangle = (float)(angle - orientation);
+            float newangle = (float)(angle - myAngle);
             Pair<Float, Integer> newPair = new Pair<>(newangle, 100);
 
             position.put(UID, newPair);
@@ -91,7 +105,7 @@ public class Compass {
             angle = angle + 360;
         }
         float newangle = (float)(angle);
-        return newangle;
+        return newangle - myAngle;
     }
 
     public double calculateDistance(double friendLat, double friendLong) {

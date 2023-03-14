@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         compass = Compass.singleton();
+        locationService = LocationService.singleton(this);
+        orientationService = OrientationService.singleton(this);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
         if(data.getBoolean("register", false) == false){
@@ -73,19 +75,19 @@ public class MainActivity extends AppCompatActivity {
 
         circular_constraint = findViewById(R.id.compass);
         MainViewModel viewModel = setupViewModel();
+        locationService.getLocation().observe(this, coords ->{
+            viewModel.updateUserLocation(data.getString("YourUID", ""), data.getString("privateCode", ""), coords);
+            compass.setCoords(coords);
+        });
+        orientationService.getOrientation().observe(this, angle->{
+            compass.setMyAngle(angle);
+        });
         List<Friend> friends = viewModel.getFriends();
         if(friends != null){
             for(Friend f : friends){
                 addDotToLayout(f.getLocation(), circular_constraint);
             }
         }
-//        if(data.getBoolean("newFriend", false)){
-//            editor.putBoolean("newFriend", false);
-//            editor.apply();
-//            Location location = (Location) getIntent().getSerializableExtra("location");
-//            System.out.println(location.getLatitude()+location.getLongitude()+location.getPublic_code());
-//            addDotToLayout(location, circular_constraint);
-//        }
 
     }
 

@@ -40,8 +40,6 @@ public class AddFriendActivity extends AppCompatActivity {
 
         //add friend page should display your UID
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = data.edit();
-//        editor.putBoolean("newFriend", true);
         String yourUID = data.getString("YourUID", null);
         TextView yourUIDDisplay = findViewById(R.id.YourUIDDisplay);
         yourUIDDisplay.setText(yourUID);
@@ -50,14 +48,11 @@ public class AddFriendActivity extends AppCompatActivity {
         //logic for submit button
         Button button = findViewById(R.id.submitBtn);
         button.setOnClickListener(v -> {
-            //editor.apply();
             EditText uidView = findViewById(R.id.FriendsUIDEntry);
             String uid = String.valueOf(uidView.getText());
             Location location = viewModel.getInitialLocation(uid);
             viewModel.save(uid, location);
             Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
-//            intent.putExtra("location", location);
-//            intent.putExtra("uid", uid);
             startActivity(intent);
         });
     }
