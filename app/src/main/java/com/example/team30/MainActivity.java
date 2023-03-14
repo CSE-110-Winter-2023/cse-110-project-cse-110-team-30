@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void addFriend(View view) {
         Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
         startActivity(intent);
@@ -89,8 +88,9 @@ public class MainActivity extends AppCompatActivity {
         params.dimensionRatio = "1:1";
         params.height = 50;
         params.width = 50;
-        params.circleAngle = 50;
-        params.circleRadius = 100;
+        params.circleConstraint = R.id.compass;
+        params.circleAngle = 100;
+        params.circleRadius = 10;
         dot.setLayoutParams(params);
 
         layout.addView(dot);
