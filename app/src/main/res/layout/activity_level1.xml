@@ -24,17 +24,6 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
-            android:id="@+id/innerCircle1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/circle"
-            app:layout_constraintTop_toTopOf="@id/outerCircle"
-            app:layout_constraintStart_toStartOf="@id/outerCircle"
-            app:layout_constraintEnd_toEndOf="@id/outerCircle"
-            app:layout_constraintBottom_toBottomOf="@id/outerCircle"/>
-
-
-        <ImageView
             android:id="@+id/triangle"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -43,7 +32,7 @@
             app:layout_constraintTop_toTopOf="@id/outerCircle"
             app:layout_constraintStart_toStartOf="@id/outerCircle"
             app:layout_constraintEnd_toEndOf="@id/outerCircle"
-            app:layout_constraintBottom_toBottomOf="@id/outerCircle"/>
+            app:layout_constraintBottom_toBottomOf="@id/outerCircle" />
 
         <TextView
             android:id="@+id/myLabel"
@@ -86,12 +75,12 @@
 
     </LinearLayout>
 
-        <Button
-            android:id="@+id/addLoc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="Add Friend"
-            android:onClick="addFriend" />
+    <Button
+        android:id="@+id/addLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Add Friend"
+        android:onClick="addFriend" />
 
 </FrameLayout>
