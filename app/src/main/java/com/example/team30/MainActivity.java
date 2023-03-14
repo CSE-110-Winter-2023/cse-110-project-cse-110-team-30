@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         params.height = 50;
         params.width = 50;
         params.circleConstraint = R.id.compass;
-        params.circleAngle = 100;
-        params.circleRadius = 10;
+        params.circleAngle = compass.calculateAngle(location.getLongitude(), location.getLatitude());
+        params.circleRadius = 200;
         dot.setLayoutParams(params);
 
         layout.addView(dot);
