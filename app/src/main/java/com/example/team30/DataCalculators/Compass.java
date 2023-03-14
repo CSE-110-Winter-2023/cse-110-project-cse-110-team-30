@@ -13,6 +13,8 @@ public class Compass {
     private float myLong;
 
     private float myLat;
+    public static final double EARTH_RADIUS = 6371; // in km
+    public static final double MILES_PER_KM = 0.621371; // conversion factor from km to miles
 
     private Map<String, Pair<Float, Integer>> position;
 
@@ -92,5 +94,18 @@ public class Compass {
         return newangle;
     }
 
+    public double calculateDistance(double friendLat, double friendLong) {
+        double dLat = Math.toRadians(friendLat - myLat);
+        double dLong = Math.toRadians(friendLong - myLong);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(myLat)) * Math.cos(Math.toRadians(friendLat)) *
+                        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        double distance = EARTH_RADIUS * c;
+        return distance * MILES_PER_KM;
+    }
 
 }

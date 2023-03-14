@@ -5,6 +5,7 @@ import androidx.constraintlayout.helper.widget.CircularFlow;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,9 +26,12 @@ import com.example.team30.DataCalculators.LocationService;
 import com.example.team30.DataCalculators.OrientationService;
 import com.example.team30.models.API;
 import com.example.team30.models.Friend;
+import com.example.team30.models.FriendDao;
+import com.example.team30.models.FriendViewModel;
 import com.example.team30.models.Location;
 import com.example.team30.models.Repository;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -39,13 +43,18 @@ public class MainActivity extends AppCompatActivity {
     private Future<Void> future;
     private Compass compass;
     private API api;
+    private FriendDao friendDao;
     private Repository repo;
     private ConstraintLayout circular_constraint;
+    private List<Friend> friendList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        var viewModel = setupViewModel();
+        note = viewModel.getNote(title);
+
 
         // Check for and get location permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -60,7 +69,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
         }
+
         circular_constraint = findViewById(R.id.compass);
+        friendList = (List<Friend>) friendDao.getAll();
+
+        for(int i = 0; i<friendList.size(); i++){
+            Location location = new location(viewModel.getInitialLocation(friendList[i]));
+        }
+
         if(data.getBoolean("newFriend", false)){
             editor.putBoolean("newFriend", false);
             editor.apply();
@@ -104,5 +120,7 @@ public class MainActivity extends AppCompatActivity {
 //        constraintSet.connect(dot.getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
 //        constraintSet.applyTo(layout);
     }
-
+    private FriendViewModel setupViewModel() {
+        return new ViewModelProvider(this).get(FriendViewModel.class);
+    }
 }

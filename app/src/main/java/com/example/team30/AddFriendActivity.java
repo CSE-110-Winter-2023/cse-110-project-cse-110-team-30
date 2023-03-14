@@ -31,6 +31,7 @@ import java.util.UUID;
 
 public class AddFriendActivity extends AppCompatActivity {
     API api = new API();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
