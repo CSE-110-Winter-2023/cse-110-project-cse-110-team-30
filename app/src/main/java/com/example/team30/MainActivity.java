@@ -5,6 +5,7 @@ import androidx.constraintlayout.helper.widget.CircularFlow;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
@@ -29,6 +30,8 @@ import com.example.team30.models.Friend;
 import com.example.team30.models.FriendDao;
 import com.example.team30.models.FriendViewModel;
 import com.example.team30.models.Location;
+import com.example.team30.models.LocationViewModel;
+import com.example.team30.models.MainViewModel;
 import com.example.team30.models.Repository;
 
 import java.util.List;
@@ -52,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        var viewModel = setupViewModel();
-        note = viewModel.getNote(title);
 
 
         // Check for and get location permissions
@@ -71,19 +72,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         circular_constraint = findViewById(R.id.compass);
-        friendList = (List<Friend>) friendDao.getAll();
-
-        for(int i = 0; i<friendList.size(); i++){
-            Location location = new location(viewModel.getInitialLocation(friendList[i]));
+        MainViewModel viewModel = setupViewModel();
+        List<Friend> friends = viewModel.getFriends();
+        if(friends != null){
+            for(Friend f : friends){
+                addDotToLayout(f.getLocation(), circular_constraint);
+            }
         }
-
-        if(data.getBoolean("newFriend", false)){
-            editor.putBoolean("newFriend", false);
-            editor.apply();
-            Location location = (Location) getIntent().getSerializableExtra("location");
-            System.out.println(location.getLatitude()+location.getLongitude()+location.getPublic_code());
-            addDotToLayout(location, circular_constraint);
-        }
+//        if(data.getBoolean("newFriend", false)){
+//            editor.putBoolean("newFriend", false);
+//            editor.apply();
+//            Location location = (Location) getIntent().getSerializableExtra("location");
+//            System.out.println(location.getLatitude()+location.getLongitude()+location.getPublic_code());
+//            addDotToLayout(location, circular_constraint);
+//        }
 
     }
 
@@ -106,12 +108,13 @@ public class MainActivity extends AppCompatActivity {
         params.width = 50;
         params.circleConstraint = R.id.compass;
         params.circleAngle = compass.calculateAngle(location.getLongitude(), location.getLatitude());
-        params.circleRadius = 200;
+        params.circleRadius = 100;
         dot.setLayoutParams(params);
 
         layout.addView(dot);
+        System.out.println("Adding friend");
     }
-    private FriendViewModel setupViewModel() {
-        return new ViewModelProvider(this).get(FriendViewModel.class);
+    private MainViewModel setupViewModel() {
+        return new ViewModelProvider(this).get(MainViewModel.class);
     }
 }

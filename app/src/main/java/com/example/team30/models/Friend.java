@@ -89,4 +89,8 @@ public class Friend {
         this.created_at = l.getCreated_at();
         this.updated_at = l.getUpdated_at();
     }
+
+    public Location getLocation(){
+        return new Location(public_code, label, latitude, longitude, created_at, updated_at);
+    }
 }
