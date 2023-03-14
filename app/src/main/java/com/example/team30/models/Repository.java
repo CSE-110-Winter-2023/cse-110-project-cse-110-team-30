@@ -42,7 +42,7 @@ public class Repository {
     private LiveData<List<Location>> getAllRemote() {
         var executor = Executors.newSingleThreadScheduledExecutor();
         friendFuture = executor.scheduleAtFixedRate(() -> {
-            List<Friend> friends = dao.getAll().getValue();
+            List<Friend> friends = dao.getAll();
             var locations = api.getMultipleLocations(friends);
             liveLocations.postValue(locations);
         }, 0, 3, TimeUnit.SECONDS);

@@ -49,7 +49,7 @@ public class MainViewModel extends AndroidViewModel {
      * @return list of all current friends
      */
     public List<Friend> getFriends(){
-        return dao.getAll().getValue();
+        return dao.getAll();
     }
 
 }
