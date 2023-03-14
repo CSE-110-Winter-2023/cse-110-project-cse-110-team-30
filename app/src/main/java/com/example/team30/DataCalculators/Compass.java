@@ -109,6 +109,7 @@ public class Compass {
     }
 
     public double calculateDistance(double friendLat, double friendLong) {
+
         double dLat = Math.toRadians(friendLat - myLat);
         double dLong = Math.toRadians(friendLong - myLong);
 
@@ -120,6 +121,24 @@ public class Compass {
 
         double distance = EARTH_RADIUS * c;
         return distance * MILES_PER_KM;
+    }
+
+    public int radius(double distance){
+        int radius = 0;
+
+        if(distance <= 1){
+            radius = (int)(distance/(1/300));
+        }
+        else if( 1< distance && distance <= 10){
+            radius = (int)((distance -1)/(9/150) + 300);
+        }
+        else if(10 < distance && distance<= 500){
+            radius = (int) ((distance -10)/(490/150) + 450);
+        }
+        else if(distance > 500){
+            radius = 600;
+        }
+        return radius;
     }
 
 }
