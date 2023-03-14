@@ -52,8 +52,8 @@ public class AddFriendActivity extends AppCompatActivity {
             editor.apply();
             EditText uidView = findViewById(R.id.FriendsUIDEntry);
             String uid = String.valueOf(uidView.getText());
-            viewModel.save(uid);
             Location location = viewModel.getInitialLocation(uid);
+            viewModel.save(uid, location);
             Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
             intent.putExtra("location", location);
             intent.putExtra("uid", uid);

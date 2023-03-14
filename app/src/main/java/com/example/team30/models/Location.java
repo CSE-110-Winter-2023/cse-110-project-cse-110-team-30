@@ -51,6 +51,10 @@ public class Location implements Serializable {
         return new Gson().toJson(this);
     }
 
+    public String getCreated_at() {
+        return created_at;
+    }
+
     @Override
     public String toString() {
         return "Location{" +

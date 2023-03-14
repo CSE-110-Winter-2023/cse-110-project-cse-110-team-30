@@ -94,15 +94,6 @@ public class MainActivity extends AppCompatActivity {
         dot.setLayoutParams(params);
 
         layout.addView(dot);
-
-        // Add the dot ImageView to the ConstraintLayout
-
-        // Create a ConstraintSet to set the constraints for the dot ImageView
-//        ConstraintSet constraintSet = new ConstraintSet();
-//        constraintSet.clone(layout);
-//        constraintSet.connect(dot.getId(), ConstraintSet.TOP, layout.getId(), ConstraintSet.TOP);
-//        constraintSet.connect(dot.getId(), ConstraintSet.START, layout.getId(), ConstraintSet.START);
-//        constraintSet.applyTo(layout);
     }
 
 }

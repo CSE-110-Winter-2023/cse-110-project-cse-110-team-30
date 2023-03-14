@@ -24,8 +24,9 @@ public class FriendViewModel extends AndroidViewModel {
      * Save a friend to the database
      * @param UID friend's UID
      */
-    public void save(String UID) {
+    public void save(String UID, Location l) {
         Friend newFriend = new Friend(UID);
+        newFriend.setLocationAttributes(l);
         if(dao.get(UID) == null) {
             repo.addFriend(newFriend);
         }
