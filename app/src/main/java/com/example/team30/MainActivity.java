@@ -89,10 +89,13 @@ public class MainActivity extends AppCompatActivity {
         params.dimensionRatio = "1:1";
         params.height = 50;
         params.width = 50;
+        params.circleAngle = 50;
+        params.circleRadius = 100;
         dot.setLayoutParams(params);
 
-        // Add the dot ImageView to the ConstraintLayout
         layout.addView(dot);
+
+        // Add the dot ImageView to the ConstraintLayout
 
         // Create a ConstraintSet to set the constraints for the dot ImageView
 //        ConstraintSet constraintSet = new ConstraintSet();
