@@ -1,5 +1,6 @@
 package com.example.team30.models;
 
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -8,51 +9,47 @@ import androidx.lifecycle.Observer;
 
 import com.google.gson.JsonObject;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 
 public class Repository {
     private final FriendDao dao;
-    private final API api;
+    private final FriendAPI api;
 
-    private ScheduledFuture<?> friendFuture;
-    private final MutableLiveData<List<Location>> liveLocations;
+//    private ScheduledFuture<?> friendFuture;
+//    private final MutableLiveData<List<Location>> liveLocations;
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
 
     public Repository(FriendDao dao) {
-        this.api = API.provide();
+        this.api = FriendAPI.provide();
         this.dao = dao;
-        liveLocations = new MutableLiveData<>();
     }
 
 //    public void addFriend(Friend friend) {
 //        dao.insert(friend);
 //    }
 
-    public LiveData<Friend> getSynced(String UID){
-//        var locations = new MediatorLiveData<List<Location>>();
-//        Observer<List<Location>> updateFromRemote = newLocations -> {};
-//        locations.addSource(getAllRemote(), updateFromRemote);
-//        return locations;
-        var friend = new MediatorLiveData<Friend>();
+    public LiveData<List<Friend>> getSynced(List<Friend> oldfriends){
 
-        Observer<Friend> updateFromRemote = theirNote -> {
-            var ourNote = friend.getValue();
-            if (theirNote == null) return; // do nothing
-            if (ourNote == null || ourNote.updatedAt < theirNote.updatedAt) {
-                upsertLocal(theirNote);
+        var friends = new MediatorLiveData<List<Friend>>();
+        Observer<List<Friend>> updateFromRemote = theirFriend -> {
+            var ourFriend = friends.getValue();
+            int lenFriends = theirFriend.size();
+
+            for(int i = 0; i < lenFriends; i++){
+                if(ourFriend.get(i).updated_at < theirFriend.get(i).updated_at){
+                    upsertLocal(theirFriend.get(i));
+                }
             }
         };
-
-        friend.addSource(getRemote(UID), updateFromRemote);
-        return friend;
+        friends.addSource(getRemote(oldfriends), updateFromRemote);
+        return friends;
     }
 
 //    public void upsertSynced(Friend friend) {
@@ -70,7 +67,6 @@ public class Repository {
     }
 
     public void upsertLocal(Friend friend) {
-        friend.updatedAt = System.currentTimeMillis();
         dao.upsert(friend);
     }
 
@@ -83,44 +79,42 @@ public class Repository {
     }
 
 
-//    private LiveData<List<Location>> getAllRemote() {
+//    private LiveData<List<Location>> getAllRemote(List<Friend> friends) {
+//        MutableLiveData<List<Friend>> noteLiveData = new MutableLiveData<>();
 //        var executor = Executors.newSingleThreadScheduledExecutor();
-//        friendFuture = executor.scheduleAtFixedRate(() -> {
-//            List<Friend> friends = dao.getAll().getValue();
-//            var locations = api.getMultipleLocations(friends);
-//            liveLocations.postValue(locations);
+//        executor.scheduleAtFixedRate(() -> {
+//            List<Friend> newFriends = new ArrayList<>();
+//            for (Friend f : friends){
+//                Friend newFriend = api.getLocation(f.public_code);
+//                upsertLocal(newFriend);
+//                newFriends.add(newFriend);
+//            }
+//            noteLiveData.postValue(newFriends);
 //        }, 0, 3, TimeUnit.SECONDS);
-//        return liveLocations;
+//        return noteLiveData;
 //    }
+
     public Friend CheckExist(String UID){
-        Friend friend = api.getLocation(UID);
-//        if (friend != null) {
-//            return null;
-//        }
+        Friend friend = api.getFriend(UID);
+        if (friend == null){
+            Log.e("Repository", "Not data get");
+            return null;
+        }
         return friend;
     }
 
-    public LiveData<Friend> getRemote(String UID) {
-        MutableLiveData<Friend> liveLocations = new MutableLiveData<>();
-
-        // Retrieve from the server and update the local database.
-        Friend friend = api.getLocation(UID);
-        if (friend != null) {
-            upsertLocal(friend);
-            liveLocations.setValue(friend);
-        }
-
+    public LiveData<List<Friend>> getRemote(List<Friend> oldfriends) {
+        MutableLiveData<List<Friend>> liveLocations = new MutableLiveData<>();
         //3 seconds.
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
-            Friend updatedNote = api.getLocation(UID);
-            if (updatedNote != null) {
-                upsertLocal(updatedNote);
-                liveLocations.postValue(updatedNote);
+            List<Friend> newFriends = new ArrayList<>();
+            for (Friend f:oldfriends){
+                Friend updatedFriend = api.getFriend(f.public_code);
+                newFriends.add(updatedFriend);
             }
+            liveLocations.postValue(newFriends);
         }, 0, 3, TimeUnit.SECONDS);
-
-        // Return the LiveData object.
         return liveLocations;
     }
 //    public void upsertRemote() {
@@ -134,10 +128,10 @@ public class Repository {
 //        return api.getLocation(friend);
 //    }
 //
-    public void insertUserLocationRemote(String UID, String privateCode, float latitude, float longitude){
+    public void insertUserLocationRemote(String UID, String privateCode, String label, float latitude, float longitude){
         JsonObject json = new JsonObject();
         json.addProperty("private_code", privateCode);
-        json.addProperty("label", "Team 30");
+        json.addProperty("label", label);
         json.addProperty("latitude", latitude);
         json.addProperty("longitude", longitude);
         json.addProperty("updated_at", System.currentTimeMillis());
@@ -149,6 +143,7 @@ public class Repository {
         json.addProperty("private_code", privateCode);
         json.addProperty("latitude", latitude);
         json.addProperty("longitude", longitude);
+//        Log.i("Repository", UID + privateCode + latitude + longitude);
         api.patchAsync(UID, json.toString());
     }
 }

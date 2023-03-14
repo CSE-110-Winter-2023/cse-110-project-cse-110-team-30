@@ -1,23 +1,17 @@
 package com.example.team30;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-
-import com.example.team30.models.API;
-import com.example.team30.models.FriendDao;
-import com.example.team30.models.FriendDatabase;
-import com.example.team30.models.FriendViewModel;
-import com.example.team30.models.Location;
 import com.example.team30.models.LocationViewModel;
-import com.example.team30.models.Repository;
 
 import java.util.UUID;
 
@@ -48,15 +42,17 @@ public class RegistrationActivity extends AppCompatActivity {
         }
         LocationViewModel viewModel = setupViewModel();
 
+        TextView Name = findViewById(R.id.UsernameEntry);
         Button button = findViewById(R.id.UID_generator);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Log.e("Start generation", "uniqueID generation");
-//                String uniqueID = UUID.randomUUID().toString();
-//                String privateCode = UUID.randomUUID().toString();
-                String uniqueID = "A17188813";
-                String privateCode = "A17188813";
+                String uniqueID = UUID.randomUUID().toString();
+                String privateCode = UUID.randomUUID().toString();
+                String userName = String.valueOf(Name.getText());
+//                String uniqueID = "A17188813";
+//                String privateCode = "A17188813";
                 System.out.println("UserID"+ uniqueID);
 
                 editor.putBoolean("register", true);
@@ -65,7 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 editor.putBoolean("newFriend", false);
                 editor.apply();
 
-                viewModel.register(uniqueID, privateCode, coordinates.first.floatValue(),
+                viewModel.register(uniqueID, privateCode, userName, coordinates.first.floatValue(),
                         coordinates.second.floatValue());
                 Intent intent = new Intent(RegistrationActivity.this, UIDGeneration.class);
                 intent.putExtra("uniqueID", uniqueID); //pass UID to UIDGeneration

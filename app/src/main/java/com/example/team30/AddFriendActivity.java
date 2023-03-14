@@ -50,7 +50,7 @@ public class AddFriendActivity extends AppCompatActivity {
         TextView yourUIDDisplay = findViewById(R.id.YourUIDDisplay);
         yourUIDDisplay.setText(yourUID);
 
-//        FriendViewModel viewModel = setupViewModel();
+        FriendViewModel viewModel = setupViewModel();
 //        LocationViewModel listFriendViewModel = setupLocationViewModel();
 
         Log.e("UserID", yourUID);
@@ -62,23 +62,17 @@ public class AddFriendActivity extends AppCompatActivity {
             String UID = String.valueOf(uidView.getText());
             Log.i("AddFriendActivity", "uid: " + UID);
 
-//            friend = listFriendViewModel.getOrNotExistFriend(UID);
-//            if(friend == null) {
-//                Log.e("AddFriendActivity", "location is null");
-//            }
-//            viewModel.save(friend);
-
+            friend = viewModel.getfriend(UID);
+            if(friend == null) {
+                Log.e("AddFriendActivity", "location is null");
+            }
             Intent intent = new Intent(AddFriendActivity.this, MainActivity.class);
-            intent.putExtra("friend data", UID);
             Log.i("AddFriendActivity", "Added friend with UID: " + UID);
             startActivity(intent);
         });
     }
-//    private FriendViewModel setupViewModel() {
-//        return new ViewModelProvider(this).get(FriendViewModel.class);
-//    }
-//
-//    private LocationViewModel setupLocationViewModel() {
-//        return new ViewModelProvider(this).get(LocationViewModel.class);
-//    }
+    private FriendViewModel setupViewModel() {
+        return new ViewModelProvider(this).get(FriendViewModel.class);
+    }
+
 }

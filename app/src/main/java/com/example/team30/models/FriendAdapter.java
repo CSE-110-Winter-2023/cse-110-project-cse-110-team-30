@@ -65,7 +65,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         }
 
         public void bind(Friend friend) {
-            label.setText(friend.UID);
+            label.setText(friend.public_code);
 //            float longitude = friend.longitude;
 //            float latitude = friend.latitude;
 
@@ -162,7 +162,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
 
     @Override
     public long getItemId(int position) {
-        return friends.get(position).UID.hashCode();
+        return friends.get(position).public_code.hashCode();
     }
 
     public Pair<Float, Float> calculateAngles(Friend friend, float orientation){

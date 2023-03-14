@@ -34,13 +34,13 @@ class TimestampAdapter extends TypeAdapter<Long> {
 public class Friend {
     @NonNull
     @PrimaryKey
-    @SerializedName("UID")
-    public String UID;
+    @SerializedName("public_code")
+    public String public_code;
 
     /** The content of the longitude. */
     @SerializedName("label")
     @NonNull
-    public float label;
+    public String label;
 
     /** The content of the longitude. */
     @SerializedName("longitude")
@@ -52,15 +52,18 @@ public class Friend {
     @NonNull
     public float latitude;
 
-    /** The content of the time. */
-    @SerializedName("updateTime")
+    /** The content of the latitude. */
+    @SerializedName("is_listed_publicly")
     @NonNull
-    public long updateTime;
-
+    public boolean is_listed_publicly;
 
     @JsonAdapter(TimestampAdapter.class)
-    @SerializedName(value = "updated_at", alternate = "updatedAt")
-    public long updatedAt = 0;
+    @SerializedName(value = "updated_at")
+    public long updated_at = 0;
+
+    @JsonAdapter(TimestampAdapter.class)
+    @SerializedName(value = "created_at")
+    public long created_at = 0;
 
 //    public Friend(@NonNull String UID){
 //        this.UID = UID;
@@ -71,26 +74,15 @@ public class Friend {
 //        return UID;
 //    }
 
-//    public void setUID(@NonNull String UID) {
-//        this.UID = UID;
-//    }
-
     /** General constructor for a note. */
-    public Friend(@NonNull String UID, @NonNull float longitude, @NonNull float latitude, @NonNull long updateTime) {
-        this.UID = UID;
+    public Friend(@NonNull String public_code,@NonNull String label, @NonNull float longitude, @NonNull float latitude, @NonNull long updated_at,@NonNull long created_at, @NonNull boolean is_listed_publicly ) {
+        this.public_code = public_code;
+        this.label = label;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.updateTime = updateTime;
-        this.updatedAt = 0;
-    }
-
-    @Ignore
-    public Friend(@NonNull String UID, @NonNull float longitude, @NonNull float latitude, @NonNull long updateTime, long updatedAt) {
-        this.UID = UID;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.updateTime = updateTime;
-        this.updatedAt = updatedAt;
+        this.updated_at = updated_at;
+        this.is_listed_publicly = is_listed_publicly;
+        this.created_at = created_at;
     }
 
 

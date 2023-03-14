@@ -49,8 +49,6 @@ public class LocationService implements LocationListener {
 
     private final LocationManager locationManager;
 
-    private MutableLiveData<Boolean> hasGpsSignal = new MutableLiveData<>();
-
 
     public static LocationService singleton(AppCompatActivity activity) {
         if (instance == null) {

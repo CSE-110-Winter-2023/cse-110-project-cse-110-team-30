@@ -27,10 +27,14 @@ public class FriendViewModel extends AndroidViewModel {
         // The returned live data should update whenever there is a change in
         // the database, or when the server returns a newer version of the note.
         // Polling interval: 3s.
-        if (friend == null) {
-            friend = repo.getSynced(UID);
+        if (!repo.existsLocal(UID)) {
+            Friend newFriend = repo.CheckExist(UID);
+            if (newFriend == null){
+                return null;
+            }
+            repo.upsertLocal(newFriend);
         }
-        return friend;
+        return repo.getLocal(UID);
     }
 
 //    public void save(Friend friend) {
@@ -39,8 +43,8 @@ public class FriendViewModel extends AndroidViewModel {
 //        repo.upsertRemote(friend);
 //    }
 
-    public void register(String UID, String privateCode, float longitude, float latitude) {
-        repo.insertUserLocationRemote(UID, privateCode, longitude, latitude);
+    public void register(String UID, String privateCode, String label, float longitude, float latitude) {
+        repo.insertUserLocationRemote(UID, privateCode, label,  longitude, latitude);
     }
 
     public void updateUserLocation(String UID, String privateCode, float longitude, float latitude){

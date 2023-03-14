@@ -1,41 +1,38 @@
 package com.example.team30.models;
 
+
 import android.util.Log;
 
 import androidx.annotation.WorkerThread;
 
 import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 
-public class API {
+public class FriendAPI {
     private final String BASE_URL = "https://socialcompass.goto.ucsd.edu/";
-    private volatile static API instance = null;
-    MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    private volatile static FriendAPI instance = null;
     private OkHttpClient client;
 
+    MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private final Gson gson;
 
-    public API() {
+    public FriendAPI() {
         this.client = new OkHttpClient();
         this.gson = new Gson();
     }
 
-    public static API provide() {
+    public static FriendAPI provide() {
         if (instance == null) {
-            instance = new API();
+            instance = new FriendAPI();
         }
         return instance;
     }
@@ -49,14 +46,12 @@ public class API {
                 .url(BASE_URL + "location/" + UID)
                 .method("GET", null)
                 .build();
-
         try (var response = client.newCall(request).execute()) {
             int code = response.code();
             if (code != 200) {
                 System.out.println("Received error response with status code " + code);
                 return null;
             }
-
             assert response.body() != null;
             var body = response.body().string();
             Log.i("GET Location", body);
@@ -64,28 +59,41 @@ public class API {
             return gson.fromJson(body, Friend.class);//added
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Get nothing");
+            Log.e("API","Get nothing");
             return null;
         }
     }
 
-//    @WorkerThread
-//    public List<Location> getMultipleLocations(List<Friend>friends){
-//        List<Location> locations = new ArrayList<>();
-//        for(Friend f : friends){
-//            Location l = getLocation(f);
-//            locations.add(l);
-//        }
-//        return locations;
-//    }
+    public Future<Friend> getAsync(String UID) {
+        var executor = Executors.newSingleThreadExecutor();
+        var future = executor.submit(() -> getLocation(UID));
+        executor.shutdown();
+        return future;
+    }
+
+    public Friend getFriend(String UID){
+        Future<Friend> futureFriend = getAsync(UID);
+        try {
+            Friend friend = futureFriend.get(); // this will block until the result is available
+            if (friend == null){
+                Log.e("Repository", "No data retrieved");
+                return null;
+            }
+            return friend;
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            Log.e("Repository", "Error retrieving data");
+            return null;
+        }
+    }
+
 
     @WorkerThread
     public boolean putLocation(String UID, String json) {
         UID = UID.replace(" ", "%20");
         var body = RequestBody.create(json, JSON);
         var request = new Request.Builder()
-                .header("Content-Type", "application/json")
-                .url(BASE_URL + "location/" + UID)//URLEncoder.encode(temp, "UTF-8"))
+                .url(BASE_URL + "location/" + UID)
                 .method("PUT", body)
                 .build();
 
@@ -96,10 +104,11 @@ public class API {
             return response.isSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
+            Log.i("PUT Location", "Fail to push in the data");
             return false;
         }
     }
-    
+
     public Future<Boolean> putAsync(String UID, String json) {
         var executor = Executors.newSingleThreadExecutor();
         return executor.submit(() -> putLocation(UID, json));
@@ -113,20 +122,21 @@ public class API {
                 .url(BASE_URL + "location/" + UID)
                 .method("PATCH", body)
                 .build();
-
         try (var response = client.newCall(request).execute()) {
             assert response.body() != null;
             var answer = response.body().string();
-            Log.i("PUT Location", answer);
+//            Log.i("Patch Location", answer);
             return response.isSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
+            Log.i("Patch Location", "Fail to patch in the data");
             return false;
         }
     }
 
     public Future<Boolean> patchAsync(String UID, String json) {
         var executor = Executors.newSingleThreadExecutor();
-        return executor.submit(() -> patchLocation(UID, json));
+        var future = executor.submit(() -> patchLocation(UID, json));
+        return future;
     }
 }

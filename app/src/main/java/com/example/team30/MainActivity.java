@@ -1,43 +1,42 @@
 package com.example.team30;
 
-import androidx.annotation.NonNull;
+import static com.example.team30.R.id.compressPage;
+
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.helper.widget.CircularFlow;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.accessibilityservice.AccessibilityService;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.team30.models.Friend;
-import com.example.team30.models.FriendAdapter;
 import com.example.team30.models.Location;
 import com.example.team30.models.LocationViewModel;
 
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.function.Consumer;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -47,8 +46,11 @@ public class MainActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     private Compass compass;
-    private CircularFlow flow;
     private long lastLocationTime;
+    private Map<String, Integer> dotList = new HashMap<>();
+    private Map<String, Integer> labelList = new HashMap<>();
+    private ConstraintLayout map;
+    private CircularFlow flow;
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     public RecyclerView recyclerView;
@@ -57,17 +59,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lastLocationTime = System.currentTimeMillis();
+
 
         // Check for and get location permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
+
+        lastLocationTime = System.currentTimeMillis();
+        map = findViewById(compressPage);
+        compass = Compass.singleton();
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
-
-        compass = Compass.singleton();
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
 
@@ -77,34 +81,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        String friendUID = intent.getStringExtra("friend data");
-        String userID = intent.getStringExtra("uniqueID");
-        String privateCode = intent.getStringExtra("privateCode");
+        String userID = data.getString("YourUID","");
+        String privateCode = data.getString("privateCode","");
 
         var viewModel = setupViewModel();
-        var adapter = setupAdapter(viewModel, locationService, orientationService, userID, privateCode);
 
-        setupViews(viewModel, adapter, friendUID);
-
-
-//        flow = findViewById(R.id.outerCircleFlow);
         Log.i("MainActivity","newFriend: " + data.getBoolean("newFriend", false));
-
-//        if(data.getBoolean("newFriend", false)){
-//            editor.putBoolean("newFriend", false);
-//            editor.apply();
-//            Location location = (Location) getIntent().getSerializableExtra("location");
-//            if(location == null) {
-//                Log.e("MainActivity", "location is null");
-//            }
-//            else {
-//                Button button = makeButton(location);
-//                System.out.println("Make button successfully");
-//                flow.addView(button);
-//                flow.updateAngle(button, compass.calculateAngle(location.getLatitude(), location.getLongitude()));
-//                flow.updateRadius(button, 50);
-//            }
-//        }
 
         TextView redDot = findViewById(R.id.RecDot);
         TextView greenDot = findViewById(R.id.GreenDot);
@@ -117,9 +99,18 @@ public class MainActivity extends AppCompatActivity {
             redDot.setVisibility(View.INVISIBLE);
             timer.setVisibility(View.INVISIBLE);
             greenDot.setVisibility(View.VISIBLE);
-            //TODO:CAll reposition function
-
+            viewModel.updateUserLocation(userID, privateCode, coords.first.floatValue(),coords.second.floatValue());
+            viewModel.getLocations().observe(this, friends->{
+//              Log.e("Creatdot", "Creat the dot");
+                creatDot(friends, coords, 0);
+            });
         });
+//        orientationService.getOrientation().observe(this, orientation ->{
+//            viewModel.getLocations().observe(this, friends->{
+////                Log.e("Creatdot", "Creat the dot");
+//                creatDot(friends, coords, 0);
+//            });
+//        });
 
         //Update the GPS lost signal - each min
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -170,42 +161,86 @@ public class MainActivity extends AppCompatActivity {
         return button;
     }
 
-    @NonNull
-    private FriendAdapter setupAdapter(LocationViewModel viewModel, LocationService locationservice,
-                                       OrientationService orientationService, String UID, String Privatecode ) {
-        FriendAdapter adapter = new FriendAdapter();
-        adapter.setHasStableIds(true);
-        viewModel.getLocations().observe(this, adapter::setFriends);
-        locationservice.getLocation().observe(this, coords->{
-            adapter.setMyLocation(coords);
-            viewModel.updateUserLocation(UID,
-                    Privatecode,
-                    coords.first.floatValue(),
-                    coords.second.floatValue());
-        });
-
-        orientationService.getOrientation().observe(this, adapter::setOrientation);
-        return adapter;
-    }
-
     private LocationViewModel setupViewModel() {
         return new ViewModelProvider(this).get(LocationViewModel.class);
     }
 
-    private void setupViews(LocationViewModel viewModel, FriendAdapter adapter, String friendUID) {
-        if (friendUID != null){
-            var friend = viewModel.getOrNotExistFriend(friendUID);
+
+    private TextView addDot(float angle, int radius, String text, int TextSize){
+        TextView textView = new TextView(this);
+        textView.setId(View.generateViewId());
+        textView.setText(text); // Set the text of the TextView to a dot
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TextSize); // Set the text size to 40sp
+        textView.setTextColor(Color.BLACK); // Set the text color to white
+        textView.setGravity(Gravity.CENTER); // Center the dot horizontally and vertically
+//        textView.setVisibility(View.VISIBLE);
+//            textView.setBackgroundResource(R.drawable.dr_round_bg); // Set the background drawable
+        ConstraintLayout.LayoutParams layout = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        layout.circleRadius = radius;
+        layout.circleConstraint = R.id.triangle;
+        layout.circleAngle = angle;
+        layout.topMargin = -100; // adjust the value to position the dot as desired
+        layout.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        layout.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+        layout.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
+        layout.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
+        textView.setLayoutParams(layout);
+        return textView;
+    }
+    private void creatDot(List<Friend> friends, Pair<Double,Double> coords,float orientation) {
+        int lenFriends = friends.size();
+        for (int i = 0; i < lenFriends; i++) {
+            Friend friend = friends.get(i);
+            Pair<Float,Integer> AngleRadius = AngleRadius(friend, coords, orientation);
+//            Log.i("CreatDot", friend.public_code + friend.longitude + friend.latitude + AngleRadius);
+            if (dotList.get(friend.public_code) == null){
+                TextView friendDot = addDot(AngleRadius.first, AngleRadius.second, "•", 40);
+                TextView friendLabel = addDot(AngleRadius.first, AngleRadius.second-10, friend.label, 10);
+                dotList.put(friend.public_code, friendDot.getId());
+                labelList.put(friend.public_code, friendLabel.getId());
+                map.addView(friendDot);
+                map.addView(friendLabel);
+                map.requestLayout();
+                Log.i("Add TestDot", "Add successful");
+            }else{
+                Log.i("Observe data", "RePosition");
+//                String textViewid = dotList.get(friend.public_code);
+//                TextView curr = findViewById(R.id.textViewid);
+                ConstraintSet ConSet = new ConstraintSet();
+                ConSet.clone(map);
+                ConSet.constrainCircle(dotList.get(friend.public_code), R.id.triangle,
+                        AngleRadius.second, AngleRadius.first);
+                ConSet.constrainCircle(labelList.get(friend.public_code), R.id.triangle,
+                        AngleRadius.second, AngleRadius.first-10);
+                ConSet.applyTo(map);
+            }
         }
-        setupRecycler(adapter);
     }
 
-    @SuppressLint("RestrictedApi")
-    private void setupRecycler(FriendAdapter adapter) {
-        // We store the recycler view in a field _only_ because we will want to access it in tests.
-        recyclerView = findViewById(R.id.recycler_main);
-        //TODO: Change the layout manager  ConstraintLayoutManager
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(adapter);
+    private Pair<Float,Integer> AngleRadius(Friend friend, Pair<Double,Double> myLoc, float orientation){
+        //float orientation
+        float circleRadius = 100;
+        float longti = friend.longitude;
+        float lati = friend.latitude;
+
+        float y = (float) (longti - myLoc.second);
+        float x = (float) (lati - myLoc.first);
+
+        double angle = Math.atan(y/x) * 180/Math.PI;
+        if(x < 0){
+            angle = angle + 180;
+        }
+        if(x > 0 && y < 0){
+            angle = angle + 360;
+        }
+        float newangle = (float)(angle - orientation);
+//        float newangle = (float)(angle);
+        int newRadius = (int) (Math.sqrt(x*x + y*y));
+
+        Pair<Float, Integer> newPair = new Pair<>(newangle, newRadius);
+
+        return newPair;
     }
+
 }
