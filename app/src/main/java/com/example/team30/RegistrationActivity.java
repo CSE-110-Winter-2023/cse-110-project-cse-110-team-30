@@ -17,7 +17,6 @@ import com.example.team30.models.LocationViewModel;
 import java.util.UUID;
 
 public class RegistrationActivity extends AppCompatActivity {
-    private LocationService locationService;
     private Compass compass = Compass.singleton();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +25,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
-        locationService = LocationService.singleton(this);
-        Pair<Double, Double> coordinates = new Pair<>(0.0,0.0);
-        //Pair<Double, Double> coordinates = locationService.getLocation().getValue();
-        if(coordinates != null) {
-            compass.setMyLat(coordinates.first.floatValue());
-            compass.setMyLong(coordinates.second.floatValue());
-        }
-        else {
-            compass.setMyLat(0);
-            compass.setMyLong(0);
-        }
+        Pair<Double, Double> coordinates = new Pair<>(32.88,-117.234); //UCSD Coordinates
+        compass.setCoords(coordinates);
+
         LocationViewModel viewModel = setupViewModel();
 
         Button button = findViewById(R.id.UID_generator);

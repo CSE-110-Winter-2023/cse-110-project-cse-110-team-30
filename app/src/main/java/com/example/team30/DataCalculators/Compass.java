@@ -17,7 +17,6 @@ public class Compass {
     public static final double EARTH_RADIUS = 6371; // in km
     public static final double MILES_PER_KM = 0.621371; // conversion factor from km to miles
 
-    private Map<String, Pair<Float, Integer>> position;
 
     private static Compass instance;
 
@@ -26,10 +25,6 @@ public class Compass {
             instance = new Compass();
         }
         return instance;
-    }
-
-    public Compass(){
-        position = new HashMap<>();
     }
 
     public float getmyLong(){
@@ -59,39 +54,6 @@ public class Compass {
     public void setCoords(Pair<Double, Double>coords){
         this.myLat = coords.first.floatValue();
         this.myLong = coords.second.floatValue();
-    }
-
-    public void addPosition(String objectId, Pair<Float,Integer> newPair){
-        position.put(objectId, newPair);
-    }
-
-    public Pair<Float, Integer> getPosition(String objectId){
-        return position.get(objectId);
-    }
-
-    public void setPosition(String objectId, Pair<Float, Integer> newPair){
-        position.put(objectId, newPair);
-    }
-
-    public void calculateAngles(List<Location> locationList){
-        for(Location location : locationList){
-            String UID = location.getPublic_code();
-            float longti = location.getLongitude();
-            float lati = location.getLatitude();
-            float y = longti - myLong;
-            float x = lati - myLat;
-            double angle = Math.atan(y/x) * 180/Math.PI;
-            if(x < 0){
-                angle = angle + 180;
-            }
-            if(x > 0 && y < 0){
-                angle = angle + 360;
-            }
-            float newangle = (float)(angle - myAngle);
-            Pair<Float, Integer> newPair = new Pair<>(newangle, 100);
-
-            position.put(UID, newPair);
-        }
     }
 
     public float calculateAngle(float longti, float lati){
