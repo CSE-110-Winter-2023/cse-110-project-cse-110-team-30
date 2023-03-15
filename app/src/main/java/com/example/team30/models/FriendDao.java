@@ -20,11 +20,11 @@ public interface FriendDao {
     @Insert
     long insert(Friend friend);
 
-    @Query("SELECT * FROM 'Friendlist' WHERE 'UID'=:UID")
+    @Query("SELECT * FROM Friendlist WHERE UID=:UID")
     Friend get(String UID);
 
-    @Query("SELECT *  FROM `Friendlist`")
-    LiveData<List<Friend>> getAll();
+    @Query("SELECT * FROM Friendlist")
+    List<Friend> getAll();
 
     @Update
     int update(Friend friend);
