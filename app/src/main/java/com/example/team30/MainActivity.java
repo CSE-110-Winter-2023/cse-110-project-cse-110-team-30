@@ -65,16 +65,16 @@ public class MainActivity extends AppCompatActivity {
 
         //zoom level 1 is the most zoomed-out
         //zoom level 3 is the most zoomed-in
-        if(data.getInt("zoom level", -1) == 1) {
+        if(data.getInt("zoom level", 0) == 1) {
             setContentView(R.layout.activity_level1);
             Button zoomOut = findViewById(R.id.zoom_out);
             zoomOut.setClickable(false);
             zoomOut.setAlpha(0.5f);
         }
-        else if (data.getInt("zoom level", -1) == 2) {
+        else if (data.getInt("zoom level", 0) == 2) {
             setContentView(R.layout.activity_main);
         }
-        else if (data.getInt("zoom level", -1) == 3) {
+        else if (data.getInt("zoom level", 0) == 3) {
             setContentView(R.layout.activity_level3);
             Button zoomIn = findViewById(R.id.zoom_in);
             zoomIn.setClickable(false);
@@ -83,29 +83,27 @@ public class MainActivity extends AppCompatActivity {
 
         //setContentView(R.layout.activity_main);
 
-        if(data.getInt("zoom level", -1) < 3) {
+        if(data.getInt("zoom level", 0) < 3) {
             Button zoomIn = findViewById(R.id.zoom_in);
             zoomIn.setOnClickListener(v -> {
                 Log.d("MainActivity", "zoom in clicked");
-                int currZoom = data.getInt("zoom level", -1);
+                int currZoom = data.getInt("zoom level", 0);
                 editor.putInt("zoom level", currZoom + 1);
                 editor.apply();
                 recreate();
             });
         }
 
-        if(data.getInt("zoom level", -1) > 1) {
+        if(data.getInt("zoom level", 0) > 1) {
             Button zoomOut = findViewById(R.id.zoom_out);
             zoomOut.setOnClickListener(v -> {
                 Log.d("MainActivity", "zoom out clicked");
-                int currZoom = data.getInt("zoom level", -1);
+                int currZoom = data.getInt("zoom level", 0);
                 editor.putInt("zoom level", currZoom - 1);
                 editor.apply();
                 recreate();
             });
         }
-
-
 
 
         // Check for and get location permissions
@@ -118,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
-
-
 
 
         circular_constraint = findViewById(R.id.compass1);
@@ -137,10 +133,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         List<Friend> friends = viewModel.getFriends();
-        LiveData<List<Location>> locations = viewModel.getLocations();
+        //LiveData<List<Location>> locations = viewModel.getLocations();
         if(friends != null) {
             for (Friend f : friends) {
-
                 ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
                 addLabelToLayout(f.getLabel(), circular_constraint, dot);
             }
@@ -186,19 +181,20 @@ public class MainActivity extends AppCompatActivity {
         params.circleAngle = compass.calculateAngle(location.getLatitude(), location.getLongitude());
         var distance = compass.calculateDistance(location.getLongitude(), location.getLatitude());
 
-        if(data.getInt("zoom level", -1) == 2 ) {
-            params.circleRadius = (int)(compass.zoom2radius(distance));
+        if(data.getInt("zoom level", 0) == 2 ) {
+            params.circleRadius = (int)Math.round(compass.zoom2radius(distance));
+            System.out.println(compass.zoom2radius(distance));
         }
-        else if(data.getInt("zoom level", -1) == 1 ) {
-            params.circleRadius = (int)(compass.zoom1radius(distance));
+        else if(data.getInt("zoom level", 0) == 1 ) {
+            params.circleRadius = (int)Math.round(compass.zoom1radius(distance));
         }
-        else if(data.getInt("zoom level", -1) == 3 ){
-            params.circleRadius = (int)(compass.zoom3radius(distance));
+        else if(data.getInt("zoom level", 0) == 3 ){
+            params.circleRadius = (int)Math.round(compass.zoom3radius(distance));
         }
 
 
         System.out.println(distance);
-        System.out.println(density);
+        //System.out.println(density);
         System.out.println(params.circleRadius);
 
         dot.setLayoutParams(params);

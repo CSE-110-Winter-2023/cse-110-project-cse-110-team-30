@@ -123,17 +123,17 @@ public class Compass {
         return distance * MILES_PER_KM;
     }
 
-    public int zoom1radius(double distance){
-        int radius = 0;
+    public double zoom1radius(double distance){
+        double radius = 0;
 
         if(distance <= 1){
-            radius = (int)(distance/(1/300));
+            radius = (distance/(1.0/300));
         }
         else if( 1< distance && distance <= 10){
-            radius = (int)((distance -1)/(9/150) + 300);
+            radius = (distance -1)/(9.0/150) + 300;
         }
         else if(10 < distance && distance<= 500){
-            radius = (int) ((distance -10)/(490/150) + 450);
+            radius =  ((distance -10)/(490.0/150) + 450);
         }
         else if(distance > 500){
             radius = 600;
@@ -142,11 +142,11 @@ public class Compass {
     }
 
 
-    public int zoom3radius(double distance){
-        int radius = 0;
+    public double zoom3radius(double distance){
+        double radius = 0;
 
         if(distance <= 1){
-            radius = (int)(distance/(1/300));
+            radius = (distance/(1.0/300));
         }
         else if( distance > 1){
             radius = 600;
@@ -154,16 +154,18 @@ public class Compass {
         return radius;
     }
 
-    public int zoom2radius(double distance){
-        int radius = 0;
+    public double zoom2radius(double distance){
+        double radius = 0;
 
         if(distance <= 1){
-            radius = (int)(distance/(1/300));
+            radius = (distance/(1.0/300));
         }
         else if( 1< distance && distance <= 10){
-            radius = (int)((distance -1)/(9/300) + 300);
+            double dividevalue = (9.0/300);
+            double newdistance = distance -1;
+            radius = newdistance/dividevalue ;
         }
-        else{
+        else if(distance > 10){
             radius = 600;
         }
         return radius;
