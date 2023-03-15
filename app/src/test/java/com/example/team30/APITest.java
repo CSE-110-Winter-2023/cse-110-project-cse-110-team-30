@@ -31,6 +31,23 @@ public class APITest {
     public void testPut(){
         boolean response = api.putLocation("team-30-test", json.toString());
         assertEquals(true, response);
+
+        response = api.putLocation("team-30-test", "");
+        assertEquals(true, response);
+
+        // Test with a JSON string that is not in the expected format
+        String invalidJson = "{\"invalid_key\": \"invalid_value\"}";
+        response = api.putLocation("team-30-test", invalidJson);
+        assertEquals(true, response);
+
+        // Test with a non-existent private code
+        response = api.putLocation("non-existent-code", json.toString());
+        assertEquals(true, response);
+
+        // Test with a private code that has already been used
+        response = api.putLocation("team-30-test", json.toString());
+        assertEquals(true, response);
+
     }
 
     @Test
@@ -86,6 +103,12 @@ public class APITest {
         Location patched = api.getLocation(new Friend("team-30-test-patch"));
         assertEquals(17, patched.getLongitude(), .01);
         assertEquals(38, patched.getLatitude(), .01);
+    }
+
+    @Test
+    public void testPutWithNullJson(){
+        boolean response = api.putLocation("test", null);
+        assertEquals(false, response);
     }
 
 }
