@@ -3,6 +3,8 @@ package com.example.team30;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -135,13 +137,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         List<Friend> friends = viewModel.getFriends();
-        if(friends != null){
-            for(Friend f : friends){
+        LiveData<List<Location>> locations = viewModel.getLocations();
+        if(friends != null) {
+            for (Friend f : friends) {
 
                 ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
-                addLabelToLayout(f, circular_constraint, dot);
+                addLabelToLayout(f.getLabel(), circular_constraint, dot);
             }
         }
+//        viewModel.getLocations().observe(this, new Observer<List<Location>>() {
+//            @Override
+//            public void onChanged(List<Location> locations) {
+//                if(locations != null){
+//                    for(Location location: locations){
+//                        ImageView dot = addDotToLayout(location, circular_constraint, data);
+//                        addLabelToLayout(location.getLabel(), circular_constraint, dot);
+//                    }
+//                }
+//            }
+//        });
 
 
 
@@ -196,8 +210,8 @@ public class MainActivity extends AppCompatActivity {
         return dot;
     }
 
-    private void addLabelToLayout(Friend friend, ConstraintLayout layout, ImageView dot) {
-        String label = friend.getLabel();
+    private void addLabelToLayout(String label, ConstraintLayout layout, ImageView dot) {
+
         TextView textView = new TextView(this);
         textView.setId(View.generateViewId());
         textView.setText(label);
