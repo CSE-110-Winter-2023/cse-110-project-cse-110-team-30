@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private Map<Integer, Integer> CircleList = new HashMap<>();
     private ConstraintLayout map;
     private CircularFlow flow;
-    private final Integer[] CircleScal = {1, 10, 500, 1000};
-    private final int CompassWidth = 800;
+    private final Integer[] CircleScal = {0, 1, 10, 500, 1000};
+    private final int CompassWidth = 1000;
     private Set<String> friendsList;
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
@@ -96,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userID = data.getString("YourUID","");
         String privateCode = data.getString("privateCode","");
-//        String newFriend = data.getString("newFriendUID",null);
-//        if (newFriend != null){
-//            Log.i("NewFriendList", String.valueOf(friendsList));
-//            friendsList.add(newFriend);
-//        }
-        Log.i("MainActivity","newFriend: " + data.getBoolean("newFriend", false));
 
         //Update the location of user and all relation point
         int LargesSize = map.getWidth();
@@ -193,16 +187,30 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
         int currCircleNum = data.getInt("CircleSize", 2) - 1;
+        if(currCircleNum <= 1){
+            view.setBackgroundColor(Color.DKGRAY);
+            if(currCircleNum < 1){
+                return;
+            }
+        }else{
+            Button zoomout = findViewById(R.id.zoom_out);
+            zoomout.setBackgroundColor(Color.blue(20));
+            view.setBackgroundColor(Color.blue(20));
+        }
         editor.putInt("CircleSize", currCircleNum);
-
+        editor.apply();
         ConstraintSet ConSet = new ConstraintSet();
         ConSet.clone(map);
+        Log.i("ZOOMIN", "Change Circle to " + currCircleNum);
         for (Map.Entry<Integer, Integer> m : CircleList.entrySet()){
             if(m.getKey() > currCircleNum){
+                Log.i("Invisible the circle", currCircleNum + ": No show" + m.getKey());
                 ConSet.setVisibility(m.getValue(),ConstraintSet.INVISIBLE);
             }else{
-                ConSet.constrainPercentWidth(m.getValue(), m.getKey()/currCircleNum);
-                ConSet.constrainPercentHeight(m.getValue(), m.getKey()/currCircleNum);
+                Log.i("Add new circle", currCircleNum + ": Reposition circle" + m.getKey());
+                ConSet.setVisibility(m.getValue(),ConstraintSet.VISIBLE);
+                ConSet.constrainWidth(m.getValue(), CompassWidth*m.getKey()/currCircleNum);
+                ConSet.constrainHeight(m.getValue(), CompassWidth*m.getKey()/currCircleNum);
             }
         }
         ConSet.applyTo(map);
@@ -211,24 +219,33 @@ public class MainActivity extends AppCompatActivity {
     public void ZoomOut(View view){
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
-        int currCircleNum = data.getInt("CircleSize", 2) +1;
+        int currCircleNum = data.getInt("CircleSize", 2) + 1;
+        if(currCircleNum >= 4){
+            view.setBackgroundColor(Color.DKGRAY);
+            if(currCircleNum > 4){
+                return;
+            }
+        }else{
+            Button zoomin = findViewById(R.id.zoom_in);
+            zoomin.setBackgroundColor(Color.blue(20));
+            view.setBackgroundColor(Color.blue(20));
+        }
         editor.putInt("CircleSize", currCircleNum);
         editor.apply();
         System.out.println(data.getInt("CircleSize", 2));
 
         ConstraintSet ConSet = new ConstraintSet();
         ConSet.clone(map);
+        Log.i("ZOOMOUT", "Zoom out to "+currCircleNum);
         for (Map.Entry<Integer, Integer> m : CircleList.entrySet()){
-            Log.i("Add new circle", currCircleNum + "Check the state" + m.getValue());
-            int currCircle = m.getKey();
-            if(currCircleNum > currCircle){
-                Log.i("Invisible the circle", currCircleNum + "No show"+currCircle);
-                ConSet.setVisibility(currCircle,ConstraintSet.INVISIBLE);
+            if(m.getKey() > currCircleNum){
+                Log.i("Invisible the circle", currCircleNum + ": No show" + m.getKey());
+                ConSet.setVisibility(m.getValue(),ConstraintSet.INVISIBLE);
             }else{
-                Log.i("Add new circle", currCircleNum + "Reposition circle"+currCircle);
-                ConSet.setVisibility(currCircle,ConstraintSet.VISIBLE);
-                ConSet.constrainPercentWidth(currCircle, currCircle/currCircleNum);
-                ConSet.constrainPercentHeight(currCircle, currCircle/currCircleNum);
+                Log.i("Add new circle", currCircleNum + ": Reposition circle" + m.getKey());
+                ConSet.setVisibility(m.getValue(),ConstraintSet.VISIBLE);
+                ConSet.constrainWidth(m.getValue(), CompassWidth*m.getKey()/currCircleNum);
+                ConSet.constrainHeight(m.getValue(), CompassWidth*m.getKey()/currCircleNum);
             }
         }
         ConSet.applyTo(map);
@@ -286,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TextSize); // Set the text size to 40sp
         textView.setTextColor(Color.BLACK); // Set the text color to white
         textView.setGravity(Gravity.CENTER); // Center the dot horizontally and vertically
+        textView.setElevation(100);
         ConstraintLayout.LayoutParams layout = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         layout.circleRadius = radius;
@@ -299,18 +317,24 @@ public class MainActivity extends AppCompatActivity {
         textView.setLayoutParams(layout);
         return textView;
     }
+
     private void creatDot(List<Friend> friends, Pair<Double,Double> coords,float orientation) {
         if(friends == null) return;
         int lenFriends = friends.size();
         for (int i = 0; i < lenFriends; i++) {
             Friend friend = friends.get(i);
             Pair<Float,Integer> AngleRadius = AngleRadius(friend, coords, orientation);
-            Log.i("CreatDot", friend.public_code + friend.longitude + friend.latitude + AngleRadius);
+//            Log.i("CreatDot", friend.public_code + friend.longitude + friend.latitude + AngleRadius);
+            int LabelVisible = 0;
+            if(AngleRadius.second ==  CompassWidth/2){
+                LabelVisible = 4;
+            }
             if (dotList.get(friend.public_code) == null){
                 TextView friendDot = addDot(AngleRadius.first, AngleRadius.second, "•", 40);
                 TextView friendLabel = addDot(AngleRadius.first, AngleRadius.second-10, friend.label, 10);
                 dotList.put(friend.public_code, friendDot.getId());
                 labelList.put(friend.public_code, friendLabel.getId());
+//                friendLabel.setVisibility(LabelVisible);
                 map.addView(friendDot);
                 map.addView(friendLabel);
                 map.requestLayout();
@@ -321,6 +345,7 @@ public class MainActivity extends AppCompatActivity {
 //                TextView curr = findViewById(R.id.textViewid);
                 ConstraintSet ConSet = new ConstraintSet();
                 ConSet.clone(map);
+                ConSet.setVisibility(labelList.get(friend.public_code), LabelVisible);
                 ConSet.constrainCircle(dotList.get(friend.public_code), R.id.triangle,
                         AngleRadius.second, AngleRadius.first);
                 ConSet.constrainCircle(labelList.get(friend.public_code), R.id.triangle,
@@ -352,18 +377,26 @@ public class MainActivity extends AppCompatActivity {
 //        float newangle = (float)(angle);
         int newRadius = (int) (Math.sqrt(x*x + y*y));
 
-        Pair<Float, Integer> newPair = new Pair<>(newangle, newRadius);
+        Pair<Float, Integer> newPair = new Pair<>(newangle, RadiusByCircle(newRadius));
 
         return newPair;
     }
 
-    private int RadiusByCircle(int initalRadius, int currCircle){
-//        int ScalLen = CircleScal.length;
+    private Integer RadiusByCircle(int initalRadius){
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
+        int currCircle = data.getInt("CircleSize", 2);
+        if(initalRadius > CircleScal[currCircle]){
+            return CompassWidth/2;
+        }
+        int unitCirclewidth = CompassWidth/currCircle;
         for(int i = currCircle-1; i >= 0; i--){
-            if(initalRadius > CircleScal[i]){
-//                return
+            if(initalRadius > CircleScal[i] && initalRadius < CircleScal[i+1]){
+                int radius = (initalRadius - CircleScal[i])*(unitCirclewidth)/(CircleScal[i+1] - CircleScal[i]);
+                radius = radius + i*CompassWidth/currCircle;
+                return radius;
             }
         }
-        return 0;
+        return null;
     }
 }
