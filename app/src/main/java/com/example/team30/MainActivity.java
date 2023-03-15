@@ -3,6 +3,7 @@ package com.example.team30;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Repository repo;
     private ConstraintLayout circular_constraint;
     private List<Friend> friendList;
+    private LiveData<List<Location>> locations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
             zoomOut.setAlpha(0.5f);
             zoomIn.setClickable(false);
         }
+
+
+
+
 
         //setContentView(R.layout.activity_main);
 
@@ -133,30 +139,29 @@ public class MainActivity extends AppCompatActivity {
             compass.setMyAngle(angle);
         });
 
-        List<Friend> friends = viewModel.getFriends();
-        //LiveData<List<Location>> locations = viewModel.getLocations();
-        if(friends != null) {
-            for (Friend f : friends) {
-                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
-                addLabelToLayout(f.getLabel(), circular_constraint, dot);
-            }
-        }
-
-//        viewModel.getLocations().observe(this, new Observer<List<Location>>() {
-//            @Override
-//            public void onChanged(List<Location> locations) {
-//                if(locations != null){
-//                    for(Location location: locations){
-//                        ImageView dot = addDotToLayout(location, circular_constraint, data);
-//                        addLabelToLayout(location.getLabel(), circular_constraint, dot);
-//                    }
-//                }
+//        List<Friend> friends = viewModel.getFriends();
+//        //LiveData<List<Location>> locations = viewModel.getLocations();
+//        if(friends != null) {
+//            for (Friend f : friends) {
+//                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
+//                addLabelToLayout(f.getLabel(), circular_constraint, dot);
 //            }
-//        });
-
-
+//        }
+        locations = viewModel.getLocations();
+        locations.observe(this, this::onChanged);
 
     }
+
+    public void onChanged(List<Location> locations) {
+        System.out.println("updated locations");
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
+        if(locations != null){
+            for(Location location: locations){
+                addDotToLayout(location, circular_constraint, data);
+            }
+        }
+    }
+
 
     public void addFriend(View view) {
         Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
@@ -164,10 +169,18 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private ImageView addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
-        ImageView dot = new ImageView(this);
+    private void addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
+        ImageView dot = layout.findViewWithTag(location.getPublic_code());
+        boolean newDot = false;
+        if(dot == null){
+            newDot = true;
+            dot = new ImageView(this);
+        }
+        //ImageView dot = new ImageView(this);
+
+
         dot.setImageResource(R.drawable.dot);
-        dot.setId(View.generateViewId());
+        //dot.setId(View.generateViewId());
         dot.setTag(location.getPublic_code());
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -204,11 +217,12 @@ public class MainActivity extends AppCompatActivity {
 
         dot.setLayoutParams(params);
 
-        layout.addView(dot);
 
-        System.out.println("Adding friend");
-
-        return dot;
+        if(newDot){
+            dot.setId(View.generateViewId());
+            layout.addView(dot);
+            addLabelToLayout(location.getLabel(), layout, dot);
+        }
     }
 
     private void addLabelToLayout(String label, ConstraintLayout layout, ImageView dot) {
