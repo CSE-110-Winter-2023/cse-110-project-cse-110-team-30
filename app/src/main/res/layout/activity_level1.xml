@@ -55,15 +55,6 @@
             app:layout_constraintEnd_toEndOf="@id/innerCircle1"
             app:layout_constraintBottom_toBottomOf="@id/innerCircle1" />
 
-        <TextView
-            android:id="@+id/myLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="myLabel"
-            app:layout_constraintTop_toBottomOf="@id/triangle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

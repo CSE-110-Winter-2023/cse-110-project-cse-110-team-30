@@ -123,6 +123,29 @@ public class Compass {
         return distance * MILES_PER_KM;
     }
 
+    public double zoom0radius(double distance){
+        double radius = 0;
+
+        if(distance <= 1){
+            radius = (distance/(1.0/150));
+        }
+        else if( 1< distance && distance <= 10){
+            radius = (distance -1)/(9.0/150) + 150;
+        }
+        else if(10 < distance && distance<= 500){
+            radius =  ((distance -10)/(490.0/150) + 300);
+        }
+        else if(distance > 500){
+            if((distance -500)/(490.0/150) + 450 <= 600){
+                radius = (distance -500)/(490.0/150) + 450;
+            }
+            else{
+                radius = 600;
+            }
+        }
+        return radius;
+    }
+
     public double zoom1radius(double distance){
         double radius = 0;
 
