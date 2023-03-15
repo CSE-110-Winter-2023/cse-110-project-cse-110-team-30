@@ -6,12 +6,18 @@ import android.util.Log;
 import androidx.annotation.WorkerThread;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -36,6 +42,48 @@ public class FriendAPI {
         }
         return instance;
     }
+    @WorkerThread
+    public List<Friend> getMultipleLocations(List<String> UID){
+        List<Friend> locations = new ArrayList<>();
+//        Log.i("FriendAPI", "Get All UID update" + UID);
+//        for(Friend f : locations){
+//            allLocation.put(f.public_code,f);
+////            Log.i("FriendAPI", "Get update" + f);
+//        }
+        for (String s:UID){
+            Friend f = getLocation(s);
+            if(f != null){
+                locations.add(f);
+            }
+        }
+//        Log.i("FriendAPI", "return All location update");
+        return locations;
+    }
+    @WorkerThread
+    public List<Friend> getAll() {
+        var request = new Request.Builder()
+                .url(BASE_URL + "locatios")
+                .method("GET", null)
+                .build();
+        Log.i("FriendAPI", "Get ALLLLL activeLocation" );
+        try (var response = client.newCall(request).execute()) {
+            int code = response.code();
+            if (code != 200) {
+                System.out.println("Received error response with status code " + code);
+                return null;
+            }
+            assert response.body() != null;
+            var body = response.body().string();
+//            Log.i("GET Location", body);
+//            Location location = Location.fromJSON(body);
+            Type type = new TypeToken<List<Friend>>(){}.getType();
+            return gson.fromJson(body, type);//added
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("API","Get nothing");
+            return null;
+        }
+    }
 
     @WorkerThread
     public Friend getLocation(String UID) {
@@ -46,6 +94,7 @@ public class FriendAPI {
                 .url(BASE_URL + "location/" + UID)
                 .method("GET", null)
                 .build();
+//        Log.i("FriendAPI", "Get activeLocation" + UID);
         try (var response = client.newCall(request).execute()) {
             int code = response.code();
             if (code != 200) {
@@ -54,7 +103,7 @@ public class FriendAPI {
             }
             assert response.body() != null;
             var body = response.body().string();
-            Log.i("GET Location", body);
+//            Log.i("GET Location", body);
 //            Location location = Location.fromJSON(body);
             return gson.fromJson(body, Friend.class);//added
         } catch (Exception e) {

@@ -11,8 +11,11 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -21,34 +24,53 @@ public class Repository {
     private final FriendDao dao;
     private final FriendAPI api;
 
-//    private ScheduledFuture<?> friendFuture;
-//    private final MutableLiveData<List<Location>> liveLocations;
+    private ScheduledFuture<?> poller;
+
+    private Future<?> noteFuture;
+    private final MutableLiveData<List<Friend>> realNoteData;
+
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
 
     public Repository(FriendDao dao) {
         this.api = FriendAPI.provide();
         this.dao = dao;
+        realNoteData = new MutableLiveData<>();
     }
 
 //    public void addFriend(Friend friend) {
 //        dao.insert(friend);
 //    }
 
-    public LiveData<List<Friend>> getSynced(List<Friend> oldfriends){
+    public LiveData<List<Friend>> getActiveLocations(List<String> UID){
+        var locations = new MediatorLiveData<List<Friend>>();
+        Observer<List<Friend>> updateFromRemote = newLocations -> {
+//            Log.i("Repository", "observe track");
+            if(newLocations == null) return;
+            for(Friend f:newLocations){
+                upsertLocal(f);
+            }
+        };
+//        note::postValue
+        locations.addSource(getAllLocal(), locations::postValue);
+        locations.addSource(getAllRemote(UID), updateFromRemote);
+//        locations.addSource(getAllRemote(UID), updateFromRemote);
+        Log.i("Repository", "Return the friendlist" + locations);
+        return locations;
+    }
 
+    public LiveData<List<Friend>> getSynced(){
+        List<String> UIDList = getAllLocalUID();
         var friends = new MediatorLiveData<List<Friend>>();
         Observer<List<Friend>> updateFromRemote = theirFriend -> {
             var ourFriend = friends.getValue();
             int lenFriends = theirFriend.size();
-
             for(int i = 0; i < lenFriends; i++){
-                if(ourFriend.get(i).updated_at < theirFriend.get(i).updated_at){
-                    upsertLocal(theirFriend.get(i));
-                }
+                upsertLocal(theirFriend.get(i));
             }
         };
-        friends.addSource(getRemote(oldfriends), updateFromRemote);
+        friends.addSource(getRemote(UIDList), updateFromRemote);
+        Log.i("Repository", "Return the friendlist");
         return friends;
     }
 
@@ -61,13 +83,14 @@ public class Repository {
         return dao.get(UID);
     }
 
-    public LiveData<List<Friend>> getAllLocal() {
-//        LiveData<List<Friend>> friendlist = dao.getAll();
-        return dao.getAll();
-    }
+    public LiveData<List<Friend>> getAllLocal() {return dao.getAll();}
+
+    public List<String> getAllLocalUID() {return dao.getAllUID();}
 
     public void upsertLocal(Friend friend) {
-        dao.upsert(friend);
+//        for(Friend f:friend){
+            dao.upsert(friend);
+//        }
     }
 
     public void deleteLocal(Friend friend) {
@@ -79,20 +102,18 @@ public class Repository {
     }
 
 
-//    private LiveData<List<Location>> getAllRemote(List<Friend> friends) {
-//        MutableLiveData<List<Friend>> noteLiveData = new MutableLiveData<>();
-//        var executor = Executors.newSingleThreadScheduledExecutor();
-//        executor.scheduleAtFixedRate(() -> {
-//            List<Friend> newFriends = new ArrayList<>();
-//            for (Friend f : friends){
-//                Friend newFriend = api.getLocation(f.public_code);
-//                upsertLocal(newFriend);
-//                newFriends.add(newFriend);
-//            }
-//            noteLiveData.postValue(newFriends);
-//        }, 0, 3, TimeUnit.SECONDS);
-//        return noteLiveData;
-//    }
+    private LiveData<List<Friend>> getAllRemote(List<String> UID) {
+        if (this.poller != null && !this.poller.isCancelled()) {
+            poller.cancel(true);
+        }
+        var executor = Executors.newSingleThreadScheduledExecutor();
+        noteFuture = executor.scheduleAtFixedRate(() -> {
+            var note = api.getMultipleLocations(UID);
+            realNoteData.postValue(note);
+        }, 0, 3000, TimeUnit.MILLISECONDS);
+
+        return realNoteData;
+    }
 
     public Friend CheckExist(String UID){
         Friend friend = api.getFriend(UID);
@@ -103,14 +124,15 @@ public class Repository {
         return friend;
     }
 
-    public LiveData<List<Friend>> getRemote(List<Friend> oldfriends) {
+    public LiveData<List<Friend>> getRemote(List<String> oldfriends) {
+
         MutableLiveData<List<Friend>> liveLocations = new MutableLiveData<>();
         //3 seconds.
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             List<Friend> newFriends = new ArrayList<>();
-            for (Friend f:oldfriends){
-                Friend updatedFriend = api.getFriend(f.public_code);
+            for (String f:oldfriends){
+                Friend updatedFriend = api.getFriend(f);
                 newFriends.add(updatedFriend);
             }
             liveLocations.postValue(newFriends);

@@ -26,6 +26,9 @@ public interface FriendDao {
     @Query("SELECT * FROM Friendlist")
     public abstract LiveData<List<Friend>> getAll();
 
+    @Query("SELECT public_code FROM Friendlist")
+    public abstract List<String> getAllUID();
+
     @Delete
     public abstract int delete(Friend friend);
 

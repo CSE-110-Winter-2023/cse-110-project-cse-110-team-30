@@ -69,10 +69,10 @@ public class Friend {
 //        this.UID = UID;
 //    }
 
-//    @NonNull
-//    public String getUID() {
-//        return UID;
-//    }
+    @NonNull
+    public String getUID() {
+        return public_code;
+    }
 
     /** General constructor for a note. */
     public Friend(@NonNull String public_code,@NonNull String label, @NonNull float longitude, @NonNull float latitude, @NonNull long updated_at,@NonNull long created_at, @NonNull boolean is_listed_publicly ) {

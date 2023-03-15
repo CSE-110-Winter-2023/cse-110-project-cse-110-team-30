@@ -6,15 +6,20 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class LocationViewModel extends AndroidViewModel {
     private LiveData<List<Friend>> friends;
     private List<String> UID;
     private final Repository repo;
+    private LiveData<Friend> f;
 
     public LocationViewModel(@NonNull Application application){
         super(application);
@@ -22,16 +27,31 @@ public class LocationViewModel extends AndroidViewModel {
         FriendDatabase db = FriendDatabase.getSingleton(context);
         var dao = db.friendDao();
         this.repo = new Repository(dao);
+        UID = new ArrayList<>();
     }
 
 
     public LiveData<List<Friend>> getLocations(){
-        if (friends == null) {
-            friends = repo.getAllLocal();
-//            friends = repo.getSynced(friends);
+        if (this.friends == null) {
+            this.UID = repo.getAllLocalUID();
+            List<Friend> old = repo.getAllLocal().getValue();
+            Log.i("LocationViewModel", UID + "   Get UID/Old   "+ old);
+            if(UID == null){
+                return repo.getAllLocal();
+            }
+            Log.i("LocationViewModel", "Get activeLocation"+ old);
+            this.friends = repo.getActiveLocations(UID);
+////            Log.i("LocationViewModel", "End get"+UID);
         }
         return friends;
     }
+
+//    public LiveData<List<String>> getUID( ){
+//        if (this.UID == null) {
+//            this.UID = repo.getAllLocalUID();
+//        }
+//        return this.UID;
+//    }
 
     /**
      * Open a note in the database
