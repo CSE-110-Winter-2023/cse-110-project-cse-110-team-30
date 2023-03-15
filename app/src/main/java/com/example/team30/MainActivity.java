@@ -45,11 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     private Compass compass;
-    private API api;
-    private FriendDao friendDao;
-    private Repository repo;
     private ConstraintLayout circular_constraint;
-    private List<Friend> friendList;
+    private LiveData<List<Location>>locations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
             zoomIn.setAlpha(0.5f);
         }
 
-        //setContentView(R.layout.activity_main);
-
         if(data.getInt("zoom level", 0) < 3) {
             Button zoomIn = findViewById(R.id.zoom_in);
             zoomIn.setOnClickListener(v -> {
@@ -105,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
         // Check for and get location permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -113,11 +107,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         compass = Compass.singleton();
-
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
-
-
         circular_constraint = findViewById(R.id.compass1);
 
         MainViewModel viewModel = setupViewModel();
@@ -125,47 +116,49 @@ public class MainActivity extends AppCompatActivity {
         locationService.getLocation().observe(this, coords ->{
             viewModel.updateUserLocation(data.getString("YourUID", ""), data.getString("privateCode", ""), coords);
             compass.setCoords(coords);
-            System.out.println(coords);
         });
 
         orientationService.getOrientation().observe(this, angle->{
             compass.setMyAngle(angle);
         });
 
-        List<Friend> friends = viewModel.getFriends();
-        //LiveData<List<Location>> locations = viewModel.getLocations();
-        if(friends != null) {
-            for (Friend f : friends) {
-                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
-                addLabelToLayout(f.getLabel(), circular_constraint, dot);
-            }
-        }
-//        viewModel.getLocations().observe(this, new Observer<List<Location>>() {
-//            @Override
-//            public void onChanged(List<Location> locations) {
-//                if(locations != null){
-//                    for(Location location: locations){
-//                        ImageView dot = addDotToLayout(location, circular_constraint, data);
-//                        addLabelToLayout(location.getLabel(), circular_constraint, dot);
-//                    }
-//                }
+//        List<Friend> friends = viewModel.getFriends();
+//
+//        if(friends != null) {
+//            for (Friend f : friends) {
+//                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
+//                addLabelToLayout(f.getLabel(), circular_constraint, dot);
 //            }
-//        });
-
-
+//        }
+        locations = viewModel.getLocations();
+        locations.observe(this, this::onChanged);
 
     }
 
+    public void onChanged(List<Location> locations) {
+        System.out.println("updated locations");
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
+        if(locations != null){
+            for(Location location: locations){
+                addDotToLayout(location, circular_constraint, data);
+            }
+        }
+    }
     public void addFriend(View view) {
         Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private ImageView addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
-        ImageView dot = new ImageView(this);
+    private void addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
+        ImageView dot = layout.findViewWithTag(location.getPublic_code());
+        boolean newDot = false;
+        if(dot == null){
+            newDot = true;
+            dot = new ImageView(this);
+        }
+
         dot.setImageResource(R.drawable.dot);
-        dot.setId(View.generateViewId());
         dot.setTag(location.getPublic_code());
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -192,22 +185,26 @@ public class MainActivity extends AppCompatActivity {
             params.circleRadius = (int)Math.round(compass.zoom3radius(distance));
         }
 
-
-        System.out.println(distance);
-        //System.out.println(density);
-        System.out.println(params.circleRadius);
+        int zoomLevel = data.getInt("zoom level", -1);
+        if(zoomLevel == 2 ) {
+            params.circleRadius = (int)(compass.zoom2radius(distance));
+        }
+        else if(zoomLevel == 1 ) {
+            params.circleRadius = (int)(compass.zoom1radius(distance));
+        }
+        else if(zoomLevel == 3 ){
+            params.circleRadius = (int)(compass.zoom3radius(distance));
+        }
 
         dot.setLayoutParams(params);
-
-        layout.addView(dot);
-
-        System.out.println("Adding friend");
-
-        return dot;
+        if(newDot){
+            dot.setId(View.generateViewId());
+            layout.addView(dot);
+            addLabelToLayout(location.getLabel(), layout, dot);
+        }
     }
 
     private void addLabelToLayout(String label, ConstraintLayout layout, ImageView dot) {
-
         TextView textView = new TextView(this);
         textView.setId(View.generateViewId());
         textView.setText(label);
@@ -228,6 +225,4 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel setupViewModel() {
         return new ViewModelProvider(this).get(MainViewModel.class);
     }
-
-
 }

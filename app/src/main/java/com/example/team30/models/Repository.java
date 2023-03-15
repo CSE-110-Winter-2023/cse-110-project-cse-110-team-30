@@ -35,7 +35,7 @@ public class Repository {
     public LiveData<List<Location>> getActiveLocations(){
         var locations = new MediatorLiveData<List<Location>>();
         Observer<List<Location>> updateFromRemote = newLocations -> {};
-        locations.addSource(getAllRemote(), updateFromRemote);
+        locations.addSource(getAllRemote(), locations::postValue);
         return locations;
     }
 

@@ -50,8 +50,6 @@ public class API {
             assert response.body() != null;
             var body = response.body().string();
             Location location = Location.fromJSON(body);
-            System.out.println("location");
-            logger.info("Got location: " + location);
             return location;
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,6 +70,7 @@ public class API {
             Location l = getLocation(f);
             locations.add(l);
         }
+        logger.info("Got " + friends.size() + " locations from the server.");
         return locations;
     }
 
