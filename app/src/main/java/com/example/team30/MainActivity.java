@@ -1,9 +1,7 @@
 package com.example.team30;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.helper.widget.CircularFlow;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,13 +10,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextClock;
@@ -28,9 +22,11 @@ import com.example.team30.DataCalculators.Compass;
 import com.example.team30.DataCalculators.LocationService;
 import com.example.team30.DataCalculators.OrientationService;
 import com.example.team30.models.API;
+
 import com.example.team30.models.Friend;
 import com.example.team30.models.FriendDao;
 import com.example.team30.models.FriendViewModel;
+
 import com.example.team30.models.Location;
 import com.example.team30.models.LocationViewModel;
 import com.example.team30.models.MainViewModel;
@@ -56,7 +52,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
+        SharedPreferences.Editor editor = data.edit();
+
+        //zoom level 1 is the most zoomed-out
+        //zoom level 3 is the most zoomed-in
+        if(data.getInt("zoom level", -1) == 1) {
+            setContentView(R.layout.activity_level1);
+            Button zoomOut = findViewById(R.id.zoom_out);
+            zoomOut.setClickable(false);
+            zoomOut.setAlpha(0.5f);
+        }
+        else if (data.getInt("zoom level", -1) == 2) {
+            setContentView(R.layout.activity_main);
+        }
+        else if (data.getInt("zoom level", -1) == 3) {
+            setContentView(R.layout.activity_level3);
+            Button zoomIn = findViewById(R.id.zoom_in);
+            zoomIn.setClickable(false);
+            zoomIn.setAlpha(0.5f);
+        }
 
 
         // Check for and get location permissions
@@ -66,10 +81,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         compass = Compass.singleton();
+
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
+
         if(data.getBoolean("register", false) == false){
             Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
@@ -92,11 +109,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if(data.getInt("zoom level", -1) < 3) {
+            Button zoomIn = findViewById(R.id.zoom_in);
+            zoomIn.setOnClickListener(v -> {
+                Log.d("MainActivity", "zoom in clicked");
+                int currZoom = data.getInt("zoom level", -1);
+                editor.putInt("zoom level", currZoom + 1);
+                editor.apply();
+                recreate();
+            });
+        }
+
+        if(data.getInt("zoom level", -1) > 1) {
+            Button zoomOut = findViewById(R.id.zoom_out);
+            zoomOut.setOnClickListener(v -> {
+                Log.d("MainActivity", "zoom out clicked");
+                int currZoom = data.getInt("zoom level", -1);
+                editor.putInt("zoom level", currZoom - 1);
+                editor.apply();
+                recreate();
+            });
+        }
     }
 
     public void addFriend(View view) {
         Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private ImageView addDotToLayout(Location location, ConstraintLayout layout) {
@@ -124,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         dot.setLayoutParams(params);
 
         layout.addView(dot);
+
         System.out.println("Adding friend");
 
         return dot;
@@ -150,4 +190,5 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel setupViewModel() {
         return new ViewModelProvider(this).get(MainViewModel.class);
     }
+
 }

@@ -25,8 +25,18 @@
 
         <ImageView
             android:id="@+id/innerCircle1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="267dp"
+            android:layout_height="267dp"
+            app:srcCompat="@drawable/circle"
+            app:layout_constraintTop_toTopOf="@id/outerCircle"
+            app:layout_constraintStart_toStartOf="@id/outerCircle"
+            app:layout_constraintEnd_toEndOf="@id/outerCircle"
+            app:layout_constraintBottom_toBottomOf="@id/outerCircle"/>
+
+        <ImageView
+            android:id="@+id/innerCircle2"
+            android:layout_width="134dp"
+            android:layout_height="134dp"
             app:srcCompat="@drawable/circle"
             app:layout_constraintTop_toTopOf="@id/outerCircle"
             app:layout_constraintStart_toStartOf="@id/outerCircle"
@@ -40,10 +50,10 @@
             android:layout_height="50dp"
             android:scaleX="0.5"
             app:srcCompat="@drawable/triangle"
-            app:layout_constraintTop_toTopOf="@id/outerCircle"
-            app:layout_constraintStart_toStartOf="@id/outerCircle"
-            app:layout_constraintEnd_toEndOf="@id/outerCircle"
-            app:layout_constraintBottom_toBottomOf="@id/outerCircle"/>
+            app:layout_constraintTop_toTopOf="@id/innerCircle1"
+            app:layout_constraintStart_toStartOf="@id/innerCircle1"
+            app:layout_constraintEnd_toEndOf="@id/innerCircle1"
+            app:layout_constraintBottom_toBottomOf="@id/innerCircle1" />
 
         <TextView
             android:id="@+id/myLabel"
@@ -72,7 +82,7 @@
             android:textSize="25sp"
             android:layout_weight="1"
             android:layout_gravity="start|center_vertical"
-            android:gravity="center" />
+            android:gravity="center"/>
 
         <Button
             android:id="@+id/zoom_out"
@@ -82,16 +92,16 @@
             android:textSize="25sp"
             android:layout_weight="1"
             android:layout_gravity="end|center_vertical"
-            android:gravity="center" />
+            android:gravity="center"/>
 
     </LinearLayout>
 
-        <Button
-            android:id="@+id/addLoc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="Add Friend"
-            android:onClick="addFriend" />
+    <Button
+        android:id="@+id/addLoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Add Friend"
+        android:onClick="addFriend" />
 
 </FrameLayout>
