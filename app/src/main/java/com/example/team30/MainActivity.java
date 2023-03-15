@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextClock;
+import android.widget.TextView;
 
 import com.example.team30.DataCalculators.Compass;
 import com.example.team30.DataCalculators.LocationService;
@@ -85,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         List<Friend> friends = viewModel.getFriends();
         if(friends != null){
             for(Friend f : friends){
-                addDotToLayout(f.getLocation(), circular_constraint);
+                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint);
+                addLabelToLayout(f, circular_constraint, dot);
             }
         }
 
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void addDotToLayout(Location location, ConstraintLayout layout) {
+    private ImageView addDotToLayout(Location location, ConstraintLayout layout) {
         ImageView dot = new ImageView(this);
         dot.setImageResource(R.drawable.dot);
         dot.setId(View.generateViewId());
@@ -122,7 +125,28 @@ public class MainActivity extends AppCompatActivity {
 
         layout.addView(dot);
         System.out.println("Adding friend");
+
+        return dot;
     }
+
+    private void addLabelToLayout(Friend friend, ConstraintLayout layout, ImageView dot) {
+        String label = friend.getLabel();
+        TextView textView = new TextView(this);
+        textView.setId(View.generateViewId());
+        textView.setText(label);
+
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.topToBottom = dot.getId();
+        params.startToStart = dot.getId();
+        params.endToEnd = dot.getId();
+        textView.setLayoutParams(params);
+
+        layout.addView(textView);
+    }
+
     private MainViewModel setupViewModel() {
         return new ViewModelProvider(this).get(MainViewModel.class);
     }
