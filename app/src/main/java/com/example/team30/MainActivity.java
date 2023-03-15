@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 redDot.setVisibility(View.INVISIBLE);
                 timer.setVisibility(View.INVISIBLE);
                 greenDot.setVisibility(View.VISIBLE);
+
                 viewModel.updateUserLocation(userID, privateCode, coords.first.floatValue(),coords.second.floatValue());
 //                Log.i("MainActivity", "add dot start");
 //                Log.i("NewFriendList", String.valueOf(friendsList));
@@ -324,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < lenFriends; i++) {
             Friend friend = friends.get(i);
             Pair<Float,Integer> AngleRadius = AngleRadius(friend, coords, orientation);
-//            Log.i("CreatDot", friend.public_code + friend.longitude + friend.latitude + AngleRadius);
+//            Log.i("CreatDot", friend.public_code + AngleRadius + friend.longitude + friend.latitude);
             int LabelVisible = 0;
             if(AngleRadius.second ==  CompassWidth/2){
                 LabelVisible = 4;
@@ -338,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 map.addView(friendDot);
                 map.addView(friendLabel);
                 map.requestLayout();
-                Log.i("Add TestDot", "Add successful");
+                Log.i("Add Dot", "Add successful");
             }else{
 //                Log.i("Observe data", "RePosition");
 //                String textViewid = dotList.get(friend.public_code);
@@ -346,10 +347,14 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintSet ConSet = new ConstraintSet();
                 ConSet.clone(map);
                 ConSet.setVisibility(labelList.get(friend.public_code), LabelVisible);
-                ConSet.constrainCircle(dotList.get(friend.public_code), R.id.triangle,
-                        AngleRadius.second, AngleRadius.first);
                 ConSet.constrainCircle(labelList.get(friend.public_code), R.id.triangle,
                         AngleRadius.second, AngleRadius.first-10);
+                ConSet.setElevation(labelList.get(friend.public_code), -1000);
+
+                ConSet.constrainCircle(dotList.get(friend.public_code), R.id.triangle,
+                        AngleRadius.second, AngleRadius.first);
+                ConSet.setElevation(dotList.get(friend.public_code), -1000);
+
                 ConSet.applyTo(map);
             }
         }
@@ -387,13 +392,21 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = data.edit();
         int currCircle = data.getInt("CircleSize", 2);
         if(initalRadius > CircleScal[currCircle]){
+//            Log.i("OverBound", "Return upBound" + CompassWidth/2);
             return CompassWidth/2;
         }
-        int unitCirclewidth = CompassWidth/currCircle;
+        int unitCirclewidth = CompassWidth/currCircle/2;
         for(int i = currCircle-1; i >= 0; i--){
+//            Log.i("Radius recalculator", initalRadius + "Change");
             if(initalRadius > CircleScal[i] && initalRadius < CircleScal[i+1]){
+//                Log.i("Radius recalculator", initalRadius + "Change");
                 int radius = (initalRadius - CircleScal[i])*(unitCirclewidth)/(CircleScal[i+1] - CircleScal[i]);
-                radius = radius + i*CompassWidth/currCircle;
+
+                radius = radius + i*unitCirclewidth;
+                Log.i("Radius recalculator", initalRadius + " Change to " + radius);
+                Log.i("Radius recalculator", unitCirclewidth + " has to " + radius);
+                Log.i("Radius recalculator",  CircleScal[i] + " Change to " + CircleScal[i+1]);
+
                 return radius;
             }
         }
