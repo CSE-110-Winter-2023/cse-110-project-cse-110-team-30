@@ -55,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         SharedPreferences.Editor editor = data.edit();
 
+        if(data.getBoolean("register", false) == false){
+            setContentView(R.layout.activity_main);
+            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+            startActivity(intent);
+        }
+
         //zoom level 1 is the most zoomed-out
         //zoom level 3 is the most zoomed-in
         if(data.getInt("zoom level", -1) == 1) {
@@ -73,41 +79,7 @@ public class MainActivity extends AppCompatActivity {
             zoomIn.setAlpha(0.5f);
         }
 
-
-        // Check for and get location permissions
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
-        }
-
-        compass = Compass.singleton();
-
-        locationService = LocationService.singleton(this);
-        orientationService = OrientationService.singleton(this);
-        SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
-        SharedPreferences.Editor editor = data.edit();
-
-        if(data.getBoolean("register", false) == false){
-            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
-            startActivity(intent);
-        }
-
-        circular_constraint = findViewById(R.id.compass);
-        MainViewModel viewModel = setupViewModel();
-        locationService.getLocation().observe(this, coords ->{
-            viewModel.updateUserLocation(data.getString("YourUID", ""), data.getString("privateCode", ""), coords);
-            compass.setCoords(coords);
-        });
-        orientationService.getOrientation().observe(this, angle->{
-            compass.setMyAngle(angle);
-        });
-        List<Friend> friends = viewModel.getFriends();
-        if(friends != null){
-            for(Friend f : friends){
-                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint);
-                addLabelToLayout(f, circular_constraint, dot);
-            }
-        }
+        //setContentView(R.layout.activity_main);
 
         if(data.getInt("zoom level", -1) < 3) {
             Button zoomIn = findViewById(R.id.zoom_in);
@@ -130,6 +102,49 @@ public class MainActivity extends AppCompatActivity {
                 recreate();
             });
         }
+
+
+
+
+        // Check for and get location permissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        }
+
+        compass = Compass.singleton();
+
+        locationService = LocationService.singleton(this);
+        orientationService = OrientationService.singleton(this);
+
+
+
+
+        circular_constraint = findViewById(R.id.compass1);
+
+        MainViewModel viewModel = setupViewModel();
+
+        locationService.getLocation().observe(this, coords ->{
+            viewModel.updateUserLocation(data.getString("YourUID", ""), data.getString("privateCode", ""), coords);
+            compass.setCoords(coords);
+            System.out.println(coords);
+        });
+
+        orientationService.getOrientation().observe(this, angle->{
+            compass.setMyAngle(angle);
+        });
+
+        List<Friend> friends = viewModel.getFriends();
+        if(friends != null){
+            for(Friend f : friends){
+
+                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
+                addLabelToLayout(f, circular_constraint, dot);
+            }
+        }
+
+
+
     }
 
     public void addFriend(View view) {
@@ -138,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private ImageView addDotToLayout(Location location, ConstraintLayout layout) {
+    private ImageView addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
         ImageView dot = new ImageView(this);
         dot.setImageResource(R.drawable.dot);
         dot.setId(View.generateViewId());
@@ -147,19 +162,31 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
+
+        float density = getResources().getDisplayMetrics().density;
+
         params.dimensionRatio = "1:1";
         params.height = 50;
         params.width = 50;
-        params.circleConstraint = R.id.compass;
+        params.circleConstraint = R.id.compass1;
         params.circleAngle = compass.calculateAngle(location.getLatitude(), location.getLongitude());
         var distance = compass.calculateDistance(location.getLongitude(), location.getLatitude());
-        params.circleRadius = compass.radius(distance);
+
+        if(data.getInt("zoom level", -1) == 2 ) {
+            params.circleRadius = (int)(compass.zoom2radius(distance));
+        }
+        else if(data.getInt("zoom level", -1) == 1 ) {
+            params.circleRadius = (int)(compass.zoom1radius(distance));
+        }
+        else if(data.getInt("zoom level", -1) == 3 ){
+            params.circleRadius = (int)(compass.zoom3radius(distance));
+        }
 
 
         System.out.println(distance);
-
+        System.out.println(density);
         System.out.println(params.circleRadius);
-        //params.circleRadius = 600;
+
         dot.setLayoutParams(params);
 
         layout.addView(dot);
@@ -179,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
+
         params.topToBottom = dot.getId();
         params.startToStart = dot.getId();
         params.endToEnd = dot.getId();
@@ -190,5 +218,6 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel setupViewModel() {
         return new ViewModelProvider(this).get(MainViewModel.class);
     }
+
 
 }
