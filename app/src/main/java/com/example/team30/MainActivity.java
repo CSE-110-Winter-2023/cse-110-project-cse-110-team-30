@@ -10,7 +10,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout circular_constraint;
     private List<Friend> friendList;
     private LiveData<List<Location>> locations;
+    private TextView[] textViews;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,9 +139,12 @@ public class MainActivity extends AppCompatActivity {
         //System.out.println("updated locations");
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         if(locations != null){
+            textViews = new TextView[locations.size()];
+             count = 0;
             for(Location location: locations){
-                addDotToLayout(location, circular_constraint, data);
+                addDotToLayout(location, circular_constraint, data, count);
             }
+            isOverlap(textViews);
         }
     }
 
@@ -147,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
+    private void addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data, int count) {
         ImageView dot = layout.findViewWithTag(location.getPublic_code());
         boolean newDot = false;
         if(dot == null){
@@ -198,16 +205,19 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(params.circleRadius);
 
         dot.setLayoutParams(params);
+
         if(newDot){
             dot.setId(View.generateViewId());
             layout.addView(dot);
             if(dot.getVisibility() == View.INVISIBLE){
                 addLabelToLayout(location.getLabel(), layout, dot);
+                textViews[count] = addLabelToLayout(location.getLabel(), layout, dot);
+                count++;
             }
         }
     }
 
-    private void addLabelToLayout(String label, ConstraintLayout layout, ImageView dot) {
+    private TextView addLabelToLayout(String label, ConstraintLayout layout, ImageView dot) {
         TextView textView = new TextView(this);
         textView.setId(View.generateViewId());
         textView.setText(label);
@@ -223,7 +233,41 @@ public class MainActivity extends AppCompatActivity {
         textView.setLayoutParams(params);
 
         layout.addView(textView);
+        return textView;
+
     }
+
+    public boolean isOverlap(TextView[] views) {
+        for (int i = 0; i < views.length; i++) {
+            Rect rect1 = new Rect();
+            views[i].getHitRect(rect1);
+            for (int j = i + 1; j < views.length; j++) {
+                Rect rect2 = new Rect();
+                views[j].getHitRect(rect2);
+                if (Rect.intersects(rect1, rect2)) {
+                    // Labels are overlapping, so we need to adjust them
+                    // Check if either label is truncated
+                    if (views[i].getLayout() != null && views[i].getLayout().getEllipsisCount(views[i].getLineCount() - 1) > 0) {
+                        // Label i is truncated
+                        views[i].setMaxLines(1); // Set the label to a single line
+                        views[i].setEllipsize(TextUtils.TruncateAt.END); // Truncate the label at the end
+                        views[i].setWidth((int) (views[i].getPaint().measureText(views[i].getText().toString()) + 0.5f)); // Reset the width of the label
+                        return true;
+                    } else if (views[j].getLayout() != null && views[j].getLayout().getEllipsisCount(views[j].getLineCount() - 1) > 0) {
+                        // Label j is truncated
+                        views[j].setMaxLines(1); // Set the label to a single line
+                        views[j].setEllipsize(TextUtils.TruncateAt.END); // Truncate the label at the end
+                        views[j].setWidth((int) (views[j].getPaint().measureText(views[j].getText().toString()) + 0.5f)); // Reset the width of the label
+                        return true;
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 
     private MainViewModel setupViewModel() {
         return new ViewModelProvider(this).get(MainViewModel.class);
