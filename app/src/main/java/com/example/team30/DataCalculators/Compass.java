@@ -146,9 +146,7 @@ public class Compass {
             radius = (distance/(1.0/300));
         }
         else if( 1< distance && distance <= 10){
-            double dividevalue = (9.0/300);
-            double newdistance = distance -1;
-            radius = newdistance/dividevalue ;
+            radius = distance -1/(9.0/300) + 300 ;
         }
         else if(distance > 10){
             radius = 600;
