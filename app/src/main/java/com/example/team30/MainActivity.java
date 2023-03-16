@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<Void> future;
     private Compass compass;
-    private API api;
-    private FriendDao friendDao;
-    private Repository repo;
     private ConstraintLayout circular_constraint;
     private List<Friend> friendList;
     private LiveData<List<Location>> locations;
@@ -84,12 +81,6 @@ public class MainActivity extends AppCompatActivity {
             zoomIn.setClickable(false);
         }
 
-
-
-
-
-        //setContentView(R.layout.activity_main);
-
         if(data.getInt("zoom level", -1) < 3) {
             Button zoomIn = findViewById(R.id.zoom_in);
             zoomIn.setOnClickListener(v -> {
@@ -112,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
         // Check for and get location permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -120,11 +110,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         compass = Compass.singleton();
-
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
-
-
         circular_constraint = findViewById(R.id.compass1);
 
         MainViewModel viewModel = setupViewModel();
@@ -136,20 +123,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         orientationService.getOrientation().observe(this, angle->{
-            compass.setMyAngle(angle);
+            float degrees = (float) (angle * 180/Math.PI);
+            compass.setMyAngle(degrees);
         });
 
-//        List<Friend> friends = viewModel.getFriends();
-//        //LiveData<List<Location>> locations = viewModel.getLocations();
-//        if(friends != null) {
-//            for (Friend f : friends) {
-//                ImageView dot = addDotToLayout(f.getLocation(), circular_constraint, data);
-//                addLabelToLayout(f.getLabel(), circular_constraint, dot);
-//            }
-//        }
         locations = viewModel.getLocations();
         locations.observe(this, this::onChanged);
-
     }
 
     public void onChanged(List<Location> locations) {
@@ -161,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     public void addFriend(View view) {
         Intent intent = new Intent(MainActivity.this, AddFriendActivity.class);
@@ -176,11 +154,7 @@ public class MainActivity extends AppCompatActivity {
             newDot = true;
             dot = new ImageView(this);
         }
-        //ImageView dot = new ImageView(this);
-
-
         dot.setImageResource(R.drawable.dot);
-        //dot.setId(View.generateViewId());
         dot.setTag(location.getPublic_code());
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -210,14 +184,11 @@ public class MainActivity extends AppCompatActivity {
             params.circleRadius = (int)Math.round(compass.zoom0radius(distance));
         }
 
-
         System.out.println(distance);
         //System.out.println(density);
         System.out.println(params.circleRadius);
 
         dot.setLayoutParams(params);
-
-
         if(newDot){
             dot.setId(View.generateViewId());
             layout.addView(dot);
@@ -226,7 +197,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addLabelToLayout(String label, ConstraintLayout layout, ImageView dot) {
-
         TextView textView = new TextView(this);
         textView.setId(View.generateViewId());
         textView.setText(label);
@@ -247,6 +217,4 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel setupViewModel() {
         return new ViewModelProvider(this).get(MainViewModel.class);
     }
-
-
 }
