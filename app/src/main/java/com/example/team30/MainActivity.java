@@ -140,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.getLocations().observe(this, friends->{
 //                    Log.i("MainActivity", "ViewModel update"+friends);
                     orientationService.getOrientation().observe(this, orientation ->{
-                        creatDot(friends, coords, orientation);
+                        createDot(friends, coords, orientation);
+
                     });
                 });
             });
@@ -319,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
         return textView;
     }
 
-    private void creatDot(List<Friend> friends, Pair<Double,Double> coords,float orientation) {
+    private void createDot(List<Friend> friends, Pair<Double,Double> coords,float orientation) {
         if(friends == null) return;
         int lenFriends = friends.size();
         for (int i = 0; i < lenFriends; i++) {
@@ -342,8 +343,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Add Dot", "Add successful");
             }else{
 //                Log.i("Observe data", "RePosition");
-//                String textViewid = dotList.get(friend.public_code);
-//                TextView curr = findViewById(R.id.textViewid);
                 ConstraintSet ConSet = new ConstraintSet();
                 ConSet.clone(map);
                 ConSet.setVisibility(labelList.get(friend.public_code), LabelVisible);
@@ -376,14 +375,11 @@ public class MainActivity extends AppCompatActivity {
         if(x > 0 && y < 0){
             angle = angle + 360;
         }
-//        A17188813 -13.0 -8.0Pair{112.469795 116}
-//        yiy054-13.0-408.0Pair{166.36024 457}
+
         float newangle = (float)(angle - (float) (orientation * 180/Math.PI));
-//        float newangle = (float)(angle);
         int newRadius = (int) (Math.sqrt(x*x + y*y));
 
         Pair<Float, Integer> newPair = new Pair<>(newangle, RadiusByCircle(newRadius));
-
         return newPair;
     }
 
@@ -403,9 +399,9 @@ public class MainActivity extends AppCompatActivity {
                 int radius = (initalRadius - CircleScal[i])*(unitCirclewidth)/(CircleScal[i+1] - CircleScal[i]);
 
                 radius = radius + i*unitCirclewidth;
-                Log.i("Radius recalculator", initalRadius + " Change to " + radius);
-                Log.i("Radius recalculator", unitCirclewidth + " has to " + radius);
-                Log.i("Radius recalculator",  CircleScal[i] + " Change to " + CircleScal[i+1]);
+//                Log.i("Radius recalculator", initalRadius + " Change to " + radius);
+//                Log.i("Radius recalculator", unitCirclewidth + " has to " + radius);
+//                Log.i("Radius recalculator",  CircleScal[i] + " Change to " + CircleScal[i+1]);
 
                 return radius;
             }
