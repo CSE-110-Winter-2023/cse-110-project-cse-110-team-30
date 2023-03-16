@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onChanged(List<Location> locations) {
-        System.out.println("updated locations");
+        //System.out.println("updated locations");
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         if(locations != null){
             for(Location location: locations){
@@ -171,17 +171,26 @@ public class MainActivity extends AppCompatActivity {
         var distance = compass.calculateDistance(location.getLongitude(), location.getLatitude());
 
         if(data.getInt("zoom level", -1) == 2 ) {
-            params.circleRadius = (int)Math.round(compass.zoom2radius(distance));
-            System.out.println(compass.zoom2radius(distance));
+            params.circleRadius = (int)compass.zoom2radius(distance);
+            if(distance < 10){
+                dot.setVisibility(View.INVISIBLE);
+            }
         }
         else if(data.getInt("zoom level", -1) == 1 ) {
-            params.circleRadius = (int)Math.round(compass.zoom1radius(distance));
+            params.circleRadius = (int)compass.zoom1radius(distance);
+            if(distance < 500){
+                dot.setVisibility(View.INVISIBLE);
+            }
         }
         else if(data.getInt("zoom level", -1) == 3 ){
-            params.circleRadius = (int)Math.round(compass.zoom3radius(distance));
+            params.circleRadius = (int)compass.zoom3radius(distance);
+            if(distance < 1 ){
+                dot.setVisibility(View.INVISIBLE);
+            }
         }
         else if(data.getInt("zoom level", -1) == 0 ){
-            params.circleRadius = (int)Math.round(compass.zoom0radius(distance));
+            params.circleRadius = (int)compass.zoom0radius(distance);
+                dot.setVisibility(View.INVISIBLE);
         }
 
         System.out.println(distance);
@@ -192,7 +201,9 @@ public class MainActivity extends AppCompatActivity {
         if(newDot){
             dot.setId(View.generateViewId());
             layout.addView(dot);
-            addLabelToLayout(location.getLabel(), layout, dot);
+            if(dot.getVisibility() == View.INVISIBLE){
+                addLabelToLayout(location.getLabel(), layout, dot);
+            }
         }
     }
 
