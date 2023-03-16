@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -238,6 +239,8 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = new TextView(this);
         textView.setId(View.generateViewId());
         textView.setText(label);
+        textView.setTextColor(Color.BLACK);
+        textView.setBackgroundColor(Color.WHITE);
 
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
