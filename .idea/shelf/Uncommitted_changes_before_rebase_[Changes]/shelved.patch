@@ -1,0 +1,59 @@
+Index: app/src/androidTest/java/com/example/team30/BddRegister.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.team30;\n\n\n\nimport static androidx.test.espresso.intent.Intents.intended;\nimport static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;\n\nimport android.content.SharedPreferences;\nimport android.preference.PreferenceManager;\n\nimport androidx.test.core.app.ActivityScenario;\nimport androidx.test.core.app.ApplicationProvider;\n\nimport androidx.test.ext.junit.runners.AndroidJUnit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\n@RunWith(AndroidJUnit4.class)\npublic class BddRegister {\n\n    @Test\n    public void testLaunchRegistrationActivity() {\n        // Check if the user has not registered before\n        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());\n        boolean isRegistered = preferences.getBoolean(\"register\", false);\n\n        // Launch the MainActivity using ActivityScenario\n        ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);\n\n\n        if (!isRegistered) {\n            \n\n            // Verify that the RegistrationActivity is launched\n            intended(hasComponent(RegistrationActivity.class.getName()));\n        }\n\n        // Close the MainActivity scenario\n        scenario.close();\n    }\n}\n\n\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/androidTest/java/com/example/team30/BddRegister.java b/app/src/androidTest/java/com/example/team30/BddRegister.java
+--- a/app/src/androidTest/java/com/example/team30/BddRegister.java	(revision 9c29d0b2d5cecb601907018ea7cd7115ff54b3d8)
++++ b/app/src/androidTest/java/com/example/team30/BddRegister.java	(date 1678928713200)
+@@ -1,48 +1,0 @@
+-package com.example.team30;
+-
+-
+-
+-import static androidx.test.espresso.intent.Intents.intended;
+-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+-
+-import android.content.SharedPreferences;
+-import android.preference.PreferenceManager;
+-
+-import androidx.test.core.app.ActivityScenario;
+-import androidx.test.core.app.ApplicationProvider;
+-
+-import androidx.test.ext.junit.runners.AndroidJUnit4;
+-
+-import org.junit.Test;
+-import org.junit.runner.RunWith;
+-
+-@RunWith(AndroidJUnit4.class)
+-public class BddRegister {
+-
+-    @Test
+-    public void testLaunchRegistrationActivity() {
+-        // Check if the user has not registered before
+-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
+-        boolean isRegistered = preferences.getBoolean("register", false);
+-
+-        // Launch the MainActivity using ActivityScenario
+-        ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class);
+-
+-
+-        if (!isRegistered) {
+-            
+-
+-            // Verify that the RegistrationActivity is launched
+-            intended(hasComponent(RegistrationActivity.class.getName()));
+-        }
+-
+-        // Close the MainActivity scenario
+-        scenario.close();
+-    }
+-}
+-
+-
+-
+-
+-
+-
