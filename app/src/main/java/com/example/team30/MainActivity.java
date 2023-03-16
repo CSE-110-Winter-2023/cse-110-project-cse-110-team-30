@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private OrientationService orientationService;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout circular_constraint;
     private List<Friend> friendList;
     private LiveData<List<Location>> locations;
+    private long lastLocationTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,19 +111,43 @@ public class MainActivity extends AppCompatActivity {
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 20-1);
         }
-
+        lastLocationTime = System.currentTimeMillis();
         compass = Compass.singleton();
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
         circular_constraint = findViewById(R.id.compass1);
+        TextView redDot = findViewById(R.id.RecDot);
+        TextView greenDot = findViewById(R.id.GreenDot);
+        TextView timer = findViewById(R.id.timer);
 
         MainViewModel viewModel = setupViewModel();
 
         locationService.getLocation().observe(this, coords ->{
+            lastLocationTime = System.currentTimeMillis();
+            redDot.setVisibility(View.INVISIBLE);
+            timer.setVisibility(View.INVISIBLE);
+            greenDot.setVisibility(View.VISIBLE);
             viewModel.updateUserLocation(data.getString("YourUID", ""), data.getString("privateCode", ""), coords);
             compass.setCoords(coords);
             System.out.println(coords);
         });
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() -> {
+            long currTime = System.currentTimeMillis();
+            float lostTimeInMin = (float)(currTime - lastLocationTime)/60000;
+            //lost signal time greater than 1 min
+            System.out.println("Lost time (m)" + String.valueOf(lostTimeInMin) + "Last Update: " + String.valueOf(lastLocationTime));
+            if (lostTimeInMin >= 1){
+                String label = String.valueOf((int)lostTimeInMin) + "m";
+                //UIThread of change GPS lost signal UI
+                runOnUiThread(()->{
+                    timer.setText(label);
+                    redDot.setVisibility(View.VISIBLE);
+                    timer.setVisibility(View.VISIBLE);
+                    greenDot.setVisibility(View.INVISIBLE);
+                });
+            }
+        }, 0, 1, TimeUnit.MINUTES);
 
         orientationService.getOrientation().observe(this, angle->{
             float degrees = (float) (angle * 180/Math.PI);
