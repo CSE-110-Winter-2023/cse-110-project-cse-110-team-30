@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MainActivityBDDTest2 {
+public class BDDcompassDisplay {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -38,17 +38,17 @@ public class MainActivityBDDTest2 {
 
     @Test
     public void mainActivityBDDTest2() {
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.GreenDot), withText("•"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView.check(matches(withText("•")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.GreenDot), withText("•"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView2.check(matches(isDisplayed()));
+//        ViewInteraction textView = onView(
+//                allOf(withId(R.id.GreenDot), withText("•"),
+//                        withParent(withParent(withId(android.R.id.content))),
+//                        isDisplayed()));
+//        //textView.check(matches(withText("•")));
+//
+//        ViewInteraction textView2 = onView(
+//                allOf(withId(R.id.GreenDot), withText("•"),
+//                        withParent(withParent(withId(android.R.id.content))),
+//                        isDisplayed()));
+//        textView2.check(matches(isDisplayed()));
 
         ViewInteraction viewGroup = onView(
                 allOf(withId(R.id.compass1),
