@@ -93,4 +93,20 @@ public class Repository {
             return false;
         }
     }
+
+    public LiveData<List<Location>> mockGetActiveLocations(){
+        var locations = new MediatorLiveData<List<Location>>();
+        Observer<List<Location>> updateFromRemote = newLocations -> {};
+        locations.addSource(mockGetAllRemote(), locations::postValue);
+        return locations;
+    }
+    private LiveData<List<Location>> mockGetAllRemote() {
+        var executor = Executors.newSingleThreadScheduledExecutor();
+        friendFuture = executor.scheduleAtFixedRate(() -> {
+            List<Friend> friends = dao.getAll();
+            var locations = api.mockGetAllLocations(friends);
+            liveLocations.postValue(locations);
+        }, 0, 3, TimeUnit.SECONDS);
+        return liveLocations;
+    }
 }
