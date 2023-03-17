@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.WorkerThread;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -124,5 +125,18 @@ public class API {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Location mockGetLocation(Friend friend){
+        return new Location("team-30-mock", "team-30-mock", 0,0, "3-14-2023", "3-14-2023");
+    }
+
+    public List<Location> mockGetAllLocations(List<Friend>friends){
+        List<Location>locations = new ArrayList<>();
+        for(Friend f: friends){
+            locations.add(new Location(f.getPublic_code(), f.getLabel(), 0,
+                    0, "3-14-2023", "3-14-2023"));
+        }
+        return locations;
     }
 }
