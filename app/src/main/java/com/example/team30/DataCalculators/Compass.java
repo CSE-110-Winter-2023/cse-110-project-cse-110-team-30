@@ -89,20 +89,21 @@ public class Compass {
         double radius = 0;
 
         if(distance <= 1){
-            radius = (distance/(1.0/150));
+            radius = distance/(1.0/40);
         }
         else if( 1< distance && distance <= 10){
-            radius = (distance -1)/(9.0/150) + 150;
+            radius = (distance -1.0)/(9.0/40) + 40;
+            System.out.println(radius);
         }
         else if(10 < distance && distance<= 500){
-            radius =  ((distance -10)/(490.0/150) + 300);
+            radius =  (distance -10)/(490.0/40) + 80;
         }
         else if(distance > 500){
-            if((distance -500)/(490.0/150) + 450 <= 600){
-                radius = (distance -500)/(490.0/150) + 450;
+            if((distance -500)/(490.0/150.0) + 450 <= 600){
+                radius = (distance -500)/(490.0/40) + 120;
             }
             else{
-                radius = 600;
+                radius = 160;
             }
         }
         return radius;
@@ -112,16 +113,16 @@ public class Compass {
         double radius = 0;
 
         if(distance <= 1){
-            radius = (distance/(1.0/200));
+            radius = (distance/(1.0/53.3));
         }
         else if( 1< distance && distance <= 10){
-            radius = (distance -1)/(9.0/200) + 200;
+            radius = (distance -1)/(9.0/53.3) + 53.3;
         }
         else if(10 < distance && distance<= 500){
-            radius =  ((distance -10)/(490.0/200) + 400);
+            radius =  ((distance -10)/(490.0/53.4) + 106.6);
         }
         else if(distance > 500){
-            radius = 600;
+            radius = 160;
         }
         return radius;
     }
@@ -131,10 +132,10 @@ public class Compass {
         double radius = 0;
 
         if(distance <= 1){
-            radius = (distance/(1.0/300));
+            radius = (distance/(1.0/160));
         }
         else if( distance > 1){
-            radius = 600;
+            radius = 160;
         }
         return radius;
     }
@@ -143,13 +144,13 @@ public class Compass {
         double radius = 0;
 
         if(distance <= 1){
-            radius = (distance/(1.0/300));
+            radius = (distance/(1.0/80));
         }
         else if( 1< distance && distance <= 10){
-            radius = distance -1/(9.0/300) + 300 ;
+            radius = (distance -1)/(9.0/80) + 80 ;
         }
         else if(distance > 10){
-            radius = 600;
+            radius = 160;
         }
         return radius;
     }

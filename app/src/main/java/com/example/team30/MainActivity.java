@@ -7,10 +7,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getSharedPreferences("test", MODE_PRIVATE);
         if(locations != null){
             for(Location location: locations){
-                addDotToLayout(location, circular_constraint, data);
+                addDotToLayout(this,location, circular_constraint, data);
             }
         }
     }
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private void addDotToLayout(Location location, ConstraintLayout layout, SharedPreferences data) {
+    private void addDotToLayout(Context context, Location location, ConstraintLayout layout, SharedPreferences data) {
         ImageView dot = layout.findViewWithTag(location.getPublic_code());
         boolean newDot = false;
         if(dot == null){
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
         );
 
-        float density = getResources().getDisplayMetrics().density;
+        float density = context.getResources().getDisplayMetrics().density;
 
         params.dimensionRatio = "1:1";
         params.height = 50;
@@ -198,30 +200,31 @@ public class MainActivity extends AppCompatActivity {
         var distance = compass.calculateDistance(location.getLongitude(), location.getLatitude());
 
         if(data.getInt("zoom level", -1) == 2 ) {
-            params.circleRadius = (int)compass.zoom2radius(distance);
+            params.circleRadius = (int)(compass.zoom2radius(distance)*density);
             if(distance < 10){
                 dot.setVisibility(View.INVISIBLE);
             }
         }
         else if(data.getInt("zoom level", -1) == 1 ) {
-            params.circleRadius = (int)compass.zoom1radius(distance);
+            params.circleRadius = (int)(compass.zoom1radius(distance)*density);
             if(distance < 500){
                 dot.setVisibility(View.INVISIBLE);
             }
         }
         else if(data.getInt("zoom level", -1) == 3 ){
-            params.circleRadius = (int)compass.zoom3radius(distance);
+            params.circleRadius = (int)(compass.zoom3radius(distance)*density);
             if(distance < 1 ){
                 dot.setVisibility(View.INVISIBLE);
             }
         }
         else if(data.getInt("zoom level", -1) == 0 ){
-            params.circleRadius = (int)compass.zoom0radius(distance);
+            params.circleRadius = (int)(compass.zoom0radius(distance)*density);
                 dot.setVisibility(View.INVISIBLE);
         }
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
         System.out.println(distance);
-        //System.out.println(density);
+        System.out.println(density);
         System.out.println(params.circleRadius);
 
         dot.setLayoutParams(params);
