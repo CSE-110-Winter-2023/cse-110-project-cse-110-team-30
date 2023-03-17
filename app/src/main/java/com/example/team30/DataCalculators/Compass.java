@@ -27,7 +27,7 @@ public class Compass {
         return instance;
     }
 
-    public float getmyLong(){
+    public float getMyLong(){
         return myLong;
     }
 
@@ -56,7 +56,7 @@ public class Compass {
         this.myLong = coords.second.floatValue();
     }
 
-    public float calculateAngle(float longti, float lati){
+    public float calculateAngle(float lati, float longti){
         float y = longti - myLong;
         float x = lati - myLat;
         double angle = Math.atan(y/x) * 180/Math.PI;
