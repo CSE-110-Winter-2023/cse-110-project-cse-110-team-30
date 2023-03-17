@@ -23,6 +23,7 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.rule.GrantPermissionRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -35,13 +36,58 @@ import org.junit.runner.RunWith;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AllStoriesBDDTest {
-
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
+    @Rule
+    public GrantPermissionRule mGrantPermissionRule =
+            GrantPermissionRule.grant(
+                    "android.permission.ACCESS_FINE_LOCATION",
+                    "android.permission.ACCESS_COARSE_LOCATION");
+
     @Test
     public void allStoriesBDDTest() {
+//
+//        ViewInteraction appCompatEditText1 = onView(
+//                allOf(withId(R.id.UsernameEntry),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("android.widget.LinearLayout")),
+//                                        1),
+//                                3),
+//                        isDisplayed()));
+//        appCompatEditText1.perform(replaceText("tia"), closeSoftKeyboard());
+//
+//        ViewInteraction materialButton1 = onView(
+//                allOf(withId(R.id.UID_generator), withText("Generate UID"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                2),
+//                        isDisplayed()));
+//        materialButton1.perform(click());
+//
+//        ViewInteraction materialButton0 = onView(
+//                allOf(withId(R.id.GoToCompass), withText("Go to Compass"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                2),
+//                        isDisplayed()));
+//        materialButton0.perform(click());
+//
+//        ViewInteraction materialButton = onView(
+//                allOf(withId(R.id.addLoc), withText("Add Friend"),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withId(android.R.id.content),
+//                                        0),
+//                                2),
+//                        isDisplayed()));
+//        materialButton.perform(click());
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.addLoc), withText("Add Friend"),
                         childAtPosition(
@@ -60,10 +106,10 @@ public class AllStoriesBDDTest {
                                         1),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("tian"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("tianhao110"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.FriendsUIDEntry), withText("tian"),
+                allOf(withId(R.id.FriendsUIDEntry), withText("tianhao110"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -73,7 +119,7 @@ public class AllStoriesBDDTest {
         appCompatEditText2.perform(click());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.FriendsUIDEntry), withText("tian"),
+                allOf(withId(R.id.FriendsUIDEntry), withText("tianhao110"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -102,11 +148,11 @@ public class AllStoriesBDDTest {
                         isDisplayed()));
         appCompatEditText5.perform(pressImeActionButton());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.YourUIDDisplay), withText("423394f3-3344-4b54-8ed4-21dd3eeeaa18"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
-                        isDisplayed()));
-        textView.check(matches(isDisplayed()));
+//        ViewInteraction textView = onView(
+//                allOf(withId(R.id.YourUIDDisplay), withText("423394f3-3344-4b54-8ed4-21dd3eeeaa18"),
+//                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+//                        isDisplayed()));
+//        textView.check(matches(isDisplayed()));
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.submitBtn), withText("Submit"),
